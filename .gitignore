@@ -229,6 +229,7 @@ pip-log.txt
 tp_stereo_matching
 
 src-build
+<<<<<<< HEAD
 NiSimpleViewer.cpp
 
 # NetBeans specific #
@@ -239,3 +240,6 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+=======
+NiSimpleViewer.cpp
+>>>>>>> ceeb12d1d05885ee4a9f92c94d79466bc0ef266c
