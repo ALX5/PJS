@@ -5,6 +5,16 @@
 
 #include "Calibration.h"
 
+Calibration *c;
+
+void idle(void) {
+    c->glutIdle();
+}
+
+void display(void) {
+    c->glutDisplay();
+}
+
 void Calibration::glutIdle (void)
 {
         // Display the frame
@@ -69,7 +79,7 @@ void Calibration::glutDisplay (void)
 
         // check if we need to draw image frame to texture
 
-                const XnRGB24Pixel* pImageRow = rgbCameraMD.RGB24Data();
+               const XnRGB24Pixel* pImageRow = rgbCameraMD.RGB24Data();
                 XnRGB24Pixel* pTexRow = texMap + rgbCameraMD.YOffset() * texMapX;
 
                 for (XnUInt y = 0; y < rgbCameraMD.YRes(); ++y)
@@ -86,17 +96,15 @@ void Calibration::glutDisplay (void)
                         pTexRow += texMapX;
                 }
 
-        // check if we need to draw depth frame to texture
-        /*if (g_nViewState == DISPLAY_MODE_OVERLAY ||
-                g_nViewState == DISPLAY_MODE_DEPTH)
-        {
+                depthCamera.GetAlternativeViewPointCap().SetViewPoint(c->rgbCamera);
+
                 const XnDepthPixel* pDepthRow = depthCameraMD.Data();
-                XnRGB24Pixel* pTexRow = texMap + depthCameraMD.YOffset() * texMapX;
+                XnRGB24Pixel* depthTexRow = texMap + depthCameraMD.YOffset() * texMapX;
 
                 for (XnUInt y = 0; y < depthCameraMD.YRes(); ++y)
                 {
                         const XnDepthPixel* pDepth = pDepthRow;
-                        XnRGB24Pixel* pTex = pTexRow + depthCameraMD.XOffset();
+                        XnRGB24Pixel* pTex = depthTexRow + depthCameraMD.XOffset();
 
                         for (XnUInt x = 0; x < depthCameraMD.XRes(); ++x, ++pDepth, ++pTex)
                         {
@@ -110,9 +118,8 @@ void Calibration::glutDisplay (void)
                         }
 
                         pDepthRow += depthCameraMD.XRes();
-                        pTexRow += texMapX;
+                        depthTexRow += texMapX;
                 }
-        }*/
 
         // Create the OpenGL texture map
         glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
@@ -147,38 +154,43 @@ void Calibration::glutDisplay (void)
         glutSwapBuffers();
 }
 
-Calibration::Calibration() { launchCalibration(); }
+Calibration::Calibration() {
+    c=this;
+    launchCalibration();
+}
 
 void Calibration::initContext() {
-    context.InitFromXmlFile(SAMPLES_CONFIG_PATH/*,scriptNode*/);
+    context.InitFromXmlFile(SAMPLES_CONFIG_PATH);
+    context.FindExistingNode(XN_NODE_TYPE_DEPTH, depthCamera);
+    context.FindExistingNode(XN_NODE_TYPE_IMAGE, rgbCamera);
+
     depthCamera.GetMetaData(depthCameraMD);
     rgbCamera.GetMetaData(rgbCameraMD);
-    texMapX=(((unsigned short)(depthCameraMD.FullXRes()-1) / 512) + 1) * 512;
+
+    texMapX = (((unsigned short)(depthCameraMD.FullXRes()-1) / 512) + 1) * 512;
     texMapY = (((unsigned short)(depthCameraMD.FullYRes()-1) / 512) + 1) * 512;
     texMap = (XnRGB24Pixel*)malloc(texMapX * texMapY * sizeof(XnRGB24Pixel));
+
     nZRes = depthCameraMD.ZRes();
     pDepthHist = (float*)malloc(nZRes * sizeof(float));
 }
 
 void Calibration::launchCalibration() {
     initContext();
-    // OpenGL init
-    char *myargv [1];
-    int myargc=1;
-    myargv [0]=strdup ("Myappname");
-    glutInit(&myargc, myargv);
+    char *argv [1];
+    int argc=1;
+    argv [0]=strdup ("PJS");
+    glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-    glutInitWindowSize(1280, 1024);
-    glutCreateWindow ("OpenNI Simple Viewer");
-    glutFullScreen();
+    glutInitWindowSize(GL_WIN_SIZE_X, GL_WIN_SIZE_Y);
+    glutCreateWindow ("PJS Calibration");
     glutSetCursor(GLUT_CURSOR_NONE);
 
-    glutDisplayFunc(glutDisplay);
-    glutIdleFunc(glutIdle);
+    glutDisplayFunc(display);
+    glutIdleFunc(idle);
 
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
 
-    // Per frame code is in glutDisplay
     glutMainLoop();
 }
