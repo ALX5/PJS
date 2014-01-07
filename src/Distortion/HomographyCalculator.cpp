@@ -29,9 +29,7 @@ void HomographyCalculator::determineHomographies(vector<Plane> a, vector<Plane> 
 
     assert(a.size() == b.size());
 
-    nbHomographies = a.size();
-
-    for(int i = 0; i < nbHomographies; i++){
+    for(int i = 0; i < a.size(); i++){
     
         Plane p1 = a.at(i);
         Plane p2 = b.at(i);
@@ -49,25 +47,33 @@ void HomographyCalculator::determineHomographies(vector<Plane> a, vector<Plane> 
         dst.push_back(p2.getPoint(3));
 
         Mat m = findHomography(src, dst);
-      
+        cout << m << endl;
+        m.at<double>(0,2) = 0;
+        m.at<double>(1,2) = 0;
+        cout << m.at<double>(0,2) << endl;
+        cout << m.at<double>(1,2) << endl;
+        
+        
+        //TODO Insert the homographies into the list elsewhere?
+        //The interface is not intuitive. I think we should have a method
+        //that finds the homography between each single pair and returns it
         homographies.push_back(m);
 
     }
     
 }
 
-vector<Mat> HomographyCalculator::applyTransformation(Mat image){
-
+vector<Mat> HomographyCalculator::applyTransformation(vector<Mat> images){
+    
     vector<Mat> transformedImages;
-
-    //cout << homographies.at(0) << endl;
-    transformedImages.resize(nbHomographies);
-
-    for (int i=0; i<nbHomographies; i++)
-    {
-        warpPerspective(image, transformedImages.at(i), homographies.at(i), Size(image.cols, image.rows));
-
+    
+    for(int i = 0; i < images.size(); i++){
+        Mat newImg;
+        Mat image = images.at(i);
+        
+        warpPerspective(image, newImg, homographies.at(i), Size(image.cols*2, image.rows*2));    
+        transformedImages.push_back(newImg);
     }
-
+    
     return transformedImages;
 }

@@ -30,14 +30,13 @@ public:
     /**
      * This function retrieves every homography present in vector homographies and
      * transform the corresponding region of the image with it
-     * @param image
-     * @return 
+     * @param images The vector of images to be transfomed
+     * @return A new vector containing the transformed images
      */
-    vector<Mat> applyTransformation(Mat image);
+    vector<Mat> applyTransformation(vector<Mat> images);
     
 private:
     vector<Mat> homographies;
-    int nbHomographies;
     
 };
 
