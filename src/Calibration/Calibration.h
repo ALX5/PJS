@@ -3,9 +3,9 @@
  *
  */
 
-#include "Main.h"
+#include "../Main.h"
 
-#define SAMPLES_CONFIG_PATH "SamplesConfig.xml"
+#define SAMPLES_CONFIG_PATH "../src/SamplesConfig.xml"
 #define DISPLAY_MODE_OVERLAY        1
 #define DISPLAY_MODE_DEPTH                2
 #define DISPLAY_MODE_IMAGE                3

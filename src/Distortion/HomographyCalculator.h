@@ -37,6 +37,7 @@ public:
     
 private:
     vector<Mat> homographies;
+    int nbHomographies;
     
 };
 

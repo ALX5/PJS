@@ -29,7 +29,9 @@ void HomographyCalculator::determineHomographies(vector<Plane> a, vector<Plane> 
 
     assert(a.size() == b.size());
 
-    for(int i = 0; i < a.size(); i++){
+    nbHomographies = a.size();
+
+    for(int i = 0; i < nbHomographies; i++){
     
         Plane p1 = a.at(i);
         Plane p2 = b.at(i);
@@ -55,10 +57,17 @@ void HomographyCalculator::determineHomographies(vector<Plane> a, vector<Plane> 
 }
 
 vector<Mat> HomographyCalculator::applyTransformation(Mat image){
-    Mat newImg;
-    cout << homographies.at(0) << endl;
-    warpPerspective(image, newImg, homographies.at(0), Size(image.cols, image.rows));
+
     vector<Mat> transformedImages;
-    transformedImages.push_back(newImg);
+
+    //cout << homographies.at(0) << endl;
+    transformedImages.resize(nbHomographies);
+
+    for (int i=0; i<nbHomographies; i++)
+    {
+        warpPerspective(image, transformedImages.at(i), homographies.at(i), Size(image.cols, image.rows));
+
+    }
+
     return transformedImages;
 }

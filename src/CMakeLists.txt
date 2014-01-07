@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-project(Calibration)
+project(PJS)
 
 ########################################### OPENNI ################################################
     
@@ -77,12 +77,17 @@ project(Calibration)
    	add_definitions(${OpenGL_DEFINITIONS})
    	if(NOT OPENGL_FOUND)
        		message(ERROR " OPENGL not found!")
-   	endif(NOT OPENGL_FOUND)     
+   	endif(NOT OPENGL_FOUND) 
+
+############################################# OpenCV ################################################  
      
+	find_package( OpenCV REQUIRED )
 
 add_executable (PJS
 		Main.h Main.cpp
 		GUI.cpp
-		Calibration.h Calibration.cpp)
-target_link_libraries (PJS ${OPENNI_LIBRARY} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+		Calibration/Calibration.h Calibration/Calibration.cpp
+		Distortion/HomographyCalculator.cpp Distortion/HomographyCalculator.h
+                Distortion/plane.cpp Distortion/plane.h)
+target_link_libraries (PJS ${OPENNI_LIBRARY} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${OpenCV_LIBS})
 
