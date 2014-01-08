@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(PJS)
 
+SET(CMAKE_BUILD_TYPE Debug CACHE STRING "default to debug" FORCE)
+
 ########################################### OPENNI ################################################
     
     	find_package(PkgConfig)

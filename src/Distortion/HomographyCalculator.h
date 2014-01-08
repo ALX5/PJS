@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   HomographyCalculator.h
  * Author: bruno
  *
@@ -18,7 +18,7 @@ public:
     HomographyCalculator();
     HomographyCalculator(const HomographyCalculator& orig);
     virtual ~HomographyCalculator();
-    
+
     /**
      * For every plane Ai in vector a, this function finds its homography with
      * plane Bi in vector b and stores it in the homographies vector
@@ -26,19 +26,19 @@ public:
      * @param b
      */
     void determineHomographies(vector<Plane> a, vector<Plane> b);
-    
+
     /**
      * This function retrieves every homography present in vector homographies and
      * transform the corresponding region of the image with it
-     * @param images The vector of images to be transfomed
-     * @return A new vector containing the transformed images
+     * @param image
+     * @return
      */
-    vector<Mat> applyTransformation(vector<Mat> images);
-    
+    vector<Mat> applyTransformation(Mat image);
+
 private:
     vector<Mat> homographies;
-    
+    int nbHomographies;
+
 };
 
 #endif	/* HOMOGRAPHYCALCULATOR_H */
-
