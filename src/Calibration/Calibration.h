@@ -22,9 +22,9 @@ public :
     DepthMetaData depthCameraMD;
     ImageMetaData rgbCameraMD;
 
-    XnRGB24Pixel* texMap = NULL;
-    unsigned int texMapX = 0;
-    unsigned int texMapY = 0;
+    XnRGB24Pixel* texMap;
+    unsigned int texMapX;
+    unsigned int texMapY;
 
     float* pDepthHist;
     XnDepthPixel nZRes;

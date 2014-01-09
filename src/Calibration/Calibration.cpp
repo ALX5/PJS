@@ -7,6 +7,13 @@
 
 Calibration *c;
 
+Calibration::Calibration() {
+    texMap = NULL;
+    texMapX = 0;
+    texMapY = 0;
+}
+
+
 void idle(void) {
     c->glutIdle();
 }
@@ -129,9 +136,6 @@ void Calibration::glutDisplay (void)
 
     // Swap the OpenGL display buffers
     glutSwapBuffers();
-}
-
-Calibration::Calibration() {
 }
 
 void Calibration::initContext() {
