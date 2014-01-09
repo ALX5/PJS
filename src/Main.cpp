@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[]) {
 
-    // Distorsions correction.
+    /// Distorsions correction.
     //Define the planes. The first one represents the distorted image.
     //The second one represents the points where the first plane should sit
     Plane p1(Point2f(302,110), Point2f(310,294), Point2f(500,139), Point2f(501,309));
@@ -63,8 +63,10 @@ int main(int argc, char *argv[]) {
     imshow("Transformed image", combine);
 
     waitKey(0);
-    /*/// Camera calibration.
-    Calibration *c = new Calibration();
+
+    /// Camera calibration.
+    Calibration c;
+    c.launchCalibration(argc,argv);
 
     /// User tracking.*/
 }
