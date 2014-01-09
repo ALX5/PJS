@@ -7,7 +7,10 @@
 
 int main(int argc, char *argv[]) {
 
+<<<<<<< HEAD
     //sift = cv2.SIFT();
+=======
+>>>>>>> 8b1002e53865518b0ef833c2a8b3a454fc5aa44e
     /// Distorsions correction.
     //Define the planes. The first one represents the distorted image.
     //The second one represents the points where the first plane should sit
@@ -42,8 +45,14 @@ int main(int argc, char *argv[]) {
     imshow("Transformed image", transformedImages.at(0));
     waitKey(0);
 
+<<<<<<< HEAD
     /*/// Camera calibration.
     Calibration *c = new Calibration();
+=======
+    /// Camera calibration.
+    Calibration c;
+    c.launchCalibration(argc,argv);
+>>>>>>> 8b1002e53865518b0ef833c2a8b3a454fc5aa44e
 
     /// User tracking.*/
 }

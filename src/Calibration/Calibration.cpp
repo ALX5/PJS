@@ -23,22 +23,11 @@ void Calibration::glutIdle (void)
 
 void Calibration::glutDisplay (void)
 {
-    XnStatus rc = XN_STATUS_OK;
-
-    // Read a new frame
-    rc = context.WaitAnyUpdateAll();
-    if (rc != XN_STATUS_OK)
-    {
-        printf("Read failed: %s\n", xnGetStatusString(rc));
-        return;
-    }
-
     depthCamera.GetMetaData(depthCameraMD);
     rgbCamera.GetMetaData(rgbCameraMD);
 
     const XnDepthPixel* pDepth = depthCameraMD.Data();
 
-    // Copied from SimpleViewer
     // Clear the OpenGL buffers
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -64,16 +53,10 @@ void Calibration::glutDisplay (void)
         }
     }
     for (int nIndex=1; nIndex<nZRes; nIndex++)
-    {
         pDepthHist[nIndex] += pDepthHist[nIndex-1];
-    }
     if (nNumberOfPoints)
-    {
         for (int nIndex=1; nIndex<nZRes; nIndex++)
-        {
             pDepthHist[nIndex] = (unsigned int)(256 * (1.0f - (pDepthHist[nIndex] / nNumberOfPoints)));
-        }
-    }
 
     xnOSMemSet(texMap, 0, texMapX*texMapY*sizeof(XnRGB24Pixel));
 
@@ -86,9 +69,7 @@ void Calibration::glutDisplay (void)
         XnRGB24Pixel* pTex = pTexRow + rgbCameraMD.XOffset();
 
         for (XnUInt x = 0; x < rgbCameraMD.XRes(); ++x, ++pImage, ++pTex)
-        {
             *pTex = *pImage;
-        }
 
         pImageRow += rgbCameraMD.XRes();
         pTexRow += texMapX;
@@ -105,7 +86,6 @@ void Calibration::glutDisplay (void)
         XnRGB24Pixel* pTex = depthTexRow + depthCameraMD.XOffset();
 
         for (XnUInt x = 0; x < depthCameraMD.XRes(); ++x, ++pDepth, ++pTex)
-        {
             if (*pDepth != 0)
             {
                 int nHistValue = pDepthHist[*pDepth];
@@ -113,7 +93,6 @@ void Calibration::glutDisplay (void)
                 pTex->nGreen = nHistValue;
                 pTex->nBlue = 0;
             }
-        }
 
         pDepthRow += depthCameraMD.XRes();
         depthTexRow += texMapX;
@@ -153,8 +132,6 @@ void Calibration::glutDisplay (void)
 }
 
 Calibration::Calibration() {
-    c=this;
-    launchCalibration();
 }
 
 void Calibration::initContext() {
@@ -173,14 +150,12 @@ void Calibration::initContext() {
     pDepthHist = (float*)malloc(nZRes * sizeof(float));
 }
 
-void Calibration::launchCalibration() {
+void Calibration::launchCalibration(int argc, char *argv[]) {
+    c=this;
     initContext();
-    char *argv [1];
-    int argc=1;
-    argv [0]=strdup ("PJS");
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-    glutInitWindowSize(GL_WIN_SIZE_X, GL_WIN_SIZE_Y);
+    glutInitWindowSize(1280, 1024);
     glutCreateWindow ("PJS Calibration");
     glutSetCursor(GLUT_CURSOR_NONE);
 
