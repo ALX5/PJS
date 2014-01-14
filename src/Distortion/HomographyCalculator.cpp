@@ -33,60 +33,60 @@ void HomographyCalculator::determineHomographies(vector<Plane> a, vector<Plane> 
 
     for(int i = 0; i < nbHomographies; i++){
 
-        Plane p1 = a.at(i);
-        Plane p2 = b.at(i);
+        Plane planeA = a.at(i);
+        Plane planeB = b.at(i);
         vector<Point2d> src;
         vector<Point2d> dst;
 
-        src.push_back(p1.getPoint(0));
-        src.push_back(p1.getPoint(1));
-        src.push_back(p1.getPoint(2));
-        src.push_back(p1.getPoint(3));
+        src.push_back(planeA.getPoint(0));
+        src.push_back(planeA.getPoint(1));
+        src.push_back(planeA.getPoint(2));
+        src.push_back(planeA.getPoint(3));
 
-        dst.push_back(p2.getPoint(0));
-        dst.push_back(p2.getPoint(1));
-        dst.push_back(p2.getPoint(2));
-        dst.push_back(p2.getPoint(3));
+        dst.push_back(planeB.getPoint(0));
+        dst.push_back(planeB.getPoint(1));
+        dst.push_back(planeB.getPoint(2));
+        dst.push_back(planeB.getPoint(3));
 
-        Mat H = findHomography(src, dst, CV_RANSAC);
+        Mat homography = findHomography(src, dst, CV_RANSAC);
 
         // Find the translation to keep image in the window
-        Mat P1 = Mat(3,1,CV_64F);
-        P1.at<double>(0,0) = p1.getPoint(0).x;
-        P1.at<double>(1,0) = p1.getPoint(0).y;
-        P1.at<double>(2,0) = 1;
+        Mat point1 = Mat(3,1,CV_64F);
+        point1.at<double>(0,0) = planeA.getPoint(0).x;
+        point1.at<double>(1,0) = planeA.getPoint(0).y;
+        point1.at<double>(2,0) = 1;
 
-        Mat P2 = Mat(3,1,CV_64F);
-        P2.at<double>(0,0) = p1.getPoint(1).x;
-        P2.at<double>(1,0) = p1.getPoint(1).y;
-        P2.at<double>(2,0) = 1;
+        Mat point2 = Mat(3,1,CV_64F);
+        point2.at<double>(0,0) = planeA.getPoint(1).x;
+        point2.at<double>(1,0) = planeA.getPoint(1).y;
+        point2.at<double>(2,0) = 1;
 
-        Mat P3 = Mat(3,1,CV_64F);
-        P3.at<double>(0,0) = p1.getPoint(2).x;
-        P3.at<double>(1,0) = p1.getPoint(2).y;
-        P3.at<double>(2,0) = 1;
+        Mat point3 = Mat(3,1,CV_64F);
+        point3.at<double>(0,0) = planeA.getPoint(2).x;
+        point3.at<double>(1,0) = planeA.getPoint(2).y;
+        point3.at<double>(2,0) = 1;
 
-        Mat P4 = Mat(3,1,CV_64F);
-        P4.at<double>(0,0) = p1.getPoint(3).x;
-        P4.at<double>(1,0) = p1.getPoint(3).y;
-        P4.at<double>(2,0) = 1;
+        Mat point4 = Mat(3,1,CV_64F);
+        point4.at<double>(0,0) = planeA.getPoint(3).x;
+        point4.at<double>(1,0) = planeA.getPoint(3).y;
+        point4.at<double>(2,0) = 1;
 
-        Mat P1New = H*P1;
-        Mat P2New = H*P2;
-        Mat P3New = H*P3;
-        Mat P4New = H*P4;
+        Mat point1New = homography*point1;
+        Mat point2New = homography*point2;
+        Mat point3New = homography*point3;
+        Mat point4New = homography*point4;
 
         /*Mat X = Mat(4,1, CV_64F);
-        X.at<double>(0,0) = P1New.at<double>(0,0);
-        X.at<double>(1,0) = P2New.at<double>(0,0);
-        X.at<double>(2,0) = P3New.at<double>(0,0);
-        X.at<double>(3,0) = P4New.at<double>(0,0);
+        X.at<double>(0,0) = point1New.at<double>(0,0);
+        X.at<double>(1,0) = point2New.at<double>(0,0);
+        X.at<double>(2,0) = point3New.at<double>(0,0);
+        X.at<double>(3,0) = point4New.at<double>(0,0);
 
         Mat Y = Mat(4,1, CV_64F);
-        Y.at<double>(0,0) = P1New.at<double>(1,0);
-        Y.at<double>(1,0) = P2New.at<double>(1,0);
-        Y.at<double>(2,0) = P3New.at<double>(1,0);
-        Y.at<double>(3,0) = P4New.at<double>(1,0);
+        Y.at<double>(0,0) = point1New.at<double>(1,0);
+        Y.at<double>(1,0) = point2New.at<double>(1,0);
+        Y.at<double>(2,0) = point3New.at<double>(1,0);
+        Y.at<double>(3,0) = point4New.at<double>(1,0);
 
         double xMin = 9999;
 
@@ -105,7 +105,7 @@ void HomographyCalculator::determineHomographies(vector<Plane> a, vector<Plane> 
         }*/
 
         Mat pts;
-        perspectiveTransform(src,pts, H);
+        perspectiveTransform(src, pts, homography);
 
         double xMin = 9999;
 
@@ -125,30 +125,35 @@ void HomographyCalculator::determineHomographies(vector<Plane> a, vector<Plane> 
                 yMin = pts.at<double>(0,i);
         }
 
-        H.at<double>(0,2) -= xMin;
-        H.at<double>(1,2) -= P3New.at<double>(1,0);
+        homography.at<double>(0,2) -= xMin;
+//        homography.at<double>(1,2) -= point3New.at<double>(1,0);
+        homography.at<double>(1,2) -= yMin;
+        cout << xMin << endl;
+        cout << yMin << endl;
+//        homography.at<double>(0,2) = 0;
+//        homography.at<double>(1,2) = 0;
 
         //cout << X << endl;
         cout << "----------" << endl;
         cout << pts << endl;
 
-        homographies.push_back(H);
+        cout << "Homography:" << endl;
+        cout << homography << endl;
+        homographies.push_back(homography);
 
     }
-
+    
 }
 
-vector<Mat> HomographyCalculator::applyTransformation(Mat image){
+vector<Mat> HomographyCalculator::applyTransformation(vector<Mat> images){
 
     vector<Mat> transformedImages;
 
-    //cout << homographies.at(0) << endl;
     transformedImages.resize(nbHomographies);
 
-    for (int i=0; i<nbHomographies; i++)
-    {
-        warpPerspective(image, transformedImages.at(i), homographies.at(i), Size(500, 500), WARP_INVERSE_MAP);
-
+    for (int i=0; i < nbHomographies; i++){
+        warpPerspective(images.at(i), transformedImages.at(i), 
+                homographies.at(i), Size(1920, 1080) );
     }
 
     return transformedImages;

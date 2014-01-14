@@ -33,7 +33,7 @@ public:
      * @param image
      * @return
      */
-    vector<Mat> applyTransformation(Mat image);
+    vector<Mat> applyTransformation(vector<Mat> images);
 
 private:
     vector<Mat> homographies;

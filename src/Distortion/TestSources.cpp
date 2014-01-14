@@ -110,20 +110,22 @@ int TestSources::createImageTest() {
 }
 
 int TestSources::twoPlanesTest() {
-
+    cout << "ASDAD" << endl;
 
     vector<Plane> a;
     vector<Plane> b;
 
-    Plane p1(Point2f(300, 110), Point2f(310, 290), Point2f(495, 138), Point2f(500, 309));
-    Plane p2(Point2f(400, 120), Point2f(400, 275), Point2f(500, 120), Point2f(500, 275));
-
-
+//    Plane p1(Point2f(212, 932), Point2f(1276, 364), Point2f(268, 1650), Point2f(1256, 1336));
+//    Plane p2(Point2f(0, 0), Point2f(960, 0), Point2f(0, 1080), Point2f(960, 1080));
+    
+    Plane p1(Point2f(84,576), Point2f(84,990), Point2f(1050,164), Point2f(1050,990));
+    Plane p2(Point2f(0,576), Point2f(84,1302), Point2f(1075,0), Point2f(1050,990));
+    
     a.push_back(p1);
     b.push_back(p2);
 
-    Plane p3(Point2f(495, 138), Point2f(500, 309), Point2f(616, 122), Point2f(608, 333));
-    Plane p4(Point2f(500, 120), Point2f(500, 275), Point2f(600, 120), Point2f(600, 275));
+    Plane p3(Point2f(1075, 0), Point2f(1050, 990), Point2f(2072, 168), Point2f(1988, 1300));
+    Plane p4(Point2f(1050, 164), Point2f(1050, 990), Point2f(1792, 164), Point2f(1792, 990)); 
 
     a.push_back(p3);
     b.push_back(p4);
@@ -134,7 +136,9 @@ int TestSources::twoPlanesTest() {
     hc.determineHomographies(a, b);
 
 
-    const char* nom1 = "grid-straight.png";
+//    const char* nom1 = "../src/grid-straight2.tif";
+//    const char* nom1 = "../src/20140108_142706.jpg";
+    const char* nom1 = "../src/grid-straight2.png";
     Mat img = imread(nom1, CV_LOAD_IMAGE_GRAYSCALE);
     if (!img.data) {
         std::cout << " --(!) Error reading image" << std::endl;
@@ -174,31 +178,29 @@ int TestSources::twoPlanesTest() {
     //Get the transformed images
     vector<Mat> transformedImages = hc.applyTransformation(images);
 
+        int keyPressed = 0;
+//    imshow("First half", firstHalf);
+//    
+//    //TODO define constant for ESC key
 
-
-    imshow("First half", firstHalf);
-    
-    //TODO define constant for ESC key
-    int keyPressed = 0;
-    do {
-        keyPressed = waitKey(0);
-    } while (keyPressed != 1048603);
-    
-    imshow("Second half", secondHalf);
-    keyPressed = 0;
-    do {
-        keyPressed = waitKey(0);
-    } while (keyPressed != 1048603);
+//    do {
+//        keyPressed = waitKey(0);
+//        cout << keyPressed << endl;
+//    } while (keyPressed != 27);
+//    
+//    imshow("Second half", secondHalf);
+//    keyPressed = 0;
+//    do {
+//        keyPressed = waitKey(0);
+//    } while (keyPressed != 27);
 
     for (int i = 0; i < transformedImages.size(); i++) {
         imshow("tr", transformedImages.at(i));
         keyPressed = 0;
         do {
             keyPressed = waitKey(0);
-        } while (keyPressed != 1048603);
+        } while (keyPressed != 27);
     }
-
-
 
     return 0;
 }

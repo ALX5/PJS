@@ -156,6 +156,30 @@ Distortion/HomographyCalculator.cpp.s:
 	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/HomographyCalculator.cpp.s
 .PHONY : Distortion/HomographyCalculator.cpp.s
 
+Distortion/TestSources.o: Distortion/TestSources.cpp.o
+.PHONY : Distortion/TestSources.o
+
+# target to build an object file
+Distortion/TestSources.cpp.o:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/TestSources.cpp.o
+.PHONY : Distortion/TestSources.cpp.o
+
+Distortion/TestSources.i: Distortion/TestSources.cpp.i
+.PHONY : Distortion/TestSources.i
+
+# target to preprocess a source file
+Distortion/TestSources.cpp.i:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/TestSources.cpp.i
+.PHONY : Distortion/TestSources.cpp.i
+
+Distortion/TestSources.s: Distortion/TestSources.cpp.s
+.PHONY : Distortion/TestSources.s
+
+# target to generate assembly for a file
+Distortion/TestSources.cpp.s:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/TestSources.cpp.s
+.PHONY : Distortion/TestSources.cpp.s
+
 Distortion/plane.o: Distortion/plane.cpp.o
 .PHONY : Distortion/plane.o
 
@@ -243,6 +267,9 @@ help:
 	@echo "... Distortion/HomographyCalculator.o"
 	@echo "... Distortion/HomographyCalculator.i"
 	@echo "... Distortion/HomographyCalculator.s"
+	@echo "... Distortion/TestSources.o"
+	@echo "... Distortion/TestSources.i"
+	@echo "... Distortion/TestSources.s"
 	@echo "... Distortion/plane.o"
 	@echo "... Distortion/plane.i"
 	@echo "... Distortion/plane.s"
