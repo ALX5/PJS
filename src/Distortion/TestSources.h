@@ -8,13 +8,18 @@
 #ifndef TESTSOURCES_H
 #define	TESTSOURCES_H
 
+#include <opencv2/opencv.hpp>
+#include <vector>
+
 class TestSources {
 public:
-    int singlePlaneTest();
-    int createImageTest();
     int twoPlanesTest();
+    std::vector<cv::Mat> divideImageInTwo(cv::Mat&);
+    cv::Mat joinImagesAtMiddle(cv::Mat&, cv::Mat&);
+    
     TestSources();
     TestSources(const TestSources& orig);
+    
     virtual ~TestSources();
 private:
 

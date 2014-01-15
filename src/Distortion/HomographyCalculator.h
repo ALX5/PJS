@@ -11,7 +11,6 @@
 #include "plane.h"
 #include <vector>
 
-using namespace std;
 
 class HomographyCalculator {
 public:
@@ -25,18 +24,44 @@ public:
      * @param a
      * @param b
      */
-    void determineHomographies(vector<Plane> a, vector<Plane> b);
+    void determineHomographies(std::vector<Plane> a, std::vector<Plane> b);
 
     /**
+     * This method just let's us use the perspective transform with out Plane
+     * type
+     * @param p
+     * @param 
+     * @return 
+     */
+    Plane transformPlane(Plane &p, Mat &h);
+    
+    /**
      * This function retrieves every homography present in vector homographies and
-     * transform the corresponding region of the image with it
+     * transforms the corresponding region of the image with it
      * @param image
      * @return
      */
-    vector<Mat> applyTransformation(vector<Mat> images);
+    std::vector<Mat> applyTransformation(std::vector<Mat> images);
 
+    //TODO Change this approach. It would be better to have an object that stores
+    //all the involved features (plane, image, homography, offset) instead of
+    //relying on the order of vectors
+    /**
+     * Modifies the homographies with the offsets present in the given vector.
+     * The offset values are applied to the homographies according to 
+     * their order in the vector
+     * @param 
+     */
+    void adjustTranslations(std::vector<Point2f>&);
+    
+    //TODO not in use right now
+    void moveImage(Mat&, Point2f&);
+    
+    //Getters and setters
+    std::vector<Mat> getHomographies();
+    
 private:
-    vector<Mat> homographies;
+    std::vector<Mat> homographies;
     int nbHomographies;
 
 };
