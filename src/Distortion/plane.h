@@ -8,11 +8,12 @@ using namespace cv;
 class Plane {
 private:    
     vector<Point2f> points;
+
 public:
     Plane();
     Plane(Point2f, Point2f, Point2f, Point2f);
     Plane(vector<Point2f> points);
-    
+    Size getSize();
     vector<Point2f> getPoints();
     Point2f getPoint(int n);
     void setPoints(Point2f, Point2f, Point2f, Point2f);
@@ -74,6 +75,7 @@ public:
     Point2f getLowerLeftCorner();
     Point2f getUpperRightCorner();
     Point2f getLowerRightCorner();
+
     
     bool contains(Point2f&);
     
