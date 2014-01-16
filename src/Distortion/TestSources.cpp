@@ -171,26 +171,26 @@ int TestSources::twoPlanesTest() {
         keyPressed = 0;
         do {
             keyPressed = waitKey(0);
-        } while (keyPressed != 27);        
+        } while (keyPressed != 27);
     }
-    
+
 
     /*****************************************************
      * FINAL IMAGE (far from perfect)
      *****************************************************/
-    
-        Mat finalImage = this->joinImagesAtMiddle(transformedImages.at(0), transformedImages.at(1));
-    
-        Utils utils; 
-        utils.addAlphaChannel(finalImage);
-        
-        imwrite("alpha_image.png", finalImage);
-        
-        imshow("Final", finalImage);
-        keyPressed = 0;
-        do {
-            keyPressed = waitKey(0);
-        } while (keyPressed != 27);
+
+    Mat finalImage = this->joinImagesAtMiddle(transformedImages.at(0), transformedImages.at(1));
+
+    Utils utils;
+    utils.addAlphaChannel(finalImage);
+
+    imwrite("alpha_image.png", finalImage);
+
+    imshow("Final", finalImage);
+    keyPressed = 0;
+    do {
+        keyPressed = waitKey(0);
+    } while (keyPressed != 27);
 
     return 0;
 }
@@ -198,7 +198,7 @@ int TestSources::twoPlanesTest() {
 vector<Mat> TestSources::divideImageInTwo(cv::Mat& img) {
 
     vector<Mat> images;
-    
+
     Mat firstHalf(img.rows, img.cols / 2, IMG_UNIT);
     Mat secondHalf(img.rows, img.cols - img.cols / 2, IMG_UNIT);
 
@@ -211,13 +211,13 @@ vector<Mat> TestSources::divideImageInTwo(cv::Mat& img) {
     uchar *imgPtr = img.ptr();
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < halfCols; col++) {
-            for(int i = 0; i < img.channels(); i++){
+            for (int i = 0; i < img.channels(); i++) {
                 *fhPtr++ = *imgPtr++;
             }
-            
+
         }
         for (int col = 0; col < cols - halfCols; col++) {
-            for(int i = 0; i < img.channels(); i++){
+            for (int i = 0; i < img.channels(); i++) {
                 *shPtr++ = *imgPtr++;
             }
         }
@@ -241,20 +241,21 @@ cv::Mat TestSources::joinImagesAtMiddle(cv::Mat& img1, cv::Mat& img2) {
     uchar *fPtr = img1.ptr();
     uchar *sPtr = img2.ptr();
     uchar *iPtr = finalImage.ptr();
-    sPtr += (img1.cols*3 - halfCols*3);;
+    sPtr += (img1.cols * 3 - halfCols * 3);
+    ;
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < halfCols; col++) {
-            for(int i = 0; i < img1.channels(); i++){
+            for (int i = 0; i < img1.channels(); i++) {
                 *iPtr++ = *fPtr++;
             }
         }
-        fPtr += halfCols*3;
+        fPtr += halfCols * 3;
         for (int col = 0; col < cols - halfCols; col++) {
-            for(int i = 0; i < img1.channels(); i++){
+            for (int i = 0; i < img1.channels(); i++) {
                 *iPtr++ = *sPtr++;
             }
         }
-        sPtr += (img1.cols*3 - halfCols*3);
+        sPtr += (img1.cols * 3 - halfCols * 3);
     }
 
     return finalImage;

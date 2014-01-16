@@ -159,9 +159,12 @@ Plane Plane::getBoundingBox(Plane &p2, Plane &p1) {
     return p;
 }
 
+//TODO not finished
 bool Plane::contains(Point2f& p) {
 
     //TODO use proper point retrieval
     Point2f upperVector(points.at(2).x - points.at(0).x, points.at(2).y - points.at(0).y);
     Point2f lowerVector(points.at(3).x - points.at(1).x, points.at(3).y - points.at(3).y);
+    
+    
 }
