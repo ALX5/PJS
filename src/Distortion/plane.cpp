@@ -24,59 +24,57 @@ Point2f Plane::getPoint(int n) {
 }
 
 vector<Point2f> Plane::getPoints() {
-        return points;
+    return points;
 }
-
-
 
 std::ostream &operator<<(std::ostream& os, Plane& m) {
     os << m.getPoints();
-//    os << "(" << m.getPoint(0) << ", " 
-//            << m.getPoint(1) << ", "
-//            << m.getPoint(2) << ", "
-//            << m.getPoint(3) << ")" ;
+    //    os << "(" << m.getPoint(0) << ", " 
+    //            << m.getPoint(1) << ", "
+    //            << m.getPoint(2) << ", "
+    //            << m.getPoint(3) << ")" ;
     return os;
 }
 
 void Plane::moveTo(Point2f &p) {
- 
+
     Point2f offset = this->findOffset(p);
-    
-    for(int i = 0; i < points.size(); i++){
+
+    for (int i = 0; i < points.size(); i++) {
         points.at(i) = points.at(i) - offset;
     }
-    
-}
 
+}
 
 void Plane::moveToOrigin() {
 
-    Point2f origin(0,0);
-    this->moveTo(origin);    
+    Point2f origin(0, 0);
+    this->moveTo(origin);
 }
 
 //TODO Refactor
+
 void Plane::moveBBToOrigin() {
 
-    Point2f origin(0,0);
+    Point2f origin(0, 0);
     Point2f offset = this->findBBOffset(origin);
-    
-    for(int i = 0; i < points.size(); i++){
+
+    for (int i = 0; i < points.size(); i++) {
         points.at(i) = points.at(i) - offset;
     }
-    
-}
 
+}
 
 Point2f Plane::findOffset(Point2f& p) {
     Point2f upperLeftCorner = this->getPoint(0);
     float x = upperLeftCorner.x - p.x;
     float y = upperLeftCorner.y - p.y;
     Point2f offset = Point2f(x, y);
-    
-    cout << "Offset from origin: " << offset << endl;;
-    
-    
+
+    cout << "Offset from origin: " << offset << endl;
+    ;
+
+
     return offset;
 }
 
@@ -87,46 +85,49 @@ Point2f Plane::findBBOffset(Point2f& p) {
     xCoords.push_back(this->getPoint(1).x);
     xCoords.push_back(this->getPoint(2).x);
     xCoords.push_back(this->getPoint(3).x);
-    
+
     vector<float> yCoords;
     yCoords.push_back(this->getPoint(0).y);
     yCoords.push_back(this->getPoint(1).y);
     yCoords.push_back(this->getPoint(2).y);
     yCoords.push_back(this->getPoint(3).y);
-    
+
     float minX = *std::min_element(xCoords.begin(), xCoords.end());
     float minY = *std::min_element(yCoords.begin(), yCoords.end());
-    
-    return Point2f(minX-p.x, minY-p.y);
-    
+
+    return Point2f(minX - p.x, minY - p.y);
+
 }
 
 
 //TODO refactor
+
 Plane Plane::getBoundingBox() {
     vector<float> xCoords;
     xCoords.push_back(this->getPoint(0).x);
     xCoords.push_back(this->getPoint(1).x);
     xCoords.push_back(this->getPoint(2).x);
     xCoords.push_back(this->getPoint(3).x);
-    
+
     vector<float> yCoords;
     yCoords.push_back(this->getPoint(0).y);
     yCoords.push_back(this->getPoint(1).y);
     yCoords.push_back(this->getPoint(2).y);
     yCoords.push_back(this->getPoint(3).y);
-    
+
     float minX = *std::min_element(xCoords.begin(), xCoords.end());
     float minY = *std::min_element(yCoords.begin(), yCoords.end());
     float maxX = *std::max_element(xCoords.begin(), xCoords.end());
     float maxY = *std::max_element(yCoords.begin(), yCoords.end());
-    
-    Plane p(Point2f(minX, minY), Point2f(minX, maxY), Point2f(maxX, minY), Point2f(maxX, maxY)); 
+
+    Plane p(Point2f(minX, minY), Point2f(minX, maxY), Point2f(maxX, minY), Point2f(maxX, maxY));
+
+    return p;
 }
 
 Plane Plane::getBoundingBox(Plane &p2, Plane &p1) {
     vector<float> xCoords;
-    
+
     xCoords.push_back(p1.getPoint(0).x);
     xCoords.push_back(p1.getPoint(1).x);
     xCoords.push_back(p1.getPoint(2).x);
@@ -135,8 +136,8 @@ Plane Plane::getBoundingBox(Plane &p2, Plane &p1) {
     xCoords.push_back(p2.getPoint(1).x);
     xCoords.push_back(p2.getPoint(2).x);
     xCoords.push_back(p2.getPoint(3).x);
-    
-    
+
+
     vector<float> yCoords;
     yCoords.push_back(p1.getPoint(0).y);
     yCoords.push_back(p1.getPoint(1).y);
@@ -146,14 +147,21 @@ Plane Plane::getBoundingBox(Plane &p2, Plane &p1) {
     yCoords.push_back(p2.getPoint(1).y);
     yCoords.push_back(p2.getPoint(2).y);
     yCoords.push_back(p2.getPoint(3).y);
-    
-    
+
+
     float minX = *std::min_element(xCoords.begin(), xCoords.end());
     float minY = *std::min_element(yCoords.begin(), yCoords.end());
     float maxX = *std::max_element(xCoords.begin(), xCoords.end());
     float maxY = *std::max_element(yCoords.begin(), yCoords.end());
-    
-    Plane p(Point2f(minX, minY), Point2f(minX, maxY), Point2f(maxX, minY), Point2f(maxX, maxY)); 
-    
+
+    Plane p(Point2f(minX, minY), Point2f(minX, maxY), Point2f(maxX, minY), Point2f(maxX, maxY));
+
     return p;
+}
+
+bool Plane::contains(Point2f& p) {
+
+    //TODO use proper point retrieval
+    Point2f upperVector(points.at(2).x - points.at(0).x, points.at(2).y - points.at(0).y);
+    Point2f lowerVector(points.at(3).x - points.at(1).x, points.at(3).y - points.at(3).y);
 }

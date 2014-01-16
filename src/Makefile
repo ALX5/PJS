@@ -180,6 +180,30 @@ Distortion/TestSources.cpp.s:
 	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/TestSources.cpp.s
 .PHONY : Distortion/TestSources.cpp.s
 
+Distortion/Utils.o: Distortion/Utils.cpp.o
+.PHONY : Distortion/Utils.o
+
+# target to build an object file
+Distortion/Utils.cpp.o:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/Utils.cpp.o
+.PHONY : Distortion/Utils.cpp.o
+
+Distortion/Utils.i: Distortion/Utils.cpp.i
+.PHONY : Distortion/Utils.i
+
+# target to preprocess a source file
+Distortion/Utils.cpp.i:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/Utils.cpp.i
+.PHONY : Distortion/Utils.cpp.i
+
+Distortion/Utils.s: Distortion/Utils.cpp.s
+.PHONY : Distortion/Utils.s
+
+# target to generate assembly for a file
+Distortion/Utils.cpp.s:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/Utils.cpp.s
+.PHONY : Distortion/Utils.cpp.s
+
 Distortion/plane.o: Distortion/plane.cpp.o
 .PHONY : Distortion/plane.o
 
@@ -270,6 +294,9 @@ help:
 	@echo "... Distortion/TestSources.o"
 	@echo "... Distortion/TestSources.i"
 	@echo "... Distortion/TestSources.s"
+	@echo "... Distortion/Utils.o"
+	@echo "... Distortion/Utils.i"
+	@echo "... Distortion/Utils.s"
 	@echo "... Distortion/plane.o"
 	@echo "... Distortion/plane.i"
 	@echo "... Distortion/plane.s"

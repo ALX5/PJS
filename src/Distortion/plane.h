@@ -75,6 +75,8 @@ public:
     Point2f getUpperRightCorner();
     Point2f getLowerRightCorner();
     
+    bool contains(Point2f&);
+    
 };
 
 std::ostream &operator<<(std::ostream &os, Plane &m);
