@@ -74,9 +74,6 @@ Point2f Plane::findOffset(Point2f& p) {
     float y = upperLeftCorner.y - p.y;
     Point2f offset = Point2f(x, y);
     
-    cout << "Offset from origin: " << offset << endl;;
-    
-    
     return offset;
 }
 
@@ -120,8 +117,11 @@ Plane Plane::getBoundingBox() {
     float minY = *std::min_element(yCoords.begin(), yCoords.end());
     float maxX = *std::max_element(xCoords.begin(), xCoords.end());
     float maxY = *std::max_element(yCoords.begin(), yCoords.end());
+
     
     Plane p(Point2f(minX, minY), Point2f(minX, maxY), Point2f(maxX, minY), Point2f(maxX, maxY)); 
+
+    return p;
 }
 
 Plane Plane::getBoundingBox(Plane &p2, Plane &p1) {
@@ -156,4 +156,18 @@ Plane Plane::getBoundingBox(Plane &p2, Plane &p1) {
     Plane p(Point2f(minX, minY), Point2f(minX, maxY), Point2f(maxX, minY), Point2f(maxX, maxY)); 
     
     return p;
+}
+
+
+Size Plane::getSize()
+{
+    Point P1 = this->getPoint(0);
+    Point P4 = this->getPoint(3);
+
+    int width = P4.x - P1.x;
+    int height = P4.y - P1.y;
+
+    Size size = Size(width, height);cout << height << endl;
+
+    return size;
 }

@@ -63,6 +63,7 @@ public:
 private:
     std::vector<Mat> homographies;
     int nbHomographies;
+    Size size;
 
 };
 

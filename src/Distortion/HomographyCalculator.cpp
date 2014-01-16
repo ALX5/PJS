@@ -66,7 +66,7 @@ vector<Mat> HomographyCalculator::applyTransformation(vector<Mat> images) {
         
         //TODO Can't hard-code image size
         warpPerspective(images.at(i), transformedImages.at(i),
-                homographies.at(i), Size(960, 540));
+                homographies.at(i), size);
     }
 
     return transformedImages;
@@ -85,6 +85,10 @@ Plane HomographyCalculator::transformPlane(Plane& plane, Mat& homography) {
     perspectiveTransform(src, dst, homography);
 
     Plane newPlane(dst);
+
+    Plane boundingBox = newPlane.getBoundingBox();
+
+    size = boundingBox.getSize();
     
     return newPlane;
 
@@ -97,7 +101,7 @@ void HomographyCalculator::moveImage(Mat &image, Point2f &p) {
     homography.at<float>(1,2) = 0;
     
     warpPerspective(image, image,
-                homography, Size(960, 540));
+                homography, size);
 }
 
 void HomographyCalculator::adjustTranslations(vector<Point2f>& offsets) {
