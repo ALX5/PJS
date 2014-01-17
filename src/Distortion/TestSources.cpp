@@ -15,7 +15,6 @@
 using namespace std;
 
 #define IMG_UNIT CV_8UC3
-#define NUMBER_OF_CHANNELS 3
 
 TestSources::TestSources() {
 }

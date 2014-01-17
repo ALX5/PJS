@@ -27,8 +27,6 @@ vector<Point2f> Plane::getPoints() {
     return points;
 }
 
-
-
 std::ostream &operator<<(std::ostream& os, Plane& m) {
     os << m.getPoints();
     //    os << "(" << m.getPoint(0) << ", " 
@@ -48,35 +46,35 @@ void Plane::moveTo(Point2f &p) {
 
 }
 
-
 void Plane::moveToOrigin() {
 
-    Point2f origin(0,0);
-    this->moveTo(origin);    
+    Point2f origin(0, 0);
+    this->moveTo(origin);
 }
 
 //TODO Refactor
+
 void Plane::moveBBToOrigin() {
 
-    Point2f origin(0,0);
+    Point2f origin(0, 0);
     Point2f offset = this->findBBOffset(origin);
-    
-    for(int i = 0; i < points.size(); i++){
+
+    for (int i = 0; i < points.size(); i++) {
         points.at(i) = points.at(i) - offset;
     }
-    
-}
 
+}
 
 Point2f Plane::findOffset(Point2f& p) {
     Point2f upperLeftCorner = this->getPoint(0);
     float x = upperLeftCorner.x - p.x;
     float y = upperLeftCorner.y - p.y;
     Point2f offset = Point2f(x, y);
-    
-    cout << "Offset from origin: " << offset << endl;;
-    
-    
+
+    cout << "Offset from origin: " << offset << endl;
+    ;
+
+
     return offset;
 }
 
@@ -87,13 +85,13 @@ Point2f Plane::findBBOffset(Point2f& p) {
     xCoords.push_back(this->getPoint(1).x);
     xCoords.push_back(this->getPoint(2).x);
     xCoords.push_back(this->getPoint(3).x);
-    
+
     vector<float> yCoords;
     yCoords.push_back(this->getPoint(0).y);
     yCoords.push_back(this->getPoint(1).y);
     yCoords.push_back(this->getPoint(2).y);
     yCoords.push_back(this->getPoint(3).y);
-    
+
     float minX = *std::min_element(xCoords.begin(), xCoords.end());
     float minY = *std::min_element(yCoords.begin(), yCoords.end());
 
@@ -103,19 +101,20 @@ Point2f Plane::findBBOffset(Point2f& p) {
 
 
 //TODO refactor
+
 Plane Plane::getBoundingBox() {
     vector<float> xCoords;
     xCoords.push_back(this->getPoint(0).x);
     xCoords.push_back(this->getPoint(1).x);
     xCoords.push_back(this->getPoint(2).x);
     xCoords.push_back(this->getPoint(3).x);
-    
+
     vector<float> yCoords;
     yCoords.push_back(this->getPoint(0).y);
     yCoords.push_back(this->getPoint(1).y);
     yCoords.push_back(this->getPoint(2).y);
     yCoords.push_back(this->getPoint(3).y);
-    
+
     float minX = *std::min_element(xCoords.begin(), xCoords.end());
     float minY = *std::min_element(yCoords.begin(), yCoords.end());
     float maxX = *std::max_element(xCoords.begin(), xCoords.end());
@@ -128,7 +127,7 @@ Plane Plane::getBoundingBox() {
 
 Plane Plane::getBoundingBox(Plane &p2, Plane &p1) {
     vector<float> xCoords;
-    
+
     xCoords.push_back(p1.getPoint(0).x);
     xCoords.push_back(p1.getPoint(1).x);
     xCoords.push_back(p1.getPoint(2).x);
@@ -137,8 +136,8 @@ Plane Plane::getBoundingBox(Plane &p2, Plane &p1) {
     xCoords.push_back(p2.getPoint(1).x);
     xCoords.push_back(p2.getPoint(2).x);
     xCoords.push_back(p2.getPoint(3).x);
-    
-    
+
+
     vector<float> yCoords;
     yCoords.push_back(p1.getPoint(0).y);
     yCoords.push_back(p1.getPoint(1).y);
@@ -148,8 +147,8 @@ Plane Plane::getBoundingBox(Plane &p2, Plane &p1) {
     yCoords.push_back(p2.getPoint(1).y);
     yCoords.push_back(p2.getPoint(2).y);
     yCoords.push_back(p2.getPoint(3).y);
-    
-    
+
+
     float minX = *std::min_element(xCoords.begin(), xCoords.end());
     float minY = *std::min_element(yCoords.begin(), yCoords.end());
     float maxX = *std::max_element(xCoords.begin(), xCoords.end());
@@ -161,23 +160,44 @@ Plane Plane::getBoundingBox(Plane &p2, Plane &p1) {
 }
 
 //TODO not finished
+
 bool Plane::contains(Point2f& p) {
 
     //TODO use proper point retrieval
     Point2f upperVector(points.at(2).x - points.at(0).x, points.at(2).y - points.at(0).y);
     Point2f lowerVector(points.at(3).x - points.at(1).x, points.at(3).y - points.at(3).y);
-    
+    //    Point2f pointVector(p.x - points.at(0).x, p.y - points.at(3).y);
+
+    bool oddNodes = false;
+    int next = 3;
+
+
+    for (int i = 0; i < 4; i++) {
+        Point2f current = this->getPoint(i);
+        Point2f last = this->getPoint(next);
+        if (current.y < p.y && last.y >= p.y
+                || last.y < p.y && current.y >= p.y) {
+            if (current.x + (p.y - current.y) /
+                    (last.y - current.y)*(last.x - current.x) < p.x) {
+                oddNodes = !oddNodes;
+            }
+        }
+        next = i;
+    }
+
+    return oddNodes;
+
 }
 
-Size Plane::getSize()
-{
+Size Plane::getSize() {
     Point P1 = this->getPoint(0);
     Point P4 = this->getPoint(3);
 
     int width = P4.x - P1.x;
     int height = P4.y - P1.y;
 
-    Size size = Size(width, height);cout << height << endl;
+    Size size = Size(width, height);
+    cout << height << endl;
 
     return size;
 }

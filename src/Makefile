@@ -276,6 +276,30 @@ Main.cpp.s:
 	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Main.cpp.s
 .PHONY : Main.cpp.s
 
+Tests/PlaneTests.o: Tests/PlaneTests.cpp.o
+.PHONY : Tests/PlaneTests.o
+
+# target to build an object file
+Tests/PlaneTests.cpp.o:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Tests/PlaneTests.cpp.o
+.PHONY : Tests/PlaneTests.cpp.o
+
+Tests/PlaneTests.i: Tests/PlaneTests.cpp.i
+.PHONY : Tests/PlaneTests.i
+
+# target to preprocess a source file
+Tests/PlaneTests.cpp.i:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Tests/PlaneTests.cpp.i
+.PHONY : Tests/PlaneTests.cpp.i
+
+Tests/PlaneTests.s: Tests/PlaneTests.cpp.s
+.PHONY : Tests/PlaneTests.s
+
+# target to generate assembly for a file
+Tests/PlaneTests.cpp.s:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Tests/PlaneTests.cpp.s
+.PHONY : Tests/PlaneTests.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -306,6 +330,9 @@ help:
 	@echo "... Main.o"
 	@echo "... Main.i"
 	@echo "... Main.s"
+	@echo "... Tests/PlaneTests.o"
+	@echo "... Tests/PlaneTests.i"
+	@echo "... Tests/PlaneTests.s"
 .PHONY : help
 
 
