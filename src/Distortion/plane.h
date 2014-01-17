@@ -77,6 +77,7 @@ public:
     Point2f getLowerRightCorner();
 
     
+    
     bool contains(Point2f&);
     
 };

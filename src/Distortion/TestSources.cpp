@@ -104,8 +104,12 @@ int TestSources::twoPlanesTest() {
     Point2f upperRightFirst = transformedPlanes.at(0).getPoint(2);
     Point2f offsetSecond = transformedPlanes.at(1).findOffset(upperRightFirst);
     offsets.push_back(offsetSecond);
+    transformedPlanes.at(1).moveTo(upperRightFirst);
 
-
+    for (int i = 0; i < transformedPlanes.size(); i++) {
+        cout << "Transformed plane " << i << ": " << endl << transformedPlanes.at(i) << endl;
+    }
+    
     //**********************************************
     //                  Step 4
     //**********************************************
@@ -147,44 +151,60 @@ int TestSources::twoPlanesTest() {
     //***************************************************
 
 
+    
+    
+    //**********************************************
+    //                  Step 5
+    //**********************************************
+    //Add the alpha channel to draw the planes only
+    //**********************************************    
+    Utils utils;
+    utils.addAlphaChannel(transformedImages.at(0), transformedPlanes.at(0));
+    utils.addAlphaChannel(transformedImages.at(1), transformedPlanes.at(1));
+    
     /*****************************************************
      * Show the images
      *****************************************************/
+//    int keyPressed = 0;
+//    imshow("First half", images.at(0));
+//
+//    //TODO define constant for ESC key
+//    do {
+//        keyPressed = waitKey(0);
+//        cout << keyPressed << endl;
+//    } while (keyPressed != 27);
+//
+//    imshow("Second half", images.at(1));
+//    keyPressed = 0;
+//    do {
+//        keyPressed = waitKey(0);
+//    } while (keyPressed != 27);
+
+    imwrite("tr01.png", transformedImages.at(0));
+    imwrite("tr02.png", transformedImages.at(1));
+    
     int keyPressed = 0;
-    imshow("First half", images.at(0));
-
-    //TODO define constant for ESC key
-    do {
-        keyPressed = waitKey(0);
-        cout << keyPressed << endl;
-    } while (keyPressed != 27);
-
-    imshow("Second half", images.at(1));
-    keyPressed = 0;
-    do {
-        keyPressed = waitKey(0);
-    } while (keyPressed != 27);
-
+    
     for (int i = 0; i < transformedImages.size(); i++) {
         imshow("tr", transformedImages.at(i));
         keyPressed = 0;
         do {
             keyPressed = waitKey(0);
         } while (keyPressed != 27);
-    }imwrite("test", transformedImages.at(0));
+    }    
 
 
     /*****************************************************
      * FINAL IMAGE (far from perfect)
      *****************************************************/
 
-    Mat finalImage = this->joinImagesAtMiddle(transformedImages.at(0), transformedImages.at(1));
-
-    Utils utils;
-    utils.addAlphaChannel(finalImage);
-
+    Mat finalImage(transformedImages.at(0).rows, transformedImages.at(0).cols, CV_8UC4, Scalar(0));
+    
+    this->writeToTimage(transformedImages.at(0), finalImage);
+    this->writeToTimage(transformedImages.at(1), finalImage);
+    
     imwrite("alpha_image.png", finalImage);
-
+    
     imshow("Final", finalImage);
     keyPressed = 0;
     do {
@@ -258,4 +278,37 @@ cv::Mat TestSources::joinImagesAtMiddle(cv::Mat& img1, cv::Mat& img2) {
     }
 
     return finalImage;
+}
+
+void TestSources::writeToTimage(cv::Mat& src, cv::Mat& dst) {
+       
+    //The source image must fit into the destination image
+    assert (src.cols <= dst.cols && src.rows <= dst.rows);
+    
+    //Source and destination must have the same number of channels
+    assert(src.channels() == 4 && dst.channels() == 4);
+    
+    uchar *srcPtr = src.ptr();
+    uchar *dstPtr = dst.ptr();
+    
+    int diffCols = dst.cols - src.cols;
+    int diffRows = dst.rows - src.rows;
+    
+    int rows = src.rows;
+    int cols = src.cols;
+    
+    for (int row = 0; row < rows; row++) {
+        for (int col = 0; col < cols; col++) {
+            int alphaValue = src.at<Vec4b>(row, col)[3];
+            for (int i = 0; i < src.channels(); i++) {
+                if(alphaValue > 0){                                    
+                    *dstPtr = *srcPtr;
+                } 
+                dstPtr++;
+                srcPtr++;       
+            }
+        }
+        dstPtr += diffCols * 4;      
+    }  
+    
 }

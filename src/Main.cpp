@@ -14,10 +14,10 @@ void runTests();
  * 
  */
 int main(int argc, char** argv) {
-//    TestSources t;
-//    return t.twoPlanesTest();
+    TestSources t;
+    return t.twoPlanesTest();
     
-    runTests();
+//    runTests();
 }
 
 void runTests(){

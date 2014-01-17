@@ -64,9 +64,12 @@ vector<Mat> HomographyCalculator::applyTransformation(vector<Mat> images) {
 
     for (int i = 0; i < nbHomographies; i++) {
         
-        //TODO Can't hard-code image size
+        //TODO Size cannot be an attribute of this class
+        //For the moment, I'll hard code it for testing, but each fraction
+        //of the image should be represented by a class that stores its 
+        //characteristics, including the size of the bounding box
         warpPerspective(images.at(i), transformedImages.at(i),
-                homographies.at(i), size);
+                homographies.at(i), Size(960, 1080));
     }
 
     return transformedImages;

@@ -9,6 +9,7 @@
 #define	UTILS_H
 
 #include <opencv2/opencv.hpp>
+#include "plane.h"
 
 class Utils {
 public:
@@ -16,7 +17,7 @@ public:
     Utils(const Utils& orig);
     virtual ~Utils();
     
-    void addAlphaChannel(cv::Mat&);
+    void addAlphaChannel(cv::Mat&, Plane&);
     
     
 private:
