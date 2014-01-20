@@ -10,6 +10,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include <opencv/highgui.h>
 
 class TestSources {
 public:

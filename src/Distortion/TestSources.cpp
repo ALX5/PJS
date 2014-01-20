@@ -163,7 +163,7 @@ int TestSources::twoPlanesTest() {
         do {
             keyPressed = waitKey(0);
         } while (keyPressed != 27);
-    }imwrite("test", transformedImages.at(0));
+    }
 
 
 
