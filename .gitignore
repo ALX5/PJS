@@ -249,5 +249,5 @@ cmake_install.cmake
 CMakeCache
 compile_commands.json
 
-src/CMakeCache.txt
-src/Makefile
+src\CMakeCache.txt
+src\Makefile
