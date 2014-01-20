@@ -17,6 +17,7 @@ public:
     int twoPlanesTest();
     std::vector<cv::Mat> divideImageInTwo(cv::Mat&);
     cv::Mat joinImagesAtMiddle(cv::Mat&, cv::Mat&);
+    void writeToTimage(cv::Mat& src, cv::Mat& dst);
     
     TestSources();
     TestSources(const TestSources& orig);

@@ -88,6 +88,8 @@ add_executable (PJS
 		Distortion/HomographyCalculator.cpp Distortion/HomographyCalculator.h
         Distortion/plane.cpp Distortion/plane.h
 		Distortion/TestSources.cpp Distortion/TestSources.h 
+		Distortion/Utils.cpp Distortion/Utils.h 
+		Tests/PlaneTests.cpp Tests/PlaneTests.h 
 		Main.cpp Main.h)
      
 	find_package( OpenCV REQUIRED )
