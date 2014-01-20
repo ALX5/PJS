@@ -230,6 +230,7 @@ tp_stereo_matching
 
 src-build
 NiSimpleViewer.cpp
+NiSimpleSkeleton.cpp
 
 # NetBeans specific #
 nbproject/private/

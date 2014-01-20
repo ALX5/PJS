@@ -20,8 +20,8 @@ int main(int argc, char** argv) {
     return t.twoPlanesTest();
     
 	/* USER TRACKING. */
-    Tracking t;
-    t.setupTracking(argc,argv);
+    Tracking tracking;
+    tracking.setupTracking(argc,argv);
 }
 
 void runTests(){
