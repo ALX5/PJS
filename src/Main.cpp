@@ -7,6 +7,8 @@
 
 #include "Distortion/TestSources.h"
 #include "Tests/PlaneTests.h"
+#include "Main.h"
+#include "Tracking/Tracking.h"
 
 void runTests();
 
@@ -17,7 +19,9 @@ int main(int argc, char** argv) {
     TestSources t;
     return t.twoPlanesTest();
     
-//    runTests();
+	/* USER TRACKING. */
+    Tracking t;
+    t.setupTracking(argc,argv);
 }
 
 void runTests(){

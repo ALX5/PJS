@@ -90,6 +90,7 @@ add_executable (PJS
 		Distortion/TestSources.cpp Distortion/TestSources.h 
 		Distortion/Utils.cpp Distortion/Utils.h 
 		Tests/PlaneTests.cpp Tests/PlaneTests.h 
+		Tracking/Tracking.cpp Tracking/Tracking.h
 		Main.cpp Main.h)
      
 	find_package( OpenCV REQUIRED )
