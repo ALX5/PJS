@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   TestSources.cpp
  * Author: bruno
  * 
@@ -99,6 +99,8 @@ int TestSources::twoPlanesTest() {
     //the images themselves)
     transformedPlanes.at(0).moveBBToOrigin();   
 
+    Size size = transformedPlanes.at(0).getBoundingBox().getSize();
+
     //Find how much do we need to move the second plane so it matches the first
     Point2f upperRightFirst = transformedPlanes.at(0).getPoint(2);
     Point2f offsetSecond = transformedPlanes.at(1).findOffset(upperRightFirst);
@@ -127,7 +129,7 @@ int TestSources::twoPlanesTest() {
     //as we want them to
     hc.adjustTranslations(offsets);
     //Apply the homographies
-    vector<Mat> transformedImages = hc.applyTransformation(images);
+    vector<Mat> transformedImages = hc.applyTransformation(images, size);
 
     //***************************************************
     //***************************************************
@@ -150,9 +152,9 @@ int TestSources::twoPlanesTest() {
     //**********************************************
     //Add the alpha channel to draw the planes only
     //**********************************************    
-    Utils utils;
+    /*Utils utils;
     utils.addAlphaChannel(transformedImages.at(0), transformedPlanes.at(0));
-    utils.addAlphaChannel(transformedImages.at(1), transformedPlanes.at(1));
+    utils.addAlphaChannel(transformedImages.at(1), transformedPlanes.at(1));*/
     
     /*****************************************************
      * Show the images
@@ -172,8 +174,8 @@ int TestSources::twoPlanesTest() {
 //        keyPressed = waitKey(0);
 //    } while (keyPressed != 27);
 
-    imwrite("tr01.png", transformedImages.at(0));
-    imwrite("tr02.png", transformedImages.at(1));
+    imwrite("../src/tr01.png", transformedImages.at(0));
+    //imwrite("tr02.png", transformedImages.at(1));
     
     int keyPressed = 0;
     
@@ -192,8 +194,8 @@ int TestSources::twoPlanesTest() {
 
     Mat finalImage(transformedImages.at(0).rows, transformedImages.at(0).cols, CV_8UC4, Scalar(0));
     
-    this->writeToTimage(transformedImages.at(0), finalImage);
-    this->writeToTimage(transformedImages.at(1), finalImage);
+    //this->writeToTimage(transformedImages.at(0), finalImage);
+    //this->writeToTimage(transformedImages.at(1), finalImage);
     
     imwrite("alpha_image.png", finalImage);
     

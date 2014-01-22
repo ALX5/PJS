@@ -41,7 +41,7 @@ public:
      * @param image
      * @return
      */
-    std::vector<Mat> applyTransformation(std::vector<Mat> images);
+    std::vector<Mat> applyTransformation(std::vector<Mat> images, Size size);
 
     //TODO Change this approach. It would be better to have an object that stores
     //all the involved features (plane, image, homography, offset) instead of
@@ -63,7 +63,6 @@ public:
 private:
     std::vector<Mat> homographies;
     int nbHomographies;
-    Size size;
 
 };
 

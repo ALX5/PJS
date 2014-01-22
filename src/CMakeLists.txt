@@ -89,6 +89,7 @@ add_executable (PJS
         Distortion/plane.cpp Distortion/plane.h
 		Distortion/TestSources.cpp Distortion/TestSources.h 
 		Distortion/Utils.cpp Distortion/Utils.h 
+                Distortion/Distortion.cpp Distortion/Distortion.h
 		Tests/PlaneTests.cpp Tests/PlaneTests.h 
 		Tracking/Tracking.cpp Tracking/Tracking.h
 		Main.cpp Main.h)

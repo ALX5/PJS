@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   main.cpp
  * Author: bruno
  *
@@ -9,22 +9,26 @@
 #include "Tests/PlaneTests.h"
 #include "Main.h"
 #include "Tracking/Tracking.h"
+#include "Distortion/Distortion.h"
 
-void runTests();
+//void runTests();
 
 /*
  * 
  */
 int main(int argc, char** argv) {
-    TestSources t;
-    return t.twoPlanesTest();
+    /*TestSources t;
+    return t.twoPlanesTest();*/
+
+    Distortion d;
+    d.onePlane();
     
 	/* USER TRACKING. */
-    Tracking tracking;
-    tracking.setupTracking(argc,argv);
+    /*Tracking tracking;
+    tracking.setupTracking(argc,argv);*/
 }
 
-void runTests(){
+/*void runTests(){
     PlaneTests planeTests;
     planeTests.testContains();
-}
+}*/

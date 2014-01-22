@@ -5,7 +5,7 @@ using namespace std;
 Plane::Plane() {
 }
 
-Plane::Plane(Point2f p1, Point2f p2, Point2f p3, Point2f p4) {
+Plane::Plane(Point2i p1, Point2i p2, Point2i p3, Point2i p4) {
     points.push_back(p1);
     points.push_back(p2);
     points.push_back(p3);
@@ -70,10 +70,6 @@ Point2f Plane::findOffset(Point2f& p) {
     float x = upperLeftCorner.x - p.x;
     float y = upperLeftCorner.y - p.y;
     Point2f offset = Point2f(x, y);
-
-    cout << "Offset from origin: " << offset << endl;
-    ;
-
 
     return offset;
 }
@@ -197,7 +193,6 @@ Size Plane::getSize() {
     int height = P4.y - P1.y;
 
     Size size = Size(width, height);
-    cout << height << endl;
 
     return size;
 }
