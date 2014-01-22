@@ -9,6 +9,7 @@
 #define	HOMOGRAPHYCALCULATOR_H
 
 #include "plane.h"
+#include "Surface.h"
 #include <vector>
 
 
@@ -24,7 +25,7 @@ public:
      * @param a
      * @param b
      */
-    void determineHomographies(std::vector<Plane> a, std::vector<Plane> b);
+    void determineHomographies(const Plane &planeA, const Plane &planeB);
 
     /**
      * This method just let's us use the perspective transform with out Plane

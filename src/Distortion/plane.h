@@ -15,8 +15,13 @@ public:
     Plane(vector<Point2f> points);
     Size getSize();
     vector<Point2f> getPoints();
-    Point2f getPoint(int n);
+    Point2f getPoint(int n) const;
     void setPoints(Point2f, Point2f, Point2f, Point2f);
+    
+    /**
+     * Translates this plane so that its bounding box is in the specified point
+     */
+    void moveBBTo(Point2f &dst);    
     
     /**
      * Translates this plane so that its bounding box is in the origin
@@ -36,7 +41,7 @@ public:
      * given location
      * @param 
      */
-    void moveTo(Point2f&);
+    void moveTo(Point2f &dst);
     
     /**
      * Find the offset from the given point of the upper left corner 
@@ -70,14 +75,37 @@ public:
      */
     Plane getBoundingBox(Plane&, Plane&);
     
-    //TODO These functions could save us some headaches
+    //TODO We should favor sides in cw or ccw fashion to overcome ambiguity
+    /**
+     * Of the two leftmost points, this functions returns the uppermost
+     * @return 
+     */
     Point2f getUpperLeftCorner();
-    Point2f getLowerLeftCorner();
+    
+    /**
+     * Of the two uppermost points, this functions returns the rightmost
+     * @return 
+     */
     Point2f getUpperRightCorner();
-    Point2f getLowerRightCorner();
+    
+    /**
+     * Of the two rightmost points, this functions returns the one in the bottom
+     * @return 
+     */
+    
+    Point2f getLowerRightCorner();    
+    /**
+     * Of the two points in the bottom, this function returns the leftmost
+     * @return 
+     */
+    Point2f getLowerLeftCorner();
 
     
-    
+    /**
+     * Determines if a point is inside this plane
+     * @param 
+     * @return 
+     */
     bool contains(Point2f&);
     
 };

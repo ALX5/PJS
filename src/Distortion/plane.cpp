@@ -5,7 +5,7 @@ using namespace std;
 Plane::Plane() {
 }
 
-Plane::Plane(Point2i p1, Point2i p2, Point2i p3, Point2i p4) {
+Plane::Plane(Point2f p1, Point2f p2, Point2f p3, Point2f p4) {
     points.push_back(p1);
     points.push_back(p2);
     points.push_back(p3);
@@ -19,7 +19,7 @@ Plane::Plane(vector<Point2f> pts) {
     points.push_back(pts.at(3));
 }
 
-Point2f Plane::getPoint(int n) {
+Point2f Plane::getPoint(int n) const {
     return points.at(n);
 }
 
@@ -29,21 +29,15 @@ vector<Point2f> Plane::getPoints() {
 
 std::ostream &operator<<(std::ostream& os, Plane& m) {
     os << m.getPoints();
-    //    os << "(" << m.getPoint(0) << ", " 
-    //            << m.getPoint(1) << ", "
-    //            << m.getPoint(2) << ", "
-    //            << m.getPoint(3) << ")" ;
     return os;
 }
 
 void Plane::moveTo(Point2f &p) {
 
     Point2f offset = this->findOffset(p);
-
     for (int i = 0; i < points.size(); i++) {
         points.at(i) = points.at(i) - offset;
     }
-
 }
 
 void Plane::moveToOrigin() {
@@ -62,14 +56,25 @@ void Plane::moveBBToOrigin() {
     for (int i = 0; i < points.size(); i++) {
         points.at(i) = points.at(i) - offset;
     }
+}
 
+void Plane::moveBBTo(Point2f& p) {
+
+    Point2f offset = this->findBBOffset(p);
+
+    for (int i = 0; i < points.size(); i++) {
+        points.at(i) = points.at(i) - offset;
+    }
 }
 
 Point2f Plane::findOffset(Point2f& p) {
-    Point2f upperLeftCorner = this->getPoint(0);
+    Point2f upperLeftCorner = this->getUpperLeftCorner();
+
     float x = upperLeftCorner.x - p.x;
     float y = upperLeftCorner.y - p.y;
     Point2f offset = Point2f(x, y);
+
+
 
     return offset;
 }
@@ -193,147 +198,153 @@ Size Plane::getSize() {
     int height = P4.y - P1.y;
 
     Size size = Size(width, height);
+    cout << height << endl;
 
     return size;
 }
 
 //TODO REFACTOR
+
 Point2f Plane::getUpperLeftCorner() {
     Point2f p1 = this->getPoint(0);
     Point2f p2 = this->getPoint(1);
     Point2f aux;
-    if(p2.x < p1.x){
+    if (p2.x < p1.x) {
         aux = p1;
         p1 = p2;
         p2 = aux;
     }
-    
-    Point2f p3 = this->getPoint(2);
-    if(p3.x < p2.x){        
-        p2 = p3;
-    }
-    
-    if(p2.x < p1.x){
-        aux = p1;
-        p1 = p2;
-        p2 = aux;
-    }
-    
-    p3 = this->getPoint(3);
-    if(p3.x < p2.x){        
-        p2 = p3;
-    }
-    
-    if(p2.y > p1.y){
-        aux = p1;
-        p1 = p2;
-        p2 = aux;
-    }
-    
-    return p1;    
-}
 
-Point2f Plane::getLowerLeftCorner() {
-    Point2f p1 = this->getPoint(0);
-    Point2f p2 = this->getPoint(1);
-    Point2f aux;
-    if(p2.x < p1.x){
-        aux = p1;
-        p1 = p2;
-        p2 = aux;
-    }
-    
     Point2f p3 = this->getPoint(2);
-    if(p3.x < p2.x){        
+    if (p3.x < p2.x) {
         p2 = p3;
+        if (p2.x < p1.x) {
+            aux = p1;
+            p1 = p2;
+            p2 = aux;
+        }
     }
-    
-    if(p2.x < p1.x){
-        aux = p1;
-        p1 = p2;
-        p2 = aux;
-    }
-    
+
+
     p3 = this->getPoint(3);
-    if(p3.x < p2.x){        
+    if (p3.x < p2.x) {
         p2 = p3;
     }
-    
-    if(p2.y < p1.y){
+
+    if (p2.y < p1.y) {
         aux = p1;
         p1 = p2;
         p2 = aux;
     }
-    
-    return p1;   
+
+
+
+    return p1;
 }
 
 Point2f Plane::getUpperRightCorner() {
     Point2f p1 = this->getPoint(0);
-    Point2f p2 = this->getPoint(1);
+    Point2f p2 = this->getPoint(1);    
     Point2f aux;
-    if(p2.x > p1.x){
+    
+    if (p2.y < p1.y) {
         aux = p1;
         p1 = p2;
         p2 = aux;
     }
-    
+
     Point2f p3 = this->getPoint(2);
-    if(p3.x > p2.x){        
+    if (p3.y < p2.y) {
         p2 = p3;
+        if (p2.y < p1.y) {
+            aux = p1;
+            p1 = p2;
+            p2 = aux;
+        }
     }
-    
-    if(p2.x > p1.x){
-        aux = p1;
-        p1 = p2;
-        p2 = aux;
-    }
-    
+
     p3 = this->getPoint(3);
-    if(p3.x > p2.x){        
+    if (p3.y < p2.y) {
         p2 = p3;
     }
-    
-    if(p2.y > p1.y){
+
+    if (p2.x > p1.x) {
         aux = p1;
         p1 = p2;
         p2 = aux;
     }
-    
-    return p1;    
+
+    return p1;
 }
 
 Point2f Plane::getLowerRightCorner() {
     Point2f p1 = this->getPoint(0);
     Point2f p2 = this->getPoint(1);
     Point2f aux;
-    if(p2.x > p1.x){
+    if (p2.x > p1.x) {
         aux = p1;
         p1 = p2;
         p2 = aux;
     }
-    
+
     Point2f p3 = this->getPoint(2);
-    if(p3.x > p2.x){        
+    if (p3.x > p2.x) {
         p2 = p3;
     }
-    
-    if(p2.x > p1.x){
+
+    if (p2.x > p1.x) {
         aux = p1;
         p1 = p2;
         p2 = aux;
     }
-    
+
     p3 = this->getPoint(3);
-    if(p3.x > p2.x){        
+    if (p3.x > p2.x) {
         p2 = p3;
     }
-    
-    if(p2.y < p1.y){
+
+    if (p2.y > p1.y) {
         aux = p1;
         p1 = p2;
         p2 = aux;
     }
-    
-    return p1;    
+
+    return p1;
 }
+
+Point2f Plane::getLowerLeftCorner() {
+    Point2f p1 = this->getPoint(0);
+    Point2f p2 = this->getPoint(1);
+    Point2f aux;
+    if (p2.y > p1.y) {
+        aux = p1;
+        p1 = p2;
+        p2 = aux;
+    }
+
+    Point2f p3 = this->getPoint(2);
+    if (p3.y > p2.y) {
+        p2 = p3;
+    }
+
+    if (p2.y > p1.y) {
+        aux = p1;
+        p1 = p2;
+        p2 = aux;
+    }
+
+    p3 = this->getPoint(3);
+    if (p3.y > p2.y) {
+        p2 = p3;
+    }
+
+    if (p2.x < p1.x) {
+        aux = p1;
+        p1 = p2;
+        p2 = aux;
+    }
+
+    return p1;
+}
+
+
