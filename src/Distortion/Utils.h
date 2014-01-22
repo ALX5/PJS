@@ -9,16 +9,24 @@
 #define	UTILS_H
 
 #include <opencv2/opencv.hpp>
+#include <vector>
 #include "plane.h"
+#include "Surface.h"
+
+#define IMG_UNIT CV_8UC3
 
 class Utils {
 public:
     Utils();
     Utils(const Utils& orig);
     virtual ~Utils();
-    
+
     void addAlphaChannel(cv::Mat&, Plane&);
-    
+    vector<Mat> divideImageInTwo(cv::Mat& img);
+    cv::Mat joinImagesAtMiddle(cv::Mat& img1, cv::Mat& img2);
+    cv::Mat joinImagesAtMiddle(Surface& s1 , Surface& s2);
+    void writeToTimage(cv::Mat& src, cv::Mat& dst);
+    cv::Mat getImageFromSurfaces(std::vector<Surface*> surfaces);
     
 private:
 

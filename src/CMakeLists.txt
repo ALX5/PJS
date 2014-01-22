@@ -88,7 +88,9 @@ add_executable (PJS
 		Distortion/HomographyCalculator.cpp Distortion/HomographyCalculator.h
         Distortion/plane.cpp Distortion/plane.h
 		Distortion/TestSources.cpp Distortion/TestSources.h 
+		Distortion/TestSurface.cpp Distortion/TestSurface.h 
 		Distortion/Utils.cpp Distortion/Utils.h 
+		Distortion/Surface.cpp Distortion/Surface.h 
 		Tests/PlaneTests.cpp Tests/PlaneTests.h 
 		Main.cpp Main.h)
      

@@ -7,6 +7,7 @@
 
 #include "Distortion/TestSources.h"
 #include "Tests/PlaneTests.h"
+#include "Distortion/TestSurface.h"
 
 void runTests();
 
@@ -14,8 +15,12 @@ void runTests();
  * 
  */
 int main(int argc, char** argv) {
-    TestSources t;
-    return t.twoPlanesTest();
+//    TestSources t;
+//    return t.twoPlanesTest();
+    
+    TestSurface t;
+    t.test();
+    return 0;
     
 //    runTests();
 }

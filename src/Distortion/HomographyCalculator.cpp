@@ -9,6 +9,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/opencv.hpp"
+#include "Surface.h"
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,17 +26,9 @@ HomographyCalculator::HomographyCalculator(const HomographyCalculator& orig) {
 
 HomographyCalculator::~HomographyCalculator() {
 }
+//TODO deprecated
+void HomographyCalculator::determineHomographies(const Plane &planeA, const Plane &planeB) {
 
-void HomographyCalculator::determineHomographies(vector<Plane> a, vector<Plane> b) {
-
-    assert(a.size() == b.size());
-
-    nbHomographies = a.size();
-
-    for (int i = 0; i < nbHomographies; i++) {
-
-        Plane planeA = a.at(i);
-        Plane planeB = b.at(i);
         vector<Point2f> src;
         vector<Point2f> dst;
 
@@ -50,26 +43,22 @@ void HomographyCalculator::determineHomographies(vector<Plane> a, vector<Plane> 
         dst.push_back(planeB.getPoint(3));
 
         Mat homography = findHomography(src, dst, CV_RANSAC);
-
-        homographies.push_back(homography);
-
-    }
-
+//        surface.setHomography(homography);
 }
 
 vector<Mat> HomographyCalculator::applyTransformation(vector<Mat> images) {
 
-    vector<Mat> transformedImages;    
+    vector<Mat> transformedImages;
     transformedImages.resize(nbHomographies);
 
     for (int i = 0; i < nbHomographies; i++) {
-        
+
         //TODO Size cannot be an attribute of this class
         //For the moment, I'll hard code it for testing, but each fraction
         //of the image should be represented by a class that stores its 
         //characteristics, including the size of the bounding box
         warpPerspective(images.at(i), transformedImages.at(i),
-                homographies.at(i), Size(960, 1080));
+                homographies.at(i), Size(2160, 1920));
     }
 
     return transformedImages;
@@ -92,28 +81,29 @@ Plane HomographyCalculator::transformPlane(Plane& plane, Mat& homography) {
     Plane boundingBox = newPlane.getBoundingBox();
 
     size = boundingBox.getSize();
-    
+
     return newPlane;
 
 }
 
 //TODO Find out if this is fast enough.
+
 void HomographyCalculator::moveImage(Mat &image, Point2f &p) {
-    Mat homography(3,3, CV_32F, Scalar(0)); 
-    homography.at<float>(0,2) = 0;
-    homography.at<float>(1,2) = 0;
-    
+    Mat homography(3, 3, CV_32F, Scalar(0));
+    homography.at<float>(0, 2) = 0;
+    homography.at<float>(1, 2) = 0;
+
     warpPerspective(image, image,
-                homography, size);
+            homography, size);
 }
 
 void HomographyCalculator::adjustTranslations(vector<Point2f>& offsets) {
     assert(offsets.size() == homographies.size());
-    
-    for(int i = 0; i < offsets.size(); i++){
-        Mat *h = &(homographies.at(i));        
-        h->at<double>(0,2) -= offsets.at(i).x;
-        h->at<double>(1,2) -= offsets.at(i).y;       
+
+    for (int i = 0; i < offsets.size(); i++) {
+        Mat *h = &(homographies.at(i));
+        h->at<double>(0, 2) -= offsets.at(i).x;
+        h->at<double>(1, 2) -= offsets.at(i).y;
     }
 }
 

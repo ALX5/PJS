@@ -156,6 +156,30 @@ Distortion/HomographyCalculator.cpp.s:
 	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/HomographyCalculator.cpp.s
 .PHONY : Distortion/HomographyCalculator.cpp.s
 
+Distortion/Surface.o: Distortion/Surface.cpp.o
+.PHONY : Distortion/Surface.o
+
+# target to build an object file
+Distortion/Surface.cpp.o:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/Surface.cpp.o
+.PHONY : Distortion/Surface.cpp.o
+
+Distortion/Surface.i: Distortion/Surface.cpp.i
+.PHONY : Distortion/Surface.i
+
+# target to preprocess a source file
+Distortion/Surface.cpp.i:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/Surface.cpp.i
+.PHONY : Distortion/Surface.cpp.i
+
+Distortion/Surface.s: Distortion/Surface.cpp.s
+.PHONY : Distortion/Surface.s
+
+# target to generate assembly for a file
+Distortion/Surface.cpp.s:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/Surface.cpp.s
+.PHONY : Distortion/Surface.cpp.s
+
 Distortion/TestSources.o: Distortion/TestSources.cpp.o
 .PHONY : Distortion/TestSources.o
 
@@ -179,6 +203,30 @@ Distortion/TestSources.s: Distortion/TestSources.cpp.s
 Distortion/TestSources.cpp.s:
 	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/TestSources.cpp.s
 .PHONY : Distortion/TestSources.cpp.s
+
+Distortion/TestSurface.o: Distortion/TestSurface.cpp.o
+.PHONY : Distortion/TestSurface.o
+
+# target to build an object file
+Distortion/TestSurface.cpp.o:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/TestSurface.cpp.o
+.PHONY : Distortion/TestSurface.cpp.o
+
+Distortion/TestSurface.i: Distortion/TestSurface.cpp.i
+.PHONY : Distortion/TestSurface.i
+
+# target to preprocess a source file
+Distortion/TestSurface.cpp.i:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/TestSurface.cpp.i
+.PHONY : Distortion/TestSurface.cpp.i
+
+Distortion/TestSurface.s: Distortion/TestSurface.cpp.s
+.PHONY : Distortion/TestSurface.s
+
+# target to generate assembly for a file
+Distortion/TestSurface.cpp.s:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Distortion/TestSurface.cpp.s
+.PHONY : Distortion/TestSurface.cpp.s
 
 Distortion/Utils.o: Distortion/Utils.cpp.o
 .PHONY : Distortion/Utils.o
@@ -315,9 +363,15 @@ help:
 	@echo "... Distortion/HomographyCalculator.o"
 	@echo "... Distortion/HomographyCalculator.i"
 	@echo "... Distortion/HomographyCalculator.s"
+	@echo "... Distortion/Surface.o"
+	@echo "... Distortion/Surface.i"
+	@echo "... Distortion/Surface.s"
 	@echo "... Distortion/TestSources.o"
 	@echo "... Distortion/TestSources.i"
 	@echo "... Distortion/TestSources.s"
+	@echo "... Distortion/TestSurface.o"
+	@echo "... Distortion/TestSurface.i"
+	@echo "... Distortion/TestSurface.s"
 	@echo "... Distortion/Utils.o"
 	@echo "... Distortion/Utils.i"
 	@echo "... Distortion/Utils.s"
