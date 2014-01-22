@@ -7,8 +7,12 @@
 
 #include "Distortion/TestSources.h"
 #include "Tests/PlaneTests.h"
+<<<<<<< HEAD
 #include "Distortion/TestSurface.h"
+=======
+#include "Main.h"
 #include "Tracking/Tracking.h"
+>>>>>>> f19ec09803e321718fe3ee3536f3725e9e192a65
 
 void runTests();
 
@@ -21,13 +25,11 @@ int main(int argc, char** argv) {
     
     TestSurface t;
     t.test();
+    return 0;
     
 	/* USER TRACKING. */
     Tracking tracking;
     tracking.setupTracking(argc,argv);
-
-	return 0;
-
 }
 
 void runTests(){

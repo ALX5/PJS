@@ -230,6 +230,7 @@ tp_stereo_matching
 
 src-build
 NiSimpleViewer.cpp
+NiSimpleSkeleton.cpp
 
 # NetBeans specific #
 nbproject/private/
@@ -248,3 +249,6 @@ CMakeFiles/
 cmake_install.cmake
 CMakeCache
 compile_commands.json
+
+src\CMakeCache.txt
+src\Makefile
