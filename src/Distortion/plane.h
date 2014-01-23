@@ -11,7 +11,7 @@ private:
 
 public:
     Plane();
-    Plane(Point2i, Point2i, Point2i, Point2i);
+    Plane(Point2f, Point2f, Point2f, Point2f);
     Plane(vector<Point2f> points);
     Size getSize();
     vector<Point2f> getPoints();

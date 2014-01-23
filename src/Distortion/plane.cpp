@@ -198,7 +198,6 @@ Size Plane::getSize() {
     int height = P4.y - P1.y;
 
     Size size = Size(width, height);
-    cout << height << endl;
 
     return size;
 }

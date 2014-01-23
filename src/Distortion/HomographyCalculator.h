@@ -42,7 +42,7 @@ public:
      * @param image
      * @return
      */
-    std::vector<Mat> applyTransformation(std::vector<Mat> images, Size size);
+    std::vector<Mat> applyTransformation(std::vector<Mat> images);
 
     //TODO Change this approach. It would be better to have an object that stores
     //all the involved features (plane, image, homography, offset) instead of

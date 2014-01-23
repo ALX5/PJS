@@ -80,7 +80,7 @@ Plane HomographyCalculator::transformPlane(Plane& plane, Mat& homography) {
 
     Plane boundingBox = newPlane.getBoundingBox();
 
-    size = boundingBox.getSize();
+    //size = boundingBox.getSize();
 
     return newPlane;
 
@@ -94,7 +94,7 @@ void HomographyCalculator::moveImage(Mat &image, Point2f &p) {
     homography.at<float>(1, 2) = 0;
 
     warpPerspective(image, image,
-            homography, size);
+                    homography, Size(1000,1000));
 }
 
 void HomographyCalculator::adjustTranslations(vector<Point2f>& offsets) {

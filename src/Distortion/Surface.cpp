@@ -43,7 +43,7 @@ void Surface::determineHomography() {
     dst.push_back(destinationPlane.getPoint(2));
     dst.push_back(destinationPlane.getPoint(3));
 
-    homography = findHomography(src, dst, CV_RANSAC);    
+    homography = findHomography(src, dst, CV_RANSAC);
 }
 
 void Surface::calculateTransformedPlane() {
@@ -66,8 +66,11 @@ void Surface::calculateTransformedPlane() {
 }
 
 void Surface::adjustTranslations(Point2f &offset) {
-    homography.at<double>(0, 2) -= offset.x;
-    homography.at<double>(1, 2) -= offset.y;
+    //homography.at<double>(0, 2) -= offset.x;
+    //homography.at<double>(1, 2) -= offset.y;
+
+    homography.at<double>(0,2) = 300;
+    homography.at<double>(1,2) = 0;
 }
 
 //TODO get right size
@@ -75,7 +78,7 @@ void Surface::adjustTranslations(Point2f &offset) {
 //located to the right
 void Surface::applyHomography() {    
     warpPerspective(image, transformedImage,
-            homography, Size(2000,2000));
+            homography, Size(1000,1000));
 }
 
 //TODO this should store the offset but not apply it
@@ -140,7 +143,7 @@ void Surface::print() {
 
 
 void Surface::print(const char *name) {
-    cout << endl << "========= " << name << " =========" << endl;
+    /*cout << endl << "========= " << name << " =========" << endl;
     cout << "Source image: " << endl;
     cout << "\tChannels: " << image.channels() << endl;
     cout << "\trows: " << image.rows << endl;
@@ -157,7 +160,7 @@ void Surface::print(const char *name) {
     cout << transformedRegion << endl;
     cout << "Homography: " << endl;
     cout << homography << endl;
-    cout << endl << "===========================" << endl << endl;
+    cout << endl << "===========================" << endl << endl;*/
 }
 
 void Surface::save() {

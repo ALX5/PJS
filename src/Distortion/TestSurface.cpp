@@ -25,50 +25,49 @@ TestSurface::~TestSurface() {
 
 void TestSurface::test() {
     //Planes for the first part
-    Plane p1(Point2f(0, 670), Point2f(92, 1396), Point2f(1266, 0), Point2f(1254, 1024));
+    Plane p1(Point2f(0, 442), Point2f(996, 0), Point2f(971, 630), Point2f(25, 800));
 //    Plane p1(Point2f(0, 0), Point2f(92, 1396-670), Point2f(1266, -670), Point2f(1254, 1024-670));
 //    Plane p1(Point2f(105, 998), Point2f(188, 1723), Point2f(1370, 323), Point2f(1349, 1343));    
-    Plane p2(Point2f(0, 0), Point2f(0, 1080), Point2f(960, 0), Point2f(960, 1080));
+    Plane p2(Point2f(0, 0), Point2f(1280, 0), Point2f(1280, 1024), Point2f(0, 1024));
 
     //Planes for the second part
-    Plane p3(Point2f(306, 0), Point2f(294, 1024), Point2f(1222, 148), Point2f(1134, 1306));
+    //Plane p3(Point2f(306, 0), Point2f(294, 1024), Point2f(1222, 148), Point2f(1134, 1306));
 //    Plane p3(Point2f(0, 0), Point2f(92, 1024-298), Point2f(1222-306, 148-298), Point2f(1134-306, 1306-298));
 //    Plane p3(Point2f(1370, 323), Point2f(1349, 1343), Point2f(2277, 470), Point2f(2189, 1633));
-    Plane p4(Point2f(0, 0), Point2f(0, 1080), Point2f(960, 0), Point2f(960, 1080));
+    //Plane p4(Point2f(0, 0), Point2f(0, 1080), Point2f(960, 0), Point2f(960, 1080));
 
-    Utils utils;
+    //Utils utils;
 
-    const char* nom1 = "../src/grid-straight2.png";
+    const char* nom1 = "../src/wolf.jpg";
     Mat img = imread(nom1, CV_LOAD_IMAGE_COLOR);
     if (!img.data) {
         std::cout << " --(!) Error reading image" << std::endl;
     }
 
     //Divide the image in two
-    vector<Mat> images = utils.divideImageInTwo(img);
+    //vector<Mat> images = utils.divideImageInTwo(img);
 
     //Build the surfaces with their reference planes and their corresponding
     //image
-    Surface s1(p1, p2, images.at(0));
-    Surface s2(p3, p4, images.at(1));
+    Surface s1(p1, p2, img);
+    //Surface s2(p3, p4, images.at(1));
 
     //TODO recursive position correction
     //Correct the position of the surfaces
     Point2f origin(0, 0);
     s1.correctBBPosition(origin);
     Point2f s1ur = s1.getUpperRightCorner();
-    cout << "Upper right: " << s1ur << endl;
-    s2.correctPosition(s1ur);
+    //s2.correctPosition(s1ur);
 
     s1.applyHomography();
-    s2.applyHomography();
-    s1.addTransparency();
-    s2.addTransparency();
+    //s2.applyHomography();
+    //s1.addTransparency();
+    //s2.addTransparency();
     
     s1.display("s1");
-    s2.display("s2");
+    //s2.display("s2");
     
-    vector<Surface*> surfaces;
+    /*vector<Surface*> surfaces;
     surfaces.push_back(&s1);
     surfaces.push_back(&s2);
     Mat finalImage = utils.getImageFromSurfaces(surfaces);
@@ -79,7 +78,7 @@ void TestSurface::test() {
     //TODO define constant for ESC key
     do {
         keyPressed = waitKey(0);
-    } while (keyPressed != 27);    
+    } while (keyPressed != 27);  */
 
     //TODO Now we must divide the image according to the corresponding regions
     //For now we can 'trick' the user by adjusting the size of the images depending
