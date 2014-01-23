@@ -130,6 +130,9 @@ private:
     Mat transformedImage;
     Size size;
     
+    //TODO
+    Point2f offset;
+    
     Surface* upperRightChild;
     Surface* lowerRightChild;
     Surface* lowerLeftChild;
