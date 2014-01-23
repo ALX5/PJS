@@ -23,8 +23,8 @@ int main(int argc, char** argv) {
     t.test();
     
 	/* USER TRACKING. */
-    Tracking tracking;
-    tracking.setupTracking(argc,argv);
+//    Tracking tracking;
+//    tracking.setupTracking(argc,argv);
 
 	return 0;
 

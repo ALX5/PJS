@@ -348,6 +348,30 @@ Tests/PlaneTests.cpp.s:
 	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Tests/PlaneTests.cpp.s
 .PHONY : Tests/PlaneTests.cpp.s
 
+Tracking/Tracking.o: Tracking/Tracking.cpp.o
+.PHONY : Tracking/Tracking.o
+
+# target to build an object file
+Tracking/Tracking.cpp.o:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Tracking/Tracking.cpp.o
+.PHONY : Tracking/Tracking.cpp.o
+
+Tracking/Tracking.i: Tracking/Tracking.cpp.i
+.PHONY : Tracking/Tracking.i
+
+# target to preprocess a source file
+Tracking/Tracking.cpp.i:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Tracking/Tracking.cpp.i
+.PHONY : Tracking/Tracking.cpp.i
+
+Tracking/Tracking.s: Tracking/Tracking.cpp.s
+.PHONY : Tracking/Tracking.s
+
+# target to generate assembly for a file
+Tracking/Tracking.cpp.s:
+	$(MAKE) -f CMakeFiles/PJS.dir/build.make CMakeFiles/PJS.dir/Tracking/Tracking.cpp.s
+.PHONY : Tracking/Tracking.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -387,6 +411,9 @@ help:
 	@echo "... Tests/PlaneTests.o"
 	@echo "... Tests/PlaneTests.i"
 	@echo "... Tests/PlaneTests.s"
+	@echo "... Tracking/Tracking.o"
+	@echo "... Tracking/Tracking.i"
+	@echo "... Tracking/Tracking.s"
 .PHONY : help
 
 

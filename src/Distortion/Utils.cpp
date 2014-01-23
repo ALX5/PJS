@@ -60,7 +60,7 @@ vector<Mat> Utils::divideImageInTwo(cv::Mat& img) {
     vector<Mat> images;
 
     int cols = img.cols;
-    int firstHalfCols = img.cols / 2;
+    int firstHalfCols = (img.cols / 2);
     int rows = img.rows;
 
     Mat firstHalf(img.rows, firstHalfCols, IMG_UNIT);

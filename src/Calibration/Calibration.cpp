@@ -4,6 +4,11 @@
  */
 
 #include "Calibration.h"
+Calibration::Calibration(){
+    texMap = NULL;
+    texMapX = 0;
+    texMapY = 0;
+}
 
 /** Display the calibrated RGB and depth camera. */
 void Calibration::calibrationDisplay()
@@ -114,8 +119,6 @@ void Calibration::calibrationDisplay()
     // Swap the OpenGL display buffers
     glutSwapBuffers();
 }
-
-Calibration::Calibration() {}
 
 /** Initialize the sensor context. */
 void Calibration::initContext() {
