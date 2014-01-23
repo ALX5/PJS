@@ -24,44 +24,25 @@ TestSurface::TestSurface(const TestSurface& orig) {
 TestSurface::~TestSurface() {
 }
 
-void TestSurface::test() {
-    //Planes for the first part
-    //Actual coords on image
-//    Plane p1(Point2f(10, 676), Point2f(1274, 0), Point2f(1274, 1016), Point2f(92, 1396));
-//    Plane p2(Point2f(0, 0), Point2f(960, 0), Point2f(960, 1080), Point2f(0, 1080));
-    //Normalized coords on image
-//    Plane p1(Point2f(10 - 194, 676), Point2f(1274 - 194, 0), Point2f(1274 - 194, 1016), Point2f(92 - 194, 1396));
-//    Plane p2(Point2f(0, 0), Point2f(960, 0), Point2f(960, 1080), Point2f(0, 1080));
-//    Plane p2(Point2f(0+500, 0+250), Point2f(960, 0+250), Point2f(960, 1080-250), Point2f(0+500, 1080-250));
-    
-    //Planes for the second part
-    //    Plane p3(Point2f(306, 0), Point2f(1222, 148), Point2f(1134, 1306), Point2f(287, 1024));
-    //    Plane p3(Point2f(0, 0), Point2f(92, 1024-298), Point2f(1222-306, 148-298), Point2f(1134-306, 1306-298));
-    //    Plane p3(Point2f(1370, 323), Point2f(1349, 1343), Point2f(2277, 470), Point2f(2189, 1633));
-    //Actual coords on image
-    //    Plane p3(Point2f(1273, 0), Point2f(2178, 147), Point2f(2091, 1308), Point2f(1263, 1016));
-//    Plane p4(Point2f(960, 0), Point2f(1920, 0), Point2f(1920, 1080), Point2f(960, 1080));
-    //Normalized coords on image
-//    Plane p3(Point2f(0, 0), Point2f(905, 147), Point2f(818, 1308), Point2f(0, 1016));
-//    Plane p4(Point2f(0, 0), Point2f(960, 0), Point2f(960, 1080), Point2f(0, 1080));
-//    Plane p4(Point2f(0, 0+250), Point2f(960-500, 0+250), Point2f(960-500, 1080-250), Point2f(0, 1080-250));
-
-    //    Plane p4(Point2f(1257, 147), Point2f(1257, 1023), Point2f(2178, 147), Point2f(2178, 1023));
-
+void TestSurface::test() {   
     
     /**
      * Test 14_01_22_16_34
      * */
-    //Second option, plane 1
+    //Plane 1
     Plane p1(Point2f(0, 325), Point2f(426, 0), Point2f(426, 625), Point2f(16, 875));
     Plane p2(Point2f(0, 0), Point2f(480, 0), Point2f(480, 540), Point2f(0, 540));
     
-    //Second option, plane 2
-    //Actual coords on plane
-//    Plane p3(Point2f(420-420, 0), Point2f(1002-420, 250), Point2f(1002-420, 779), Point2f(420-420, 667));
-    //normalized coords on plane
+    //Plane 2
     Plane p3(Point2f(0, 0), Point2f(568, 250), Point2f(568, 779), Point2f(0, 625));
     Plane p4(Point2f(0, 0), Point2f(480, 0), Point2f(480, 540), Point2f(0, 540));
+    
+    //Tests for full image
+//    Plane p1(Point2f(0, 325), Point2f(426, 0), Point2f(426, 625), Point2f(16, 875));
+//    Plane p2(Point2f(0, 0), Point2f(960, 0), Point2f(960, 1080), Point2f(0, 1080));
+//    
+//    Plane p3(Point2f(0, 0), Point2f(568, 250), Point2f(568, 779), Point2f(0, 625));
+//    Plane p4(Point2f(0, 0), Point2f(960, 0), Point2f(960, 1080), Point2f(0, 1080));
     
     
     Utils utils;

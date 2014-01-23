@@ -11,7 +11,7 @@ private:
 
 public:
     Plane();
-    Plane(Point2i, Point2i, Point2i, Point2i);
+    Plane(Point2f, Point2f, Point2f, Point2f);
     Plane(vector<Point2f> points);
     Size getSize();
     vector<Point2f> getPoints();
@@ -75,6 +75,29 @@ public:
      */
     Plane getBoundingBox(Plane&, Plane&);
     
+    
+    /**
+     * Returns the rectangle inscribed in this plane
+     * 
+     * @return 
+      
+     e.g for plane A, it returns B
+         ____________________  
+         \        |         |\ 
+          \       |         | \
+           \   A  |         |  \ 
+            \     |         |   \
+             \    |    B    |    \
+              \   |         |     \
+               \  |         |  A   \
+                \ |         |       \
+                 \|_________|________\
+
+     */
+    Plane getInnerBox();
+    
+    
+    
     //TODO We should favor sides in cw or ccw fashion to overcome ambiguity
     /**
      * Of the two leftmost points, this functions returns the uppermost
@@ -107,6 +130,26 @@ public:
      * @return 
      */
     bool contains(Point2f&);
+    
+    /**
+     * Determines if a point is inside this plane's bounding box
+     * @param 
+     * @return 
+     */
+    bool boxContains(Point2f&);
+    
+    /**
+     * Determines if a point is inside this plane's inner box
+     * @param 
+     * @return 
+     */
+    bool innerBoxContains(Point2f&);
+    
+    
+    
+    //Getters and setters
+    int getWidth();
+    int getHeight();
     
 };
 

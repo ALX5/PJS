@@ -244,9 +244,9 @@ Point2f Plane::getUpperLeftCorner() {
 
 Point2f Plane::getUpperRightCorner() {
     Point2f p1 = this->getPoint(0);
-    Point2f p2 = this->getPoint(1);    
+    Point2f p2 = this->getPoint(1);
     Point2f aux;
-    
+
     if (p2.y < p1.y) {
         aux = p1;
         p1 = p2;
@@ -347,4 +347,29 @@ Point2f Plane::getLowerLeftCorner() {
     return p1;
 }
 
+bool Plane::boxContains(Point2f &p) {
 
+    Plane box = this->getBoundingBox();
+    return ( p.x >= box.getUpperLeftCorner().x
+            && p.x <= box.getUpperRightCorner().x
+            && p.y >= box.getUpperRightCorner().y
+            && p.y <= box.getLowerRightCorner().y);
+}
+
+//TODO inner box
+bool Plane::innerBoxContains(Point2f&) {
+    return true;
+}
+
+//TODO Look for algorithm to find inner box
+Plane Plane::getInnerBox() {
+    Plane p(0,0,0,0);
+}
+
+int Plane::getWidth() {
+    return getUpperRightCorner().x - getUpperLeftCorner().x;
+}
+
+int Plane::getHeight() {
+    return getLowerRightCorner().y - getUpperRightCorner().y;
+}

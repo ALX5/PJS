@@ -46,23 +46,23 @@ void HomographyCalculator::determineHomographies(const Plane &planeA, const Plan
 //        surface.setHomography(homography);
 }
 
-vector<Mat> HomographyCalculator::applyTransformation(vector<Mat> images) {
-
-    vector<Mat> transformedImages;
-    transformedImages.resize(nbHomographies);
-
-    for (int i = 0; i < nbHomographies; i++) {
-
-        //TODO Size cannot be an attribute of this class
-        //For the moment, I'll hard code it for testing, but each fraction
-        //of the image should be represented by a class that stores its 
-        //characteristics, including the size of the bounding box
-        warpPerspective(images.at(i), transformedImages.at(i),
-                homographies.at(i), Size(2160, 1920));
-    }
-
-    return transformedImages;
-}
+//vector<Mat> HomographyCalculator::applyTransformation(vector<Mat> images) {
+//
+//    vector<Mat> transformedImages;
+//    transformedImages.resize(nbHomographies);
+//
+//    for (int i = 0; i < nbHomographies; i++) {
+//
+//        //TODO Size cannot be an attribute of this class
+//        //For the moment, I'll hard code it for testing, but each fraction
+//        //of the image should be represented by a class that stores its 
+//        //characteristics, including the size of the bounding box
+//        warpPerspective(images.at(i), transformedImages.at(i),
+//                homographies.at(i), Size(2160, 1920));
+//    }
+//
+//    return transformedImages;
+//}
 
 Plane HomographyCalculator::transformPlane(Plane& plane, Mat& homography) {
 
@@ -80,7 +80,7 @@ Plane HomographyCalculator::transformPlane(Plane& plane, Mat& homography) {
 
     Plane boundingBox = newPlane.getBoundingBox();
 
-    size = boundingBox.getSize();
+//    size = boundingBox.getSize();
 
     return newPlane;
 
@@ -88,14 +88,14 @@ Plane HomographyCalculator::transformPlane(Plane& plane, Mat& homography) {
 
 //TODO Find out if this is fast enough.
 
-void HomographyCalculator::moveImage(Mat &image, Point2f &p) {
-    Mat homography(3, 3, CV_32F, Scalar(0));
-    homography.at<float>(0, 2) = 0;
-    homography.at<float>(1, 2) = 0;
-
-    warpPerspective(image, image,
-            homography, size);
-}
+//void HomographyCalculator::moveImage(Mat &image, Point2f &p) {
+//    Mat homography(3, 3, CV_32F, Scalar(0));
+//    homography.at<float>(0, 2) = 0;
+//    homography.at<float>(1, 2) = 0;
+//
+//    warpPerspective(image, image,
+//            homography, size);
+//}
 
 void HomographyCalculator::adjustTranslations(vector<Point2f>& offsets) {
     assert(offsets.size() == homographies.size());
