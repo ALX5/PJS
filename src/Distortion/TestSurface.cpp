@@ -7,7 +7,6 @@
 
 #include "TestSurface.h"
 #include "Surface.h"
-#include "HomographyCalculator.h"
 #include "Utils.h"
 #include <iostream>
 #include <vector>
@@ -94,14 +93,10 @@ void TestSurface::test() {
     int keyPressed = 0;
     imshow("Final", finalImage);
     imwrite("finalImage.png", finalImage);
-    //TODO define constant for ESC key
+    cout << "Press ESC to continue..." << endl;
+    //TODO define constants for ESC key
     do {
         keyPressed = waitKey(0);
     } while (keyPressed != 27);
-
-    //TODO Now we must divide the image according to the corresponding regions
-    //For now we can 'trick' the user by adjusting the size of the images depending
-    //on the original plane if A *= 0.5 and B *= 1, rule of three, just for X
-
 }
 

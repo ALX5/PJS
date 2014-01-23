@@ -363,7 +363,8 @@ bool Plane::innerBoxContains(Point2f&) {
 
 //TODO Look for algorithm to find inner box
 Plane Plane::getInnerBox() {
-    Plane p(0,0,0,0);
+    Plane p(Point2f(0.0, 0.0), Point2f(0.0, 0.0), Point2f(0.0, 0.0), Point2f(0.0, 0.0));
+    return p;
 }
 
 int Plane::getWidth() {

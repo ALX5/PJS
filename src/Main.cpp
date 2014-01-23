@@ -5,23 +5,15 @@
  * Created on December 20, 2013, 9:02 PM
  */
 
-#include "Distortion/TestSources.h"
 #include "Tests/PlaneTests.h"
 #include "Distortion/TestSurface.h"
 #include "Tracking/Tracking.h"
 
 void runTests();
 
-/*
- * 
- */
-int main(int argc, char** argv) {
-//    TestSources t;
-//    return t.twoPlanesTest();
-    
+int main(int argc, char** argv) {    
     TestSurface t;
-    t.test();
-    
+    t.test();    
 	/* USER TRACKING. */
 //    Tracking tracking;
 //    tracking.setupTracking(argc,argv);

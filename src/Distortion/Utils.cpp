@@ -24,6 +24,8 @@ Utils::~Utils() {
 }
 
 void Utils::addAlphaChannel(Mat& image, Plane& plane) {
+    
+    cout << "Adding alpha channel..." << endl;
     ptime initTime = microsec_clock::local_time();
 
     int height = image.rows;

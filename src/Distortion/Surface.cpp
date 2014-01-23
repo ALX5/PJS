@@ -101,9 +101,9 @@ void Surface::display() {
 void Surface::display(const char *name) {
     int keyPressed = 0;
     imshow(name, transformedImage);
+    cout << "Press ESC to continue..." << endl;
     do {
         keyPressed = waitKey(0);
-        cout << keyPressed << endl;
     } while (keyPressed != 27);
     
     this->print(name);    
