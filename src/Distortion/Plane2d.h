@@ -1,27 +1,27 @@
-#ifndef PLANE_H
-#define PLANE_H
+#ifndef PLANE2D_H
+#define PLANE2D_H
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include "Plane.h"
 
-using namespace cv;
-class Plane {
+
+class Plane2d : public Plane<cv::Point2f>{
+    friend class Plane;
 private:    
-    vector<Point2f> points;
+//    std::vector<cv::Point2f> points;
 
 public:
-    Plane();
-    Plane(Point2f, Point2f, Point2f, Point2f);
-    Plane(vector<Point2f> points);
-    Size getSize();
-    vector<Point2f> getPoints();
-    Point2f getPoint(int n) const;
-    void setPoints(Point2f, Point2f, Point2f, Point2f);
+    Plane2d();
+    Plane2d(cv::Point2f, cv::Point2f, cv::Point2f, cv::Point2f);
+    Plane2d(std::vector<cv::Point2f> points);
+    cv::Size getSize();
+    
     
     /**
      * Translates this plane so that its bounding box is in the specified point
      */
-    void moveBBTo(Point2f &dst);    
+    void moveBBTo(cv::Point2f &dst);    
     
     /**
      * Translates this plane so that its bounding box is in the origin
@@ -41,7 +41,7 @@ public:
      * given location
      * @param 
      */
-    void moveTo(Point2f &dst);
+    void moveTo(cv::Point2f &dst);
     
     /**
      * Find the offset from the given point of the upper left corner 
@@ -49,7 +49,7 @@ public:
      * @param 
      * @return 
      */
-    Point2f findOffset(Point2f&);
+    cv::Point2f findOffset(cv::Point2f&);
     
     /**
      * Find the offset from the given point of the upper left corner of the
@@ -57,14 +57,14 @@ public:
      * @param 
      * @return 
      */
-    Point2f findBBOffset(Point2f&);
+    cv::Point2f findBBOffset(cv::Point2f&);
     
     /**
      * Returns a horizontally and vertically aligned bounding rectangle 
      * for this plane
      * @return 
      */
-    Plane getBoundingBox();
+    Plane2d getBoundingBox();
     
     //TODO maybe this shouldn't be a member function
     /**
@@ -73,7 +73,7 @@ public:
      * @param 
      * @return 
      */
-    Plane getBoundingBox(Plane&, Plane&);
+    Plane2d getBoundingBox(Plane2d&, Plane2d&);
     
     
     /**
@@ -94,7 +94,7 @@ public:
                  \|_________|________\
 
      */
-    Plane getInnerBox();
+    Plane2d getInnerBox();
     
     
     
@@ -103,25 +103,25 @@ public:
      * Of the two leftmost points, this functions returns the uppermost
      * @return 
      */
-    Point2f getUpperLeftCorner();
+    cv::Point2f getUpperLeftCorner();
     
     /**
      * Of the two uppermost points, this functions returns the rightmost
      * @return 
      */
-    Point2f getUpperRightCorner();
+    cv::Point2f getUpperRightCorner();
     
     /**
      * Of the two rightmost points, this functions returns the one in the bottom
      * @return 
      */
     
-    Point2f getLowerRightCorner();    
+    cv::Point2f getLowerRightCorner();    
     /**
      * Of the two points in the bottom, this function returns the leftmost
      * @return 
      */
-    Point2f getLowerLeftCorner();
+    cv::Point2f getLowerLeftCorner();
 
     
     /**
@@ -129,30 +129,28 @@ public:
      * @param 
      * @return 
      */
-    bool contains(Point2f&);
+    bool contains(cv::Point2f&);
     
     /**
      * Determines if a point is inside this plane's bounding box
      * @param 
      * @return 
      */
-    bool boxContains(Point2f&);
+    bool boxContains(cv::Point2f&);
     
     /**
      * Determines if a point is inside this plane's inner box
      * @param 
      * @return 
      */
-    bool innerBoxContains(Point2f&);
+    bool innerBoxContains(cv::Point2f&);
     
     
     
-    //Getters and setters
     int getWidth();
     int getHeight();
     
 };
 
-std::ostream &operator<<(std::ostream &os, Plane &m);
 
 #endif // PLANE_H

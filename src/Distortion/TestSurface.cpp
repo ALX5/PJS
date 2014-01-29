@@ -13,6 +13,7 @@
 #include <exception>
 
 using namespace std;
+using namespace cv;
 
 TestSurface::TestSurface() {
 }
@@ -28,20 +29,20 @@ void TestSurface::test() {
     /**
      * Test 14_01_22_16_34
      * */
-    //Plane 1
-    Plane p1(Point2f(0, 325), Point2f(426, 0), Point2f(426, 625), Point2f(16, 875));
-    Plane p2(Point2f(0, 0), Point2f(480, 0), Point2f(480, 540), Point2f(0, 540));
+    //Plane2d 1
+    Plane2d p1(Point2f(0, 325), Point2f(426, 0), Point2f(426, 625), Point2f(16, 875));
+    Plane2d p2(Point2f(0, 0), Point2f(480, 0), Point2f(480, 540), Point2f(0, 540));
     
-    //Plane 2
-    Plane p3(Point2f(0, 0), Point2f(568, 250), Point2f(568, 779), Point2f(0, 625));
-    Plane p4(Point2f(0, 0), Point2f(480, 0), Point2f(480, 540), Point2f(0, 540));
+    //Plane2d 2
+    Plane2d p3(Point2f(0, 0), Point2f(568, 250), Point2f(568, 779), Point2f(0, 625));
+    Plane2d p4(Point2f(0, 0), Point2f(480, 0), Point2f(480, 540), Point2f(0, 540));
     
     //Tests for full image
-//    Plane p1(Point2f(0, 325), Point2f(426, 0), Point2f(426, 625), Point2f(16, 875));
-//    Plane p2(Point2f(0, 0), Point2f(960, 0), Point2f(960, 1080), Point2f(0, 1080));
+//    Plane2d p1(Point2f(0, 325), Point2f(426, 0), Point2f(426, 625), Point2f(16, 875));
+//    Plane2d p2(Point2f(0, 0), Point2f(960, 0), Point2f(960, 1080), Point2f(0, 1080));
 //    
-//    Plane p3(Point2f(0, 0), Point2f(568, 250), Point2f(568, 779), Point2f(0, 625));
-//    Plane p4(Point2f(0, 0), Point2f(960, 0), Point2f(960, 1080), Point2f(0, 1080));
+//    Plane2d p3(Point2f(0, 0), Point2f(568, 250), Point2f(568, 779), Point2f(0, 625));
+//    Plane2d p4(Point2f(0, 0), Point2f(960, 0), Point2f(960, 1080), Point2f(0, 1080));
     
     
     Utils utils;

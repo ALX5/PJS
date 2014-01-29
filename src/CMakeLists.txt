@@ -91,15 +91,30 @@ add_definitions(${Boost_DEFINITIONS})
 
 ############################################# OpenCV ################################################  
 
+    	include_directories(${PROJECT_SOURCE_DIR}/Calibration)
+    	include_directories(${PROJECT_SOURCE_DIR}/Distortion)
+    	include_directories(${PROJECT_SOURCE_DIR}/Tracking)
+    	include_directories(${PROJECT_SOURCE_DIR}/Environment)
+
 add_executable (PJS
 		GUI.cpp
 		Calibration/Calibration.h Calibration/Calibration.cpp
-        Distortion/plane.cpp Distortion/plane.h		
-		Distortion/TestSurface.cpp Distortion/TestSurface.h 
-		Distortion/Utils.cpp Distortion/Utils.h 
-		Distortion/Surface.cpp Distortion/Surface.h 
+
+        Distortion/Plane.cpp	
+        Distortion/Plane2d.cpp
+        Distortion/Plane3d.cpp
+		Distortion/TestSurface.cpp
+		Distortion/TestPlanes.cpp
+		Distortion/Utils.cpp
+		Distortion/Surface.cpp
+
+		Environment/Projection.cpp
+		Environment/User.cpp
+		Environment/TestProjection.cpp
+	
 		Tests/PlaneTests.cpp Tests/PlaneTests.h 
 		Tracking/Tracking.cpp Tracking/Tracking.h
+
 		Main.cpp Main.h)
      
 	find_package( OpenCV REQUIRED )

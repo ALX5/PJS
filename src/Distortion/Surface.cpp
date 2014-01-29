@@ -9,7 +9,6 @@
 #include "Utils.h"
 #include <iostream>
 
-using namespace std;
 
 Surface::Surface() {
 }
@@ -20,7 +19,7 @@ Surface::Surface(const Surface& orig) {
 Surface::~Surface() {
 }
 
-Surface::Surface(Plane& src, Plane& dst, Mat image) {
+Surface::Surface(Plane2d& src, Plane2d& dst, cv::Mat image) {
     this->sourcePlane = src;
     this->destinationPlane = dst;
     this->image = image;
@@ -30,8 +29,8 @@ Surface::Surface(Plane& src, Plane& dst, Mat image) {
 }
 
 void Surface::determineHomography() {
-    vector<Point2f> src;
-    vector<Point2f> dst;
+    std::vector<cv::Point2f> src;
+    std::vector<cv::Point2f> dst;
 
     src.push_back(sourcePlane.getPoint(0));
     src.push_back(sourcePlane.getPoint(1));
@@ -43,29 +42,29 @@ void Surface::determineHomography() {
     dst.push_back(destinationPlane.getPoint(2));
     dst.push_back(destinationPlane.getPoint(3));
 
-    homography = findHomography(src, dst, CV_RANSAC);    
+    homography = cv::findHomography(src, dst, CV_RANSAC);    
 }
 
 void Surface::calculateTransformedPlane() {
-    vector<Point2f> src;
-    vector<Point2f> dst;
+    std::vector<cv::Point2f> src;
+    std::vector<cv::Point2f> dst;
 
     src.push_back(destinationPlane.getPoint(0));
     src.push_back(destinationPlane.getPoint(1));
     src.push_back(destinationPlane.getPoint(2));
     src.push_back(destinationPlane.getPoint(3));
 
-    perspectiveTransform(src, dst, homography);
+    cv::perspectiveTransform(src, dst, homography);
 
-    transformedRegion = Plane(dst);
+    transformedRegion = Plane2d(dst);
 
-    Plane boundingBox = transformedRegion.getBoundingBox();
+    Plane2d boundingBox = transformedRegion.getBoundingBox();
 
     size = boundingBox.getSize();
 
 }
 
-void Surface::adjustTranslations(Point2f &offset) {
+void Surface::adjustTranslations(cv::Point2f &offset) {
     homography.at<double>(0, 2) -= offset.x;
     homography.at<double>(1, 2) -= offset.y;
 }
@@ -74,21 +73,21 @@ void Surface::adjustTranslations(Point2f &offset) {
 //It is like this right now because the second half needs to be
 //located to the right
 void Surface::applyHomography() {    
-    warpPerspective(image, transformedImage,
-            homography, Size(2000,2000));
+    cv::warpPerspective(image, transformedImage,
+            homography, cv::Size(2000,2000));
 }
 
 //TODO this should store the offset but not apply it
 //All planes' BBs should be located at (0,0), and then written on
 //the final image according to their offset
-void Surface::correctPosition(Point2f& point) {
-    Point2f offset = transformedRegion.findOffset(point);
+void Surface::correctPosition(cv::Point2f& point) {
+    cv::Point2f offset = transformedRegion.findOffset(point);
     this->adjustTranslations(offset);
     this->calculateTransformedPlane();
 }
 
-void Surface::correctBBPosition(Point2f& point) {
-    Point2f offset = transformedRegion.findBBOffset(point);
+void Surface::correctBBPosition(cv::Point2f& point) {
+    cv::Point2f offset = transformedRegion.findBBOffset(point);
     this->adjustTranslations(offset);
     this->calculateTransformedPlane();
 }
@@ -100,28 +99,28 @@ void Surface::display() {
 
 void Surface::display(const char *name) {
     int keyPressed = 0;
-    imshow(name, transformedImage);
-    cout << "Press ESC to continue..." << endl;
+    cv::imshow(name, transformedImage);
+    std::cout << "Press ESC to continue..." << std::endl;
     do {
-        keyPressed = waitKey(0);
+        keyPressed = cv::waitKey(0);
     } while (keyPressed != 27);
     
     this->print(name);    
 }
 
-Point2f Surface::getUpperLeftCorner() {
+cv::Point2f Surface::getUpperLeftCorner() {
     return transformedRegion.getUpperLeftCorner();
 }
 
-Point2f Surface::getLowerRightCorner() {
+cv::Point2f Surface::getLowerRightCorner() {
     return transformedRegion.getUpperRightCorner();
 }
 
-Point2f Surface::getUpperRightCorner() {
+cv::Point2f Surface::getUpperRightCorner() {
     return transformedRegion.getUpperRightCorner();
 }
 
-Point2f Surface::getLowerLeftCorner() {
+cv::Point2f Surface::getLowerLeftCorner() {
     return transformedRegion.getLowerLeftCorner();
 }
 
@@ -130,7 +129,7 @@ void Surface::addTransparency() {
     utils.addAlphaChannel(transformedImage, transformedRegion);
 }
 
-Size Surface::getSize() {
+cv::Size Surface::getSize() {
     return size;
 }
 
@@ -140,24 +139,24 @@ void Surface::print() {
 
 
 void Surface::print(const char *name) {
-    cout << endl << "========= " << name << " =========" << endl;
-    cout << "Source image: " << endl;
-    cout << "\tChannels: " << image.channels() << endl;
-    cout << "\trows: " << image.rows << endl;
-    cout << "\tcols: " << image.cols << endl;
-    cout << "Transformed image: " << endl;
-    cout << "\tChannels: " << transformedImage.channels() << endl;
-    cout << "\trows: " << transformedImage.rows << endl;
-    cout << "\tcols: " << transformedImage.cols << endl;
-    cout << "Source plane: " << endl;
-    cout << sourcePlane << endl;
-    cout << "Destination plane: " << endl;
-    cout << destinationPlane << endl;
-    cout << "Transformed plane: " << endl;
-    cout << transformedRegion << endl;
-    cout << "Homography: " << endl;
-    cout << homography << endl;
-    cout << endl << "===========================" << endl << endl;
+    std::cout << std::endl << "========= " << name << " =========" << std::endl;
+    std::cout << "Source image: " << std::endl;
+    std::cout << "\tChannels: " << image.channels() << std::endl;
+    std::cout << "\trows: " << image.rows << std::endl;
+    std::cout << "\tcols: " << image.cols << std::endl;
+    std::cout << "Transformed image: " << std::endl;
+    std::cout << "\tChannels: " << transformedImage.channels() << std::endl;
+    std::cout << "\trows: " << transformedImage.rows << std::endl;
+    std::cout << "\tcols: " << transformedImage.cols << std::endl;
+    std::cout << "Source plane: " << std::endl;
+    std::cout << sourcePlane << std::endl;
+    std::cout << "Destination plane: " << std::endl;
+    std::cout << destinationPlane << std::endl;
+    std::cout << "Transformed plane: " << std::endl;
+    std::cout << transformedRegion << std::endl;
+    std::cout << "Homography: " << std::endl;
+    std::cout << homography << std::endl;
+    std::cout << std::endl << "===========================" << std::endl << std::endl;
 }
 
 void Surface::save() {
@@ -165,5 +164,5 @@ void Surface::save() {
 }
 
 void Surface::save(const char *name) {
-    imwrite(name, transformedImage);
+    cv::imwrite(name, transformedImage);
 }

@@ -10,7 +10,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <vector>
-#include "plane.h"
+#include "Plane2d.h"
 #include "Surface.h"
 
 #define IMG_UNIT CV_8UC3
@@ -21,8 +21,8 @@ public:
     Utils(const Utils& orig);
     virtual ~Utils();
 
-    void addAlphaChannel(cv::Mat&, Plane&);
-    vector<Mat> divideImageInTwo(cv::Mat& img);
+    void addAlphaChannel(cv::Mat&, Plane2d&);
+    std::vector<cv::Mat> divideImageInTwo(cv::Mat& img);
     cv::Mat joinImagesAtMiddle(cv::Mat& img1, cv::Mat& img2);
     cv::Mat joinImagesAtMiddle(Surface& s1 , Surface& s2);
     void writeToTimage(cv::Mat& src, cv::Mat& dst);

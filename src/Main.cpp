@@ -8,13 +8,22 @@
 #include "Tests/PlaneTests.h"
 #include "Distortion/TestSurface.h"
 #include "Tracking/Tracking.h"
+#include "Distortion/TestPlanes.h"
+#include "Environment/TestProjection.h"
 
 void runTests();
 
 int main(int argc, char** argv) {    
-    TestSurface t;
-    t.test();    
-	/* USER TRACKING. */
+//    TestSurface t;
+//    t.test();  
+    
+    TestProjection t;
+    t.test();
+
+//    TestPlanes t;
+//    t.test();
+    
+    /* USER TRACKING. */
 //    Tracking tracking;
 //    tracking.setupTracking(argc,argv);
 

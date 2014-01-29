@@ -23,7 +23,7 @@ Utils::Utils(const Utils& orig) {
 Utils::~Utils() {
 }
 
-void Utils::addAlphaChannel(Mat& image, Plane& plane) {
+void Utils::addAlphaChannel(Mat& image, Plane2d& plane) {
     
     cout << "Adding alpha channel..." << endl;
     ptime initTime = microsec_clock::local_time();
@@ -40,7 +40,7 @@ void Utils::addAlphaChannel(Mat& image, Plane& plane) {
     //Hint: crop before doing this
 
     //Get BB
-    Plane bb = plane.getBoundingBox();
+    Plane2d bb = plane.getBoundingBox();
     int bbX = bb.getUpperLeftCorner().x;
     int bbY = bb.getUpperLeftCorner().y;
     int bbW = bb.getWidth();
