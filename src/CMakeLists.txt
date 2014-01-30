@@ -85,6 +85,7 @@ SET(CMAKE_BUILD_TYPE Debug CACHE STRING "default to debug" FORCE)
 add_executable (PJS
 		GUI.cpp
 		Calibration/Calibration.h Calibration/Calibration.cpp
+        Calibration/Calib.cpp Calibration/Calib.h
 		Distortion/HomographyCalculator.cpp Distortion/HomographyCalculator.h
         Distortion/plane.cpp Distortion/plane.h
 		Distortion/TestSources.cpp Distortion/TestSources.h 
