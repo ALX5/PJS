@@ -25,7 +25,7 @@ void User::updatePosition(double &x, double &y, double &z) {
     _position.y = y;
     _position.z = z;
 
-    
+    //Get the projection center and surfaces
     cv::Point3f projectionCenter = _projection.getCenter();
     std::vector<Plane3d> planes = _projection.getPlanes();
 
