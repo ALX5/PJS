@@ -83,10 +83,10 @@ SET(CMAKE_BUILD_TYPE Debug CACHE STRING "default to debug" FORCE)
 
 ############################################# Boost ################################################  
 
-FIND_PACKAGE( Boost COMPONENTS program_options REQUIRED )
-INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
-link_directories(${Boost_LIBRARY_DIRS})
-add_definitions(${Boost_DEFINITIONS})
+#FIND_PACKAGE( Boost COMPONENTS program_options REQUIRED )
+#INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
+#link_directories(${Boost_LIBRARY_DIRS})
+#add_definitions(${Boost_DEFINITIONS})
 
 
 ############################################# OpenCV ################################################  
