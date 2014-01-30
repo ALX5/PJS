@@ -99,7 +99,7 @@ add_definitions(${Boost_DEFINITIONS})
 add_executable (PJS
 		GUI.cpp
 		Calibration/Calibration.h Calibration/Calibration.cpp
-
+		Calibration/Calib.cpp Calibration/Calib.h
         Distortion/Plane.cpp	
         Distortion/Plane2d.cpp
         Distortion/Plane3d.cpp
@@ -115,7 +115,6 @@ add_executable (PJS
 	
 		Tests/PlaneTests.cpp Tests/PlaneTests.h 
 		Tracking/Tracking.cpp Tracking/Tracking.h
-
 		Main.cpp Main.h)
      
 	find_package( OpenCV REQUIRED )
