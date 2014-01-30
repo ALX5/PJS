@@ -7,9 +7,12 @@
 
 #include "Utils.h"
 #include <iostream>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
 
 using namespace std;
 using namespace cv;
+using namespace boost::posix_time;
 
 Utils::Utils() {
 }
@@ -20,7 +23,10 @@ Utils::Utils(const Utils& orig) {
 Utils::~Utils() {
 }
 
-void Utils::addAlphaChannel(Mat& image, Plane& plane) {
+void Utils::addAlphaChannel(Mat& image, Plane2d& plane) {
+    
+    cout << "Adding alpha channel..." << endl;
+    ptime initTime = microsec_clock::local_time();
 
     int height = image.rows;
     int width = image.cols;
@@ -32,26 +38,52 @@ void Utils::addAlphaChannel(Mat& image, Plane& plane) {
     //TODO Too slow! Find a faster method for adding an alpha channel
     //Hint: use BB. Everything outside it is left blank
     //Hint: crop before doing this
+
+    //Get BB
+    Plane2d bb = plane.getBoundingBox();
+    int bbX = bb.getUpperLeftCorner().x;
+    int bbY = bb.getUpperLeftCorner().y;
+    int bbW = bb.getWidth();
+    int bbH = bb.getHeight();
+
+    //Initialize all alpha values to 0
     for (int row = 0; row < alphaMask.rows; row++) {
         for (int col = 0; col < alphaMask.cols; col++) {
-            uchar alphaValue;
             Point2f p(col, row);
-            if (plane.contains(p)) {
-                alphaValue = 255;
-            } else {
-                alphaValue = 0;
-            }
-
-            *alphaPtr = alphaValue;
+            *alphaPtr = 0;
             alphaPtr++;
         }
     }
+
+    
+    //Assign an alpha value of 255 to the points inside the plane
+    int planeWidth = plane.getWidth();    
+    alphaPtr = alphaMask.ptr();
+    alphaPtr += bbY * width + bbX;
+    uchar alphaValue;
+    for (int row = bbY; row < bbH+bbY; row++) {
+        for (int col = bbX; col < bbW+bbX; col++) {
+            
+            Point2f p(col, row);            
+            if (plane.contains(p)) {
+                *alphaPtr = 255;
+            }
+            
+            alphaPtr++;
+        }
+        alphaPtr += (width-bbW);    
+    }
+
 
     Mat srcImg[] = {image, alphaMask};
     int from_to[] = {0, 0, 1, 1, 2, 2, 3, 3};
     mixChannels(srcImg, 2, &transparent, 1, from_to, 4);
 
-    image = transparent;        
+    image = transparent;
+
+    ptime endTime = microsec_clock::local_time();
+
+    cout << "Total time: " << endTime - initTime << endl;
 
 }
 
@@ -96,7 +128,7 @@ cv::Mat Utils::joinImagesAtMiddle(cv::Mat& img1, cv::Mat& img2) {
     int cols = img1.cols;
     int halfCols = cols / 2;
     int rows = img1.rows;
-    int channels = img1.channels();    
+    int channels = img1.channels();
 
     Mat finalImage(img1.rows, img1.cols, CV_8UC4);
     uchar *fPtr = img1.ptr();
@@ -142,11 +174,11 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
     //The source image must fit into the destination image
     assert(src.cols <= dst.cols && src.rows <= dst.rows);
-    
-    //Source and destination must have the same number of channels
-    assert(src.channels() == 4 && dst.channels() == 4);           
 
-    
+    //Source and destination must have the same number of channels
+    assert(src.channels() == 4 && dst.channels() == 4);
+
+
     uchar *srcPtr = src.ptr();
     uchar *dstPtr = dst.ptr();
 
@@ -173,14 +205,14 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 }
 
 cv::Mat Utils::getImageFromSurfaces(std::vector<Surface*> surfaces) {
-    
-    Mat image(surfaces.at(0)->transformedImage.rows, 
+
+    Mat image(surfaces.at(0)->transformedImage.rows,
             surfaces.at(0)->transformedImage.cols, CV_8UC4);
-    
-    for(int i = 0; i < surfaces.size(); i++){
-        this->writeToTimage(surfaces.at(i)->transformedImage, image);        
+
+    for (int i = 0; i < surfaces.size(); i++) {
+        this->writeToTimage(surfaces.at(i)->transformedImage, image);
     }
-    
+
     return image;
-    
+
 }

@@ -42,7 +42,11 @@ void Surface::determineHomography() {
     dst.push_back(destinationPlane.getPoint(2));
     dst.push_back(destinationPlane.getPoint(3));
 
+<<<<<<< HEAD
+    homography = findHomography(src, dst, CV_RANSAC);
+=======
     homography = cv::findHomography(src, dst, CV_RANSAC);    
+>>>>>>> 8e1dcbf56f465f31d8c6b9914495b33c8de408c4
 }
 
 void Surface::calculateTransformedPlane() {
@@ -64,17 +68,31 @@ void Surface::calculateTransformedPlane() {
 
 }
 
+<<<<<<< HEAD
+void Surface::adjustTranslations(Point2f &offset) {
+    //homography.at<double>(0, 2) -= offset.x;
+    //homography.at<double>(1, 2) -= offset.y;
+
+    homography.at<double>(0,2) = 300;
+    homography.at<double>(1,2) = 0;
+=======
 void Surface::adjustTranslations(cv::Point2f &offset) {
     homography.at<double>(0, 2) -= offset.x;
     homography.at<double>(1, 2) -= offset.y;
+>>>>>>> 8e1dcbf56f465f31d8c6b9914495b33c8de408c4
 }
 
 //TODO get right size
 //It is like this right now because the second half needs to be
 //located to the right
 void Surface::applyHomography() {    
+<<<<<<< HEAD
+    warpPerspective(image, transformedImage,
+            homography, Size(1000,1000));
+=======
     cv::warpPerspective(image, transformedImage,
             homography, cv::Size(2000,2000));
+>>>>>>> 8e1dcbf56f465f31d8c6b9914495b33c8de408c4
 }
 
 //TODO this should store the offset but not apply it
@@ -139,6 +157,26 @@ void Surface::print() {
 
 
 void Surface::print(const char *name) {
+<<<<<<< HEAD
+    /*cout << endl << "========= " << name << " =========" << endl;
+    cout << "Source image: " << endl;
+    cout << "\tChannels: " << image.channels() << endl;
+    cout << "\trows: " << image.rows << endl;
+    cout << "\tcols: " << image.cols << endl;
+    cout << "Transformed image: " << endl;
+    cout << "\tChannels: " << transformedImage.channels() << endl;
+    cout << "\trows: " << transformedImage.rows << endl;
+    cout << "\tcols: " << transformedImage.cols << endl;
+    cout << "Source plane: " << endl;
+    cout << sourcePlane << endl;
+    cout << "Destination plane: " << endl;
+    cout << destinationPlane << endl;
+    cout << "Transformed plane: " << endl;
+    cout << transformedRegion << endl;
+    cout << "Homography: " << endl;
+    cout << homography << endl;
+    cout << endl << "===========================" << endl << endl;*/
+=======
     std::cout << std::endl << "========= " << name << " =========" << std::endl;
     std::cout << "Source image: " << std::endl;
     std::cout << "\tChannels: " << image.channels() << std::endl;
@@ -157,6 +195,7 @@ void Surface::print(const char *name) {
     std::cout << "Homography: " << std::endl;
     std::cout << homography << std::endl;
     std::cout << std::endl << "===========================" << std::endl << std::endl;
+>>>>>>> 8e1dcbf56f465f31d8c6b9914495b33c8de408c4
 }
 
 void Surface::save() {

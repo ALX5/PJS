@@ -1,85 +1,64 @@
-#include "plane.h"
+#include "Plane2d.h"
 #include <iostream>
 using namespace std;
 
-Plane::Plane() {
+Plane2d::Plane2d() {
 }
 
-Plane::Plane(Point2f p1, Point2f p2, Point2f p3, Point2f p4) {
-    points.push_back(p1);
-    points.push_back(p2);
-    points.push_back(p3);
-    points.push_back(p4);
+Plane2d::Plane2d(cv::Point2f p1, cv::Point2f p2, cv::Point2f p3, cv::Point2f p4) 
+: Plane(p1, p2, p3, p4){
+    
 }
+Plane2d::Plane2d(vector<cv::Point2f> pts) : Plane (pts){}
 
-Plane::Plane(vector<Point2f> pts) {
-    points.push_back(pts.at(0));
-    points.push_back(pts.at(1));
-    points.push_back(pts.at(2));
-    points.push_back(pts.at(3));
-}
+void Plane2d::moveTo(cv::Point2f &p) {
 
-Point2f Plane::getPoint(int n) const {
-    return points.at(n);
-}
-
-vector<Point2f> Plane::getPoints() {
-    return points;
-}
-
-std::ostream &operator<<(std::ostream& os, Plane& m) {
-    os << m.getPoints();
-    return os;
-}
-
-void Plane::moveTo(Point2f &p) {
-
-    Point2f offset = this->findOffset(p);
+    cv::Point2f offset = this->findOffset(p);
     for (int i = 0; i < points.size(); i++) {
         points.at(i) = points.at(i) - offset;
     }
 }
 
-void Plane::moveToOrigin() {
+void Plane2d::moveToOrigin() {
 
-    Point2f origin(0, 0);
+    cv::Point2f origin(0, 0);
     this->moveTo(origin);
 }
 
 //TODO Refactor
 
-void Plane::moveBBToOrigin() {
+void Plane2d::moveBBToOrigin() {
 
-    Point2f origin(0, 0);
-    Point2f offset = this->findBBOffset(origin);
-
-    for (int i = 0; i < points.size(); i++) {
-        points.at(i) = points.at(i) - offset;
-    }
-}
-
-void Plane::moveBBTo(Point2f& p) {
-
-    Point2f offset = this->findBBOffset(p);
+    cv::Point2f origin(0, 0);
+    cv::Point2f offset = this->findBBOffset(origin);
 
     for (int i = 0; i < points.size(); i++) {
         points.at(i) = points.at(i) - offset;
     }
 }
 
-Point2f Plane::findOffset(Point2f& p) {
-    Point2f upperLeftCorner = this->getUpperLeftCorner();
+void Plane2d::moveBBTo(cv::Point2f& p) {
+
+    cv::Point2f offset = this->findBBOffset(p);
+
+    for (int i = 0; i < points.size(); i++) {
+        points.at(i) = points.at(i) - offset;
+    }
+}
+
+cv::Point2f Plane2d::findOffset(cv::Point2f& p) {
+    cv::Point2f upperLeftCorner = this->getUpperLeftCorner();
 
     float x = upperLeftCorner.x - p.x;
     float y = upperLeftCorner.y - p.y;
-    Point2f offset = Point2f(x, y);
+    cv::Point2f offset = cv::Point2f(x, y);
 
 
 
     return offset;
 }
 
-Point2f Plane::findBBOffset(Point2f& p) {
+cv::Point2f Plane2d::findBBOffset(cv::Point2f& p) {
 
     vector<float> xCoords;
     xCoords.push_back(this->getPoint(0).x);
@@ -96,14 +75,14 @@ Point2f Plane::findBBOffset(Point2f& p) {
     float minX = *std::min_element(xCoords.begin(), xCoords.end());
     float minY = *std::min_element(yCoords.begin(), yCoords.end());
 
-    return Point2f(minX - p.x, minY - p.y);
+    return cv::Point2f(minX - p.x, minY - p.y);
 
 }
 
 
 //TODO refactor
 
-Plane Plane::getBoundingBox() {
+Plane2d Plane2d::getBoundingBox() {
     vector<float> xCoords;
     xCoords.push_back(this->getPoint(0).x);
     xCoords.push_back(this->getPoint(1).x);
@@ -121,12 +100,13 @@ Plane Plane::getBoundingBox() {
     float maxX = *std::max_element(xCoords.begin(), xCoords.end());
     float maxY = *std::max_element(yCoords.begin(), yCoords.end());
 
-    Plane p(Point2f(minX, minY), Point2f(minX, maxY), Point2f(maxX, minY), Point2f(maxX, maxY));
+    Plane2d p(cv::Point2f(minX, minY), cv::Point2f(minX, maxY), 
+            cv::Point2f(maxX, minY), cv::Point2f(maxX, maxY));
 
     return p;
 }
 
-Plane Plane::getBoundingBox(Plane &p2, Plane &p1) {
+Plane2d Plane2d::getBoundingBox(Plane2d &p2, Plane2d &p1) {
     vector<float> xCoords;
 
     xCoords.push_back(p1.getPoint(0).x);
@@ -155,27 +135,27 @@ Plane Plane::getBoundingBox(Plane &p2, Plane &p1) {
     float maxX = *std::max_element(xCoords.begin(), xCoords.end());
     float maxY = *std::max_element(yCoords.begin(), yCoords.end());
 
-    Plane p(Point2f(minX, minY), Point2f(minX, maxY), Point2f(maxX, minY), Point2f(maxX, maxY));
+    Plane2d p(cv::Point2f(minX, minY), cv::Point2f(minX, maxY), cv::Point2f(maxX, minY), cv::Point2f(maxX, maxY));
 
     return p;
 }
 
 //TODO not finished
 
-bool Plane::contains(Point2f& p) {
+bool Plane2d::contains(cv::Point2f& p) {
 
     bool oddNodes = false;
     int next = 3;
 
-    vector<Point2d> sortedPoints;
+    vector<cv::Point2f> sortedPoints;
     sortedPoints.push_back(this->getUpperLeftCorner());
     sortedPoints.push_back(this->getUpperRightCorner());
     sortedPoints.push_back(this->getLowerRightCorner());
     sortedPoints.push_back(this->getLowerLeftCorner());
 
     for (int i = 0; i < 4; i++) {
-        Point2f current = sortedPoints.at(i);
-        Point2f last = sortedPoints.at(next);
+        cv::Point2f current = sortedPoints.at(i);
+        cv::Point2f last = sortedPoints.at(next);
         if (current.y < p.y && last.y >= p.y
                 || last.y < p.y && current.y >= p.y) {
             if (current.x + (p.y - current.y) /
@@ -190,31 +170,36 @@ bool Plane::contains(Point2f& p) {
 
 }
 
-Size Plane::getSize() {
-    Point P1 = this->getPoint(0);
-    Point P4 = this->getPoint(3);
+cv::Size Plane2d::getSize() {
+    cv::Point p1 = this->getPoint(0);
+    cv::Point p4 = this->getPoint(3);
 
-    int width = P4.x - P1.x;
-    int height = P4.y - P1.y;
+    int width = p4.x - p1.x;
+    int height = p4.y - p1.y;
 
+<<<<<<< HEAD:src/Distortion/plane.cpp
     Size size = Size(width, height);
+=======
+    cv::Size size = cv::Size(width, height);
+    cout << height << endl;
+>>>>>>> 8e1dcbf56f465f31d8c6b9914495b33c8de408c4:src/Distortion/Plane2d.cpp
 
     return size;
 }
 
 //TODO REFACTOR
 
-Point2f Plane::getUpperLeftCorner() {
-    Point2f p1 = this->getPoint(0);
-    Point2f p2 = this->getPoint(1);
-    Point2f aux;
+cv::Point2f Plane2d::getUpperLeftCorner() {
+    cv::Point2f p1 = this->getPoint(0);
+    cv::Point2f p2 = this->getPoint(1);
+    cv::Point2f aux;
     if (p2.x < p1.x) {
         aux = p1;
         p1 = p2;
         p2 = aux;
     }
 
-    Point2f p3 = this->getPoint(2);
+    cv::Point2f p3 = this->getPoint(2);
     if (p3.x < p2.x) {
         p2 = p3;
         if (p2.x < p1.x) {
@@ -241,18 +226,18 @@ Point2f Plane::getUpperLeftCorner() {
     return p1;
 }
 
-Point2f Plane::getUpperRightCorner() {
-    Point2f p1 = this->getPoint(0);
-    Point2f p2 = this->getPoint(1);    
-    Point2f aux;
-    
+cv::Point2f Plane2d::getUpperRightCorner() {
+    cv::Point2f p1 = this->getPoint(0);
+    cv::Point2f p2 = this->getPoint(1);
+    cv::Point2f aux;
+
     if (p2.y < p1.y) {
         aux = p1;
         p1 = p2;
         p2 = aux;
     }
 
-    Point2f p3 = this->getPoint(2);
+    cv::Point2f p3 = this->getPoint(2);
     if (p3.y < p2.y) {
         p2 = p3;
         if (p2.y < p1.y) {
@@ -276,17 +261,17 @@ Point2f Plane::getUpperRightCorner() {
     return p1;
 }
 
-Point2f Plane::getLowerRightCorner() {
-    Point2f p1 = this->getPoint(0);
-    Point2f p2 = this->getPoint(1);
-    Point2f aux;
+cv::Point2f Plane2d::getLowerRightCorner() {
+    cv::Point2f p1 = this->getPoint(0);
+    cv::Point2f p2 = this->getPoint(1);
+    cv::Point2f aux;
     if (p2.x > p1.x) {
         aux = p1;
         p1 = p2;
         p2 = aux;
     }
 
-    Point2f p3 = this->getPoint(2);
+    cv::Point2f p3 = this->getPoint(2);
     if (p3.x > p2.x) {
         p2 = p3;
     }
@@ -311,17 +296,17 @@ Point2f Plane::getLowerRightCorner() {
     return p1;
 }
 
-Point2f Plane::getLowerLeftCorner() {
-    Point2f p1 = this->getPoint(0);
-    Point2f p2 = this->getPoint(1);
-    Point2f aux;
+cv::Point2f Plane2d::getLowerLeftCorner() {
+    cv::Point2f p1 = this->getPoint(0);
+    cv::Point2f p2 = this->getPoint(1);
+    cv::Point2f aux;
     if (p2.y > p1.y) {
         aux = p1;
         p1 = p2;
         p2 = aux;
     }
 
-    Point2f p3 = this->getPoint(2);
+    cv::Point2f p3 = this->getPoint(2);
     if (p3.y > p2.y) {
         p2 = p3;
     }
@@ -346,4 +331,30 @@ Point2f Plane::getLowerLeftCorner() {
     return p1;
 }
 
+bool Plane2d::boxContains(cv::Point2f &p) {
 
+    Plane2d box = this->getBoundingBox();
+    return ( p.x >= box.getUpperLeftCorner().x
+            && p.x <= box.getUpperRightCorner().x
+            && p.y >= box.getUpperRightCorner().y
+            && p.y <= box.getLowerRightCorner().y);
+}
+
+//TODO inner box
+bool Plane2d::innerBoxContains(cv::Point2f&) {
+    return true;
+}
+
+//TODO Look for algorithm to find inner box
+Plane2d Plane2d::getInnerBox() {
+    Plane2d p(cv::Point2f(0.0, 0.0), cv::Point2f(0.0, 0.0), cv::Point2f(0.0, 0.0), cv::Point2f(0.0, 0.0));
+    return p;
+}
+
+int Plane2d::getWidth() {
+    return getUpperRightCorner().x - getUpperLeftCorner().x;
+}
+
+int Plane2d::getHeight() {
+    return getLowerRightCorner().y - getUpperRightCorner().y;
+}

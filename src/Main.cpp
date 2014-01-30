@@ -5,29 +5,27 @@
  * Created on December 20, 2013, 9:02 PM
  */
 
-#include "Distortion/TestSources.h"
 #include "Tests/PlaneTests.h"
 #include "Distortion/TestSurface.h"
 #include "Tracking/Tracking.h"
-#include "Calibration/Calib.h"
+#include "Distortion/TestPlanes.h"
+#include "Environment/TestProjection.h"
 
-//void runTests();
+void runTests();
 
-/*
- * 
- */
-int main(int argc, char** argv) {
-//    TestSources t;
-//    return t.twoPlanesTest();
+int main(int argc, char** argv) {    
+//    TestSurface t;
+//    t.test();  
     
-    /*TestSurface t;
-    t.test();*/
+    TestProjection t;
+    t.test();
+
+//    TestPlanes t;
+//    t.test();
     
-	/* USER TRACKING. */
+    /* USER TRACKING. */
 //    Tracking tracking;
 //    tracking.setupTracking(argc,argv);
-
-    Calib();
 
 	return 0;
 

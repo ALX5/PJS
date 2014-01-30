@@ -7,8 +7,11 @@
 
 #include "PlaneTests.h"
 #include <iostream>
-#include "../Distortion/plane.h"
+#include "../Distortion/Plane2d.h"
+#include <opencv2/opencv.hpp>
 using namespace std;
+using namespace cv;
+
 
 PlaneTests::PlaneTests() {
 }
@@ -20,7 +23,7 @@ PlaneTests::~PlaneTests() {
 }
 
 void PlaneTests::testContains() {
-    Plane p1(Point2f(25.0, 0.0), Point2f(0.0, 100.0), Point2f(100.0, 10.0), Point2f(91.0, 110.0));
+    Plane2d p1(Point2f(25.0, 0.0), Point2f(0.0, 100.0), Point2f(100.0, 10.0), Point2f(91.0, 110.0));
     Point2f point1(0.0, 0.0);
     Point2f point2(26.0, 2.0);
     Point2f point3(1000.0, 0.0);

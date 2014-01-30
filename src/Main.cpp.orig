@@ -1,53 +1,48 @@
-/*
+/* 
  * File:   main.cpp
  * Author: bruno
  *
  * Created on December 20, 2013, 9:02 PM
  */
 
-#include "Distortion/TestSources.h"
 #include "Tests/PlaneTests.h"
 #include "Distortion/TestSurface.h"
 #include "Tracking/Tracking.h"
-#include "Distortion/Distortion.h"
+<<<<<<< HEAD
+#include "Calibration/Calib.h"
+=======
+#include "Distortion/TestPlanes.h"
+#include "Environment/TestProjection.h"
+>>>>>>> 8e1dcbf56f465f31d8c6b9914495b33c8de408c4
 
 //void runTests();
 
-/*
- * 
- */
-int main(int argc, char** argv) {
+int main(int argc, char** argv) {    
+//    TestSurface t;
+//    t.test();  
+    
 <<<<<<< HEAD
-    /*TestSources t;
-    return t.twoPlanesTest();*/
-
-    Distortion d;
-    d.onePlane();
-    
-	/* USER TRACKING. */
-    /*Tracking tracking;
-    tracking.setupTracking(argc,argv);*/
+    /*TestSurface t;
+    t.test();*/
 =======
-//    TestSources t;
-//    return t.twoPlanesTest();
-    
-    TestSurface t;
+    TestProjection t;
     t.test();
+
+//    TestPlanes t;
+//    t.test();
+>>>>>>> 8e1dcbf56f465f31d8c6b9914495b33c8de408c4
     
-	/* USER TRACKING. */
-    Tracking tracking;
-    tracking.setupTracking(argc,argv);
+    /* USER TRACKING. */
+//    Tracking tracking;
+//    tracking.setupTracking(argc,argv);
+
+    Calib();
 
 	return 0;
 
->>>>>>> 189a9e113bda172e1fba6988d5bae8c7fdf031b5
 }
 
-/*void runTests(){
+void runTests(){
     PlaneTests planeTests;
     planeTests.testContains();
-<<<<<<< HEAD
-}*/
-=======
 }
->>>>>>> 189a9e113bda172e1fba6988d5bae8c7fdf031b5

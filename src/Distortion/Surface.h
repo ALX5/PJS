@@ -8,14 +8,14 @@
 #ifndef SURFACE_H
 #define	SURFACE_H
 
-#include "plane.h"
+#include "Plane2d.h"
 
 class Surface {
     friend class Utils;
 public:
 
     Surface();
-    Surface(Plane &src, Plane &dst, Mat image);
+    Surface(Plane2d &src, Plane2d &dst, cv::Mat image);
     Surface(const Surface& orig);
     virtual ~Surface();
     
@@ -35,7 +35,7 @@ public:
      * Subtracts the given vector from the homography translation
      * @param offsets
      */
-    void adjustTranslations(Point2f &offsets);
+    void adjustTranslations(cv::Point2f &offsets);
     
     /**
      * Transforms the original image using the stored homography stored in
@@ -48,14 +48,14 @@ public:
      * is on the specified point
      * @param point
      */
-    void correctBBPosition(Point2f& point);
+    void correctBBPosition(cv::Point2f& point);
     
     /**
      * Moves this surface so that its upper left corner
      * is on the specified point
      * @param point
      */
-    void correctPosition(Point2f& point);
+    void correctPosition(cv::Point2f& point);
     
     /**
      * Sets the upper right reconstruction algorithm child surface
@@ -91,10 +91,10 @@ public:
      */
     void print(const char *name);
     
-    Point2f getUpperLeftCorner();
-    Point2f getLowerLeftCorner();
-    Point2f getUpperRightCorner();
-    Point2f getLowerRightCorner();    
+    cv::Point2f getUpperLeftCorner();
+    cv::Point2f getLowerLeftCorner();
+    cv::Point2f getUpperRightCorner();
+    cv::Point2f getLowerRightCorner();    
     
     /**
      * Shows the transformed image
@@ -119,19 +119,19 @@ public:
     
     
     //Getters and setters
-    Size getSize();
+    cv::Size getSize();
     
 private:
-    Plane sourcePlane;
-    Plane destinationPlane;
-    Plane transformedRegion;
-    Mat homography;
-    Mat image;
-    Mat transformedImage;
-    Size size;
+    Plane2d sourcePlane;
+    Plane2d destinationPlane;
+    Plane2d transformedRegion;
+    cv::Mat homography;
+    cv::Mat image;
+    cv::Mat transformedImage;
+    cv::Size size;
     
     //TODO
-    Point2f offset;
+    cv::Point2f offset;
     
     Surface* upperRightChild;
     Surface* lowerRightChild;

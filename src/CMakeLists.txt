@@ -81,17 +81,37 @@ SET(CMAKE_BUILD_TYPE Debug CACHE STRING "default to debug" FORCE)
        		message(ERROR " OPENGL not found!")
    	endif(NOT OPENGL_FOUND) 
 
+############################################# Boost ################################################  
+
+FIND_PACKAGE( Boost COMPONENTS program_options REQUIRED )
+INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
+link_directories(${Boost_LIBRARY_DIRS})
+add_definitions(${Boost_DEFINITIONS})
+
+
 ############################################# OpenCV ################################################  
+
+    	include_directories(${PROJECT_SOURCE_DIR}/Calibration)
+    	include_directories(${PROJECT_SOURCE_DIR}/Distortion)
+    	include_directories(${PROJECT_SOURCE_DIR}/Tracking)
+    	include_directories(${PROJECT_SOURCE_DIR}/Environment)
+
 add_executable (PJS
 		GUI.cpp
 		Calibration/Calibration.h Calibration/Calibration.cpp
-        Calibration/Calib.cpp Calibration/Calib.h
-		Distortion/HomographyCalculator.cpp Distortion/HomographyCalculator.h
-        Distortion/plane.cpp Distortion/plane.h
-		Distortion/TestSources.cpp Distortion/TestSources.h 
-		Distortion/TestSurface.cpp Distortion/TestSurface.h 
-		Distortion/Utils.cpp Distortion/Utils.h 
-		Distortion/Surface.cpp Distortion/Surface.h 
+		Calibration/Calib.cpp Calibration/Calib.h
+        Distortion/Plane.cpp	
+        Distortion/Plane2d.cpp
+        Distortion/Plane3d.cpp
+		Distortion/TestSurface.cpp
+		Distortion/TestPlanes.cpp
+		Distortion/Utils.cpp
+		Distortion/Surface.cpp
+
+		Environment/Projection.cpp
+		Environment/User.cpp
+		Environment/TestProjection.cpp
+	
 		Tests/PlaneTests.cpp Tests/PlaneTests.h 
 		Tracking/Tracking.cpp Tracking/Tracking.h
 		Main.cpp Main.h)
@@ -99,9 +119,5 @@ add_executable (PJS
 	find_package( OpenCV REQUIRED )
 
 
-
-#Moi (Bruno) je dois changer cette variable pour qu'il marche... Vous pouvez vous en foutre
-#set(OpenCV_LIBS -I/usr/local/include/opencv -I/usr/local/include  /usr/local/lib/libopencv_calib3d.so /usr/local/lib/libopencv_contrib.so /usr/local/lib/libopencv_core.so /usr/local/lib/libopencv_features2d.so /usr/local/lib/libopencv_flann.so /usr/local/lib/libopencv_gpu.so /usr/local/lib/libopencv_highgui.so /usr/local/lib/libopencv_imgproc.so /usr/local/lib/libopencv_legacy.so /usr/local/lib/libopencv_ml.so /usr/local/lib/libopencv_nonfree.so /usr/local/lib/libopencv_objdetect.so /usr/local/lib/libopencv_ocl.so /usr/local/lib/libopencv_photo.so /usr/local/lib/libopencv_stitching.so /usr/local/lib/libopencv_superres.so /usr/local/lib/libopencv_ts.a /usr/local/lib/libopencv_video.so /usr/local/lib/libopencv_videostab.so /usr/lib/x86_64-linux-gnu/libXext.so /usr/lib/x86_64-linux-gnu/libX11.so /usr/lib/x86_64-linux-gnu/libICE.so /usr/lib/x86_64-linux-gnu/libSM.so /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libGLU.so -ltbb -lrt -lpthread -lm -ldl)
-
-target_link_libraries (PJS ${OPENNI_LIBRARY} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${OpenCV_LIBS} )
+target_link_libraries (PJS ${OPENNI_LIBRARY} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${OpenCV_LIBS} ${Boost_LIBRARIES})
 
