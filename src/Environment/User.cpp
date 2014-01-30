@@ -7,6 +7,7 @@
 #include <cmath>
 #include <iostream>
 #include "User.h"
+#include "GeometryUtils.h"
 
 User::User(Projection& projection) {
     _projection = projection;
@@ -24,6 +25,7 @@ void User::updatePosition(double &x, double &y, double &z) {
     _position.y = y;
     _position.z = z;
 
+    
     cv::Point3f projectionCenter = _projection.getCenter();
     std::vector<Plane3d> planes = _projection.getPlanes();
 
@@ -82,12 +84,37 @@ void User::updatePosition(double &x, double &y, double &z) {
      * ****************************
      */
     
-    double normalLength = std::pow(_position.x, 2) + std::pow(_position.y, 2) 
-    + std::pow(_position.z, 2);
-    cv::Point3f normalized(_position.x/normalLength, 
-            _position.y/normalLength, 
-            _position.z/normalLength);
+    GeometryUtils gUtils;
+    
+    cv::Point3f normalized = gUtils.normalizeVector(_position);
+    
+    cv::Point3f zed(0,0,1);
+    
+    cv::Point3f axis = gUtils.crossProduct(normalized, zed);
+    
+    cv::Point3f normalAxis = gUtils.normalizeVector(axis);
+    
+    double angle = std::acos(normalized.x*zed.x +
+    normalized.x*zed.y +
+    normalized.x*zed.z);
     
     
+    //Rotate all intersections to 
+    for (ii = projectedPlanes.begin(); ii != projectedPlanes.end(); ii++) {        
+        //Get the points of the current surface
+        std::vector<cv::Point3f> points = (*ii).getPoints();
+        std::vector<cv::Point3f>::iterator jj;              
 
+        for (jj = points.begin(); jj != points.end(); jj++) {
+            
+            cv::Point3f p = *jj;
+
+            cv::Point3f rotated = gUtils.rotateAroundAxis(p, axis, angle);
+            std::cout << rotated << std::endl;
+                       
+        }
+    }
+    
 }
+
+
