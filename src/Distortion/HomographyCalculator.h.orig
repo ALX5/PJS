@@ -8,7 +8,7 @@
 #ifndef HOMOGRAPHYCALCULATOR_H
 #define	HOMOGRAPHYCALCULATOR_H
 
-#include "plane.h"
+#include "Distortion/Plane.h"
 #include "Surface.h"
 #include <vector>
 

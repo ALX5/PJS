@@ -111,6 +111,7 @@ add_executable (PJS
 		Environment/Projection.cpp
 		Environment/User.cpp
 		Environment/TestProjection.cpp
+		Environment/GeometryUtils.cpp
 	
 		Tests/PlaneTests.cpp Tests/PlaneTests.h 
 		Tracking/Tracking.cpp Tracking/Tracking.h
