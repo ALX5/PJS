@@ -20,7 +20,6 @@ private :
     DepthMetaData depthCameraMD;
     ImageMetaData rgbCameraMD;
 
-    //ISO C++ forbids initialization here. We should use constructors
     XnRGB24Pixel* texMap;
     unsigned int texMapX;
     unsigned int texMapY;

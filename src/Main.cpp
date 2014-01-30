@@ -13,25 +13,30 @@
 
 void runTests();
 
-int main(int argc, char** argv) {
-    //    TestSurface t;
-    //    t.test();  
-
+int main(int argc, char** argv) {    
+//    TestSurface t;
+//    t.test();  
+    
     TestProjection t;
     t.test();
 
-    //    TestPlanes t;
-    //    t.test();
-
+//    TestPlanes t;
+//    t.test();
+    
     /* USER TRACKING. */
-    //    Tracking tracking;
-    //    tracking.setupTracking(argc,argv);
+//    Tracking tracking;
+//    tracking.setupTracking(argc,argv);
+
+    //  int mode = openni_wrapper::OpenNIDevice::OpenNI_12_bit_depth;
+    //  console::parse_argument (argc, argv, "-mode", mode);
+    //  Modelisation m (static_cast<openni_wrapper::OpenNIDevice::DepthMode> (mode));
+    //  m.run ();
 
     return 0;
 
 }
 
-void runTests() {
+void runTests(){
     PlaneTests planeTests;
     planeTests.testContains();
 }
