@@ -13,25 +13,25 @@
 
 void runTests();
 
-int main(int argc, char** argv) {    
-//    TestSurface t;
-//    t.test();  
-    
+int main(int argc, char** argv) {
+    //    TestSurface t;
+    //    t.test();  
+
     TestProjection t;
     t.test();
 
-//    TestPlanes t;
-//    t.test();
-    
-    /* USER TRACKING. */
-//    Tracking tracking;
-//    tracking.setupTracking(argc,argv);
+    //    TestPlanes t;
+    //    t.test();
 
-	return 0;
+    /* USER TRACKING. */
+    //    Tracking tracking;
+    //    tracking.setupTracking(argc,argv);
+
+    return 0;
 
 }
 
-void runTests(){
+void runTests() {
     PlaneTests planeTests;
     planeTests.testContains();
 }

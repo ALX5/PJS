@@ -16,7 +16,6 @@
 class Projection {
 public:
     Projection();
-    Projection(Plane3d &p1, Plane3d &p2);
     Projection(std::vector<Plane3d> &planes);
     virtual ~Projection();
     
