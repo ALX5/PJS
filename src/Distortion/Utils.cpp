@@ -7,12 +7,12 @@
 
 #include "Utils.h"
 #include <iostream>
-#include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/date_time/posix_time/posix_time_types.hpp>
+//#include <boost/date_time/posix_time/posix_time.hpp>
+//#include <boost/date_time/posix_time/posix_time_types.hpp>
 
 using namespace std;
 using namespace cv;
-using namespace boost::posix_time;
+//using namespace boost::posix_time;
 
 Utils::Utils() {
 }
@@ -26,7 +26,7 @@ Utils::~Utils() {
 void Utils::addAlphaChannel(Mat& image, Plane2d& plane) {
     
     cout << "Adding alpha channel..." << endl;
-    ptime initTime = microsec_clock::local_time();
+    //ptime initTime = microsec_clock::local_time();
 
     int height = image.rows;
     int width = image.cols;
@@ -81,9 +81,9 @@ void Utils::addAlphaChannel(Mat& image, Plane2d& plane) {
 
     image = transparent;
 
-    ptime endTime = microsec_clock::local_time();
+    //ptime endTime = microsec_clock::local_time();
 
-    cout << "Total time: " << endTime - initTime << endl;
+    //cout << "Total time: " << endTime - initTime << endl;
 
 }
 

@@ -10,15 +10,16 @@
 #include "Tracking/Tracking.h"
 #include "Distortion/TestPlanes.h"
 #include "Environment/TestProjection.h"
+#include "Calib.h"
 
-void runTests();
+//void runTests();
 
 int main(int argc, char** argv) {    
 //    TestSurface t;
 //    t.test();  
     
-    TestProjection t;
-    t.test();
+    //TestProjection t;
+    //t.test();
 
 //    TestPlanes t;
 //    t.test();
@@ -26,6 +27,7 @@ int main(int argc, char** argv) {
     /* USER TRACKING. */
 //    Tracking tracking;
 //    tracking.setupTracking(argc,argv);
+    Calib();
 
 	return 0;
 

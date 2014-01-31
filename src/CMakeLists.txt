@@ -120,5 +120,5 @@ add_executable (PJS
 	find_package( OpenCV REQUIRED )
 
 
-target_link_libraries (PJS ${OPENNI_LIBRARY} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${OpenCV_LIBS} ${Boost_LIBRARIES})
+target_link_libraries (PJS ${OPENNI_LIBRARY} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${OpenCV_LIBS}) #${Boost_LIBRARIES})
 
