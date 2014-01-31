@@ -29,92 +29,98 @@ void User::updatePosition(double &x, double &y, double &z) {
     cv::Point3f projectionCenter = _projection.getCenter();
     std::vector<Plane3d> planes = _projection.getPlanes();
 
-    //Compute the projection plane normal
-    cv::Point3f normal = _position - projectionCenter;
     
-    std::vector<Plane3d> projectedPlanes;    
+    
+    GeometryUtils gUtils;
+
+    //Compute the projection plane normal
+    cv::Point3f normal = gUtils.normalizeVector(_position - projectionCenter);
+
+    //This vector will store the projection of the projected surfaces
+    //onto the viewers orthogonal plane
+    std::vector<Plane3d> projectedPlanes;
+
     //Iterate over projected surfaces
-    std::vector<Plane3d>::iterator ii;    
-    for (ii = planes.begin(); ii != planes.end(); ii++) {        
+    std::vector<Plane3d>::iterator ii;
+    for (ii = planes.begin(); ii != planes.end(); ii++) {
+
         //Get the points of the current surface
         std::vector<cv::Point3f> points = (*ii).getPoints();
-        std::vector<cv::Point3f>::iterator jj;              
-        
+        std::vector<cv::Point3f>::iterator jj;
+
         //This list will contain the resulting intersections
         std::vector<cv::Point3f> intersections;
-        
-        //Calculate the intersection between the user's projection plane
-        //and the ray from the user to each corner of the projection surface
-        for (jj = points.begin(); jj != points.end(); jj++) {
-            
-            //Express the point in user space (only considering location)
-            cv::Point3f p = *jj - _position;
 
-            double num = -_position.dot(projectionCenter);
-            double den = _position.dot(p);
-            
-            //Scalar that indicates the point of intersection
-            double t = num / den;
-            
-            //The intersection
-            cv::Point3f intersection(t*p.x, t*p.y, t*p.z);
+        //Iterate over the points of the surface to find the intersection
+        //of each corresponding ray
+        for (jj = points.begin(); jj != points.end(); jj++) {
+
+            std::cout << "Calculating inter for: " << *jj << std::endl;
+
+            //TODO Shit semantics. Use vectors when necessary.
+
+            //Express the point and the projection center       
+            //in user space (only considering location)
+            //to obtain the corresponding ray and plane
+            cv::Vec3f p = *jj - _position;
+            cv::Point3f center = projectionCenter - _position;                    
+
+            //Calculate the intersection
+            cv::Point3f intersection = gUtils.intersection(p, normal, center);
             
             //Return the intersection from user space to world space
-            intersection = intersection + _position;
-            
+            //TODO verify the correctness of this transformation
+            intersection = -intersection + _position;
+
+            std::cout << intersection << std::endl;
+            std::cout << "In plane?" << std::endl;
+            std::cout << "Epsilon = " << (intersection - projectionCenter).dot(normal) 
+            << std::endl;
+
             //And add it to the list
             intersections.push_back(intersection);
-                       
+
         }
         Plane3d projectedPlane(intersections);
         projectedPlanes.push_back(projectedPlane);
-        
+
     }
-    std::cout << projectedPlanes.at(0) << std::endl;
-    
-    
-    
-    //TODO Get projectedPlanes according to projection center basis ()
-    
-    
-    
-    /*
-     * ****************************
-     * Temporary
-     * ****************************
-     */
-    
-    GeometryUtils gUtils;
-    
-    cv::Point3f normalized = gUtils.normalizeVector(_position);
-    
-    cv::Point3f zed(0,0,1);
-    
-    cv::Point3f axis = gUtils.crossProduct(normalized, zed);
-    
+
+    //Rotate the obtained intersections to align them to the orthogonal plane
+
+    //Normalize the plane normal (equivalent to the user's position)
+    cv::Vec3f normalized = gUtils.normalizeVector(_position);
+
+    //Get the rotation axis
+    cv::Vec3f zed(0, 0, -1);
+    cv::Vec3f axis = gUtils.crossProduct(normalized, zed);
+
     cv::Point3f normalAxis = gUtils.normalizeVector(axis);
-    
-    double angle = std::acos(normalized.x*zed.x +
-    normalized.x*zed.y +
-    normalized.x*zed.z);
-    
-    
-    //Rotate all intersections to 
-    for (ii = projectedPlanes.begin(); ii != projectedPlanes.end(); ii++) {        
+
+    double angle = std::acos(normalized[0] * zed[0] +
+            normalized[1] * zed[1] +
+            normalized[2] * zed[2]);
+
+    //TODO Not sure if this works properly
+    //Rotate all intersections to align them with the plane
+    for (ii = projectedPlanes.begin(); ii != projectedPlanes.end(); ii++) {
         //Get the points of the current surface
         std::vector<cv::Point3f> points = (*ii).getPoints();
-        std::vector<cv::Point3f>::iterator jj;              
+        std::vector<cv::Point3f>::iterator jj;
+
+        std::vector<cv::Point3f> rotatedPoints;
 
         for (jj = points.begin(); jj != points.end(); jj++) {
-            
             cv::Point3f p = *jj;
-
-            cv::Point3f rotated = gUtils.rotateAroundAxis(p, axis, angle);
-            std::cout << rotated << std::endl;
-                       
+            p = p - projectionCenter;
+            cv::Point3f rotated = gUtils.rotateAroundAxis(p, axis, -angle);
+            rotatedPoints.push_back(rotated);
         }
+        Plane3d plane(rotatedPoints);
+        _projectedPlanes.push_back(plane);
     }
-    
 }
 
-
+std::vector<Plane3d> User::getProjectedPlanes() {
+    return _projectedPlanes;
+}

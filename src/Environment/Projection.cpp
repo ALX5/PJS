@@ -69,51 +69,6 @@ Projection::Projection(std::vector<Plane3d>& planes) {
 
     //Remove duplicates
     sortedPoints.unique();
-
-    float sumX = 0.0;
-    float sumY = 0.0;
-    float sumZ = 0.0;
-    std::list<cv::Point3f>::iterator pointIt;
-    for (pointIt = sortedPoints.begin(); pointIt != sortedPoints.end(); pointIt++) {
-
-        sumX += (*pointIt).x;
-        sumY += (*pointIt).y;
-        sumZ += (*pointIt).z;
-    }
-    cv::Point3f center(sumX / sortedPoints.size(), sumY / sortedPoints.size(),
-            sumZ / sortedPoints.size());
-
-    _center = center;
-}
-
-Projection::Projection(Plane3d& p1, Plane3d& p2) {
-    _planes.push_back(p1);
-    _planes.push_back(p2);
-
-    //Calculate the center
-    std::vector<cv::Point3f> points;
-    points.push_back(p1.getPoint(0));
-    points.push_back(p1.getPoint(1));
-    points.push_back(p1.getPoint(2));
-    points.push_back(p1.getPoint(3));
-    points.push_back(p2.getPoint(0));
-    points.push_back(p2.getPoint(1));
-    points.push_back(p2.getPoint(2));
-    points.push_back(p2.getPoint(3));
-
-    //Sort
-    std::sort(points.begin(), points.end(), pointComparator);
-
-    std::list<cv::Point3f> sortedPoints;
-
-    std::vector<cv::Point3f>::iterator it;
-    for (it = points.begin(); it != points.end(); it++) {
-        sortedPoints.push_back(*it);
-    }
-
-    //Remove duplicates
-    sortedPoints.unique();
-
     float sumX = 0.0;
     float sumY = 0.0;
     float sumZ = 0.0;
@@ -123,12 +78,13 @@ Projection::Projection(Plane3d& p1, Plane3d& p2) {
         sumX += (*ii).x;
         sumY += (*ii).y;
         sumZ += (*ii).z;
+        
     }
     cv::Point3f center(sumX / sortedPoints.size(), sumY / sortedPoints.size(),
             sumZ / sortedPoints.size());
 
     _center = center;
-
+    
 }
 
 Projection::~Projection() {

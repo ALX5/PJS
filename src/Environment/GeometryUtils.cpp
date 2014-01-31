@@ -18,12 +18,13 @@ GeometryUtils::~GeometryUtils() {
 }
 
 //TODO optimize
-cv::Point3f GeometryUtils::rotateAroundAxis(const cv::Point3f &vect, const cv::Point3f &axis, 
+
+cv::Point3f GeometryUtils::rotateAroundAxis(const cv::Vec3f &vect, const cv::Vec3f &axis,
         const double &theta) {
     //Build the rotation matrix
-    double u = axis.x;
-    double v = axis.y;
-    double w = axis.z;
+    double u = axis[0];
+    double v = axis[1];
+    double w = axis[2];
 
     cv::Mat rotMatrix(4, 4, CV_64F);
     rotMatrix.at<double>(0) = (u * u + (1 - u * u) * std::cos(theta));
@@ -48,44 +49,57 @@ cv::Point3f GeometryUtils::rotateAroundAxis(const cv::Point3f &vect, const cv::P
 
 
     cv::Point3f result;
-    result.x = rotMatrix.at<double>(0) * vect.x +
-            rotMatrix.at<double>(1) * vect.y +
-            rotMatrix.at<double>(2) * vect.z +
+    result.x = rotMatrix.at<double>(0) * vect[0] +
+            rotMatrix.at<double>(1) * vect[1] +
+            rotMatrix.at<double>(2) * vect[2] +
             rotMatrix.at<double>(3);
-    result.y = rotMatrix.at<double>(4) * vect.x +
-            rotMatrix.at<double>(5) * vect.y +
-            rotMatrix.at<double>(6) * vect.z +
+    result.y = rotMatrix.at<double>(4) * vect[0] +
+            rotMatrix.at<double>(5) * vect[1] +
+            rotMatrix.at<double>(6) * vect[2] +
             rotMatrix.at<double>(7);
-    result.z = rotMatrix.at<double>(8) * vect.x +
-            rotMatrix.at<double>(9) * vect.y +
-            rotMatrix.at<double>(10) * vect.z +
+    result.z = rotMatrix.at<double>(8) * vect[0] +
+            rotMatrix.at<double>(9) * vect[1] +
+            rotMatrix.at<double>(10) * vect[2] +
             rotMatrix.at<double>(11);
 
     return result;
-    
+
 }
 
 //TODO optimize
-cv::Point3f GeometryUtils::normalizeVector(const cv::Point3f& vect) {
-    
-    double normalLength = std::pow(vect.x, 2) + std::pow(vect.y, 2) 
-    + std::pow(vect.z, 2);
-    
-    cv::Point3f normalized(vect.x/normalLength, 
-            vect.y/normalLength, 
-            vect.z/normalLength);
-    
-    return normalized;    
+
+cv::Vec3f GeometryUtils::normalizeVector(const cv::Vec3f& vect) {
+
+    double normalLength = std::sqrt(std::pow(vect[0], 2) + std::pow(vect[1], 2)
+            + std::pow(vect[2], 2));
+
+    cv::Point3f normalized(vect[0] / normalLength,
+            vect[1] / normalLength,
+            vect[2] / normalLength);
+
+    return normalized;
 }
 
-cv::Point3f GeometryUtils::crossProduct(const cv::Point3f& vectA, const cv::Point3f& vectB) {
-    
-    cv::Point3f cross;
-    cross.x = vectA.y*vectB.z - vectB.y*vectA.z;
-    cross.y = vectB.x*vectA.z - vectA.x*vectB.z;
-    cross.z = vectA.x*vectB.y - vectA.y*vectB.x; 
+//TODO optimize
+
+cv::Vec3f GeometryUtils::crossProduct(const cv::Vec3f& vectA, const cv::Vec3f& vectB) {
+
+    cv::Vec3f cross;
+    cross[0] = vectA[1] * vectB[2] - vectB[1] * vectA[2];
+    cross[1] = vectB[0] * vectA[2] - vectA[0] * vectB[2];
+    cross[2] = vectA[0] * vectB[1] - vectA[1] * vectB[0];
 
     return cross;
 }
 
+//TODO optimize
 
+cv::Point3f GeometryUtils::intersection(const cv::Vec3f &ray,
+        const cv::Point3f& normal, const cv::Point3f& point) {
+    double num = -normal.dot(point);
+    double den = normal.dot(ray);
+    double t = num / den;
+    cv::Point3f intersection(t * ray[0], t * ray[1], t * ray[2]);
+
+    return intersection;
+}

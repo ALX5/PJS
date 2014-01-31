@@ -56,7 +56,7 @@ SET(CMAKE_BUILD_TYPE Debug CACHE STRING "default to debug" FORCE)
      
 ############################################## PCL ##################################################
      
-    	find_package(PCL 1.3 REQUIRED)
+    	find_package(PCL 1.3 REQUIRED COMPONENTS common io)
     	include_directories(${PCL_INCLUDE_DIRS})
     	link_directories(${PCL_LIBRARY_DIRS})
     	add_definitions(${PCL_DEFINITIONS})
@@ -83,10 +83,10 @@ SET(CMAKE_BUILD_TYPE Debug CACHE STRING "default to debug" FORCE)
 
 ############################################# Boost ################################################  
 
-#FIND_PACKAGE( Boost COMPONENTS program_options REQUIRED )
-#INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
-#link_directories(${Boost_LIBRARY_DIRS})
-#add_definitions(${Boost_DEFINITIONS})
+FIND_PACKAGE( Boost COMPONENTS program_options REQUIRED )
+INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
+link_directories(${Boost_LIBRARY_DIRS})
+add_definitions(${Boost_DEFINITIONS})
 
 
 ############################################# OpenCV ################################################  
@@ -113,6 +113,7 @@ add_executable (PJS
 		Environment/TestProjection.cpp
 		Environment/GeometryUtils.cpp
 	
+		Modelisation/Modelisation.cpp Modelisation/Modelisation.h
 		Tests/PlaneTests.cpp Tests/PlaneTests.h 
 		Tracking/Tracking.cpp Tracking/Tracking.h
 		Main.cpp Main.h)
@@ -120,5 +121,5 @@ add_executable (PJS
 	find_package( OpenCV REQUIRED )
 
 
-target_link_libraries (PJS ${OPENNI_LIBRARY} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${OpenCV_LIBS}) #${Boost_LIBRARIES})
+target_link_libraries (PJS ${OPENNI_LIBRARY} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${OpenCV_LIBS} ${Boost_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES})
 

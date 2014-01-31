@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   main.cpp
  * Author: bruno
  *
@@ -8,41 +8,45 @@
 #include "Tests/PlaneTests.h"
 #include "Distortion/TestSurface.h"
 #include "Tracking/Tracking.h"
-<<<<<<< HEAD
-#include "Calibration/Calib.h"
-=======
 #include "Distortion/TestPlanes.h"
 #include "Environment/TestProjection.h"
->>>>>>> 8e1dcbf56f465f31d8c6b9914495b33c8de408c4
 
-//void runTests();
+void runTests();
 
+<<<<<<< HEAD
+int main(int argc, char** argv) {
+    //    TestSurface t;
+    //    t.test();  
+
+=======
 int main(int argc, char** argv) {    
 //    TestSurface t;
-//    t.test();  
+//    t.test();
     
-<<<<<<< HEAD
-    /*TestSurface t;
-    t.test();*/
-=======
+>>>>>>> 1b5d49d2736a28bef80ac539084927d33c36fe56
     TestProjection t;
     t.test();
 
-//    TestPlanes t;
-//    t.test();
->>>>>>> 8e1dcbf56f465f31d8c6b9914495b33c8de408c4
-    
+    //    TestPlanes t;
+    //    t.test();
+
     /* USER TRACKING. */
-//    Tracking tracking;
-//    tracking.setupTracking(argc,argv);
+    //    Tracking tracking;
+    //    tracking.setupTracking(argc,argv);
 
-    Calib();
+<<<<<<< HEAD
+=======
+    //  int mode = openni_wrapper::OpenNIDevice::OpenNI_12_bit_depth;
+    //  console::parse_argument (argc, argv, "-mode", mode);
+    //  Modelisation m (static_cast<openni_wrapper::OpenNIDevice::DepthMode> (mode));
+    //  m.run ();
 
-	return 0;
+>>>>>>> 1b5d49d2736a28bef80ac539084927d33c36fe56
+    return 0;
 
 }
 
-void runTests(){
+void runTests() {
     PlaneTests planeTests;
     planeTests.testContains();
 }

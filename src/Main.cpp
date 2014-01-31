@@ -29,7 +29,12 @@ int main(int argc, char** argv) {
 //    tracking.setupTracking(argc,argv);
     Calib();
 
-	return 0;
+    //  int mode = openni_wrapper::OpenNIDevice::OpenNI_12_bit_depth;
+    //  console::parse_argument (argc, argv, "-mode", mode);
+    //  Modelisation m (static_cast<openni_wrapper::OpenNIDevice::DepthMode> (mode));
+    //  m.run ();
+
+    return 0;
 
 }
 

@@ -21,6 +21,8 @@ public:
     
     void updatePosition(double &x, double &y, double &z);
     
+    std::vector<Plane3d> getProjectedPlanes();
+    
 private:
     //The position of the user's head. This varies constantly.
     cv::Point3f _position;
