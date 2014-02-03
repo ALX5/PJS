@@ -51,7 +51,6 @@ Calib::Calib()
         drawChessboardCorners(images.at(i), boardSize, Mat(cornersScene[0]), patternFound );
 
         imshow("Corners find", images.at(i));
-        waitKey();
 
         int keyPressed;
         do
@@ -85,5 +84,7 @@ Calib::Calib()
 
     //cout << "Camera matrix: " << cameraMatrix << endl;
     //cout << "Distortion _coefficients: " << distortionCoefficients << endl;
+    cout << rotationVectors.at(0) << endl;
+    cout << translationVectors.at(0) << endl;
 
 }

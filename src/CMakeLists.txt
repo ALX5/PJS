@@ -83,6 +83,7 @@ SET(CMAKE_BUILD_TYPE Debug CACHE STRING "default to debug" FORCE)
 
 ############################################# Boost ################################################  
 
+set(BOOST_ROOT D:/boost_1_53_0)
 FIND_PACKAGE( Boost COMPONENTS program_options REQUIRED )
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 link_directories(${Boost_LIBRARY_DIRS})
@@ -121,5 +122,5 @@ add_executable (PJS
 	find_package( OpenCV REQUIRED )
 
 
-target_link_libraries (PJS ${OPENNI_LIBRARY} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${OpenCV_LIBS} ${Boost_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES})
+target_link_libraries (PJS ${OPENNI_LIBRARY} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${OpenCV_LIBS}  ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES})#${Boost_LIBRARIES}
 
