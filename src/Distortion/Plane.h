@@ -14,6 +14,7 @@ template <class T>
 class Plane {
     //TODO Bad design. Plane should not be aware of who inherits from it
     friend class Plane2d;
+    friend class Plane3d;
 public:
 
     Plane<T>() {

@@ -99,7 +99,9 @@ void User::updatePosition(double &x, double &y, double &z) {
     double angle = std::acos(normalized[0] * zed[0] +
             normalized[1] * zed[1] +
             normalized[2] * zed[2]);
-
+    
+    std::cout << "Angle: " << angle << std::endl;
+    
     //TODO Not sure if this works properly
     //Rotate all intersections to align them with the plane
     for (ii = projectedPlanes.begin(); ii != projectedPlanes.end(); ii++) {
@@ -112,7 +114,7 @@ void User::updatePosition(double &x, double &y, double &z) {
         for (jj = points.begin(); jj != points.end(); jj++) {
             cv::Point3f p = *jj;
             p = p - projectionCenter;
-            cv::Point3f rotated = gUtils.rotateAroundAxis(p, axis, angle);
+            cv::Point3f rotated = gUtils.rotateAroundAxis(p, normalAxis, -angle);
             rotatedPoints.push_back(rotated);
         }
         Plane3d plane(rotatedPoints);
