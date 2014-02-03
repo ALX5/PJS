@@ -27,9 +27,7 @@ void User::updatePosition(double &x, double &y, double &z) {
 
     //Get the projection center and surfaces
     cv::Point3f projectionCenter = _projection.getCenter();
-    std::vector<Plane3d> planes = _projection.getPlanes();
-
-    
+    std::vector<Plane3d> planes = _projection.getPlanes();    
     
     GeometryUtils gUtils;
 
@@ -88,8 +86,9 @@ void User::updatePosition(double &x, double &y, double &z) {
 
     //Rotate the obtained intersections to align them to the orthogonal plane
 
-    //Normalize the plane normal (equivalent to the user's position)
-    cv::Vec3f normalized = gUtils.normalizeVector(_position);
+    //Normalize the plane normal (equivalent to the user's position from
+    //the projection center)
+    cv::Vec3f normalized = gUtils.normalizeVector(normal);
 
     //Get the rotation axis
     cv::Vec3f zed(0, 0, -1);
@@ -113,7 +112,7 @@ void User::updatePosition(double &x, double &y, double &z) {
         for (jj = points.begin(); jj != points.end(); jj++) {
             cv::Point3f p = *jj;
             p = p - projectionCenter;
-            cv::Point3f rotated = gUtils.rotateAroundAxis(p, axis, -angle);
+            cv::Point3f rotated = gUtils.rotateAroundAxis(p, axis, angle);
             rotatedPoints.push_back(rotated);
         }
         Plane3d plane(rotatedPoints);
