@@ -204,15 +204,42 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
 }
 
+//TODO remove pointer syntax
 cv::Mat Utils::getImageFromSurfaces(std::vector<Surface*> surfaces) {
 
     Mat image(surfaces.at(0)->transformedImage.rows,
             surfaces.at(0)->transformedImage.cols, CV_8UC4);
 
-    for (int i = 0; i < surfaces.size(); i++) {
-        this->writeToTimage(surfaces.at(i)->transformedImage, image);
+    std::vector<Surface*>::iterator ii;
+    for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
+        this->writeToTimage((*ii)->transformedImage, image);
     }
-
+    
     return image;
-
 }
+
+cv::Size Utils::getFinalSize(std::vector<Surface*> surfaces) {
+    Mat image(surfaces.at(0)->transformedImage.rows,
+            surfaces.at(0)->transformedImage.cols, CV_8UC4);
+    
+    int maxWidth = 0;
+    int maxHeight = 0;
+    
+    std::vector<Surface*>::iterator ii;
+    for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
+        Plane2d p = (*ii)->transformedRegion.getBoundingBox();
+        int w = p.getWidth();
+        int h = p.getHeight();
+        if(w > maxWidth){
+            maxWidth = w;
+        }
+        if(h > maxHeight){
+            maxHeight = h;
+        }
+    }
+    
+    cv::Size size(maxWidth*2, maxHeight);
+    
+    return size;
+}
+ 

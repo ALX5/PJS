@@ -27,6 +27,7 @@ public:
     cv::Mat joinImagesAtMiddle(Surface& s1 , Surface& s2);
     void writeToTimage(cv::Mat& src, cv::Mat& dst);
     cv::Mat getImageFromSurfaces(std::vector<Surface*> surfaces);
+    cv::Size getFinalSize(std::vector<Surface*>);
     
 private:
 

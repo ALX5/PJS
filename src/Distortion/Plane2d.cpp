@@ -106,6 +106,7 @@ Plane2d Plane2d::getBoundingBox() {
     return p;
 }
 
+//TODO remove
 Plane2d Plane2d::getBoundingBox(Plane2d &p2, Plane2d &p1) {
     vector<float> xCoords;
 

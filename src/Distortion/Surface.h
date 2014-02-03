@@ -39,9 +39,10 @@ public:
     
     /**
      * Transforms the original image using the stored homography stored in
-     * field homography
+     * field homography. The transformed image is written to a matrix of the given 
+     * size
      */
-    void applyHomography();
+    void applyHomography(cv::Size size);
     
     /**
      * Moves this surface so that the upper left corner of its bounding box
@@ -121,6 +122,9 @@ public:
     //Getters and setters
     cv::Size getSize();
     
+    int getWidth();
+    int getHeight();
+    
 private:
     Plane2d sourcePlane;
     Plane2d destinationPlane;
@@ -138,6 +142,10 @@ private:
     Surface* lowerLeftChild;
      
 };
+
+namespace pjs{
+    Plane2d getBoundingBox(Plane2d&, Plane2d&);
+}
 
 #endif	/* SURFACE_H */
 

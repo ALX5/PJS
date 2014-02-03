@@ -104,7 +104,6 @@ add_executable (PJS
         Distortion/Plane.cpp	
         Distortion/Plane2d.cpp
         Distortion/Plane3d.cpp
-		Distortion/TestSurface.cpp
 		Distortion/TestPlanes.cpp
 		Distortion/Utils.cpp
 		Distortion/Surface.cpp

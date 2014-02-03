@@ -114,31 +114,45 @@ void TestProjection::test() {
     s1.print("s1");
     s2.print("s2");
 
-    //TODO recursive position correction
-    //Correct the position of the surfaces
-    cv::Point2f origin(100, 100);
-    s1.correctBBPosition(origin);
-    cv::Point2f s1ur = s1.getUpperRightCorner();
-    std::cout << "Upper right: " << s1ur << std::endl;
-    s2.correctPosition(s1ur);
-
-    s1.applyHomography();
-    s2.applyHomography();
-    s1.addTransparency();
-    s2.addTransparency();
-
-    s1.display("s1");
-    s1.save("s1.png");
-    s2.display("s2");
-    s2.save("s2.png");
-
+    
     std::vector<Surface*> surfaces;
     surfaces.push_back(&s1);
     surfaces.push_back(&s2);
+        
+    cv::Size size = utils.getFinalSize(surfaces);
+    
+    //TODO recursive position correction
+    //Correct the position of the surfaces
+    //TODO test xOffset when the plane to the left is narrower
+    //TODO yOffset?
+    int xOffset = size.width - s1.getWidth();
+    cv::Point2f origin(0, 0);
+    s1.correctBBPosition(origin);
+    cv::Point2f s1ur = s1.getUpperRightCorner();
+    s2.correctPosition(s1ur);
+
+//    Plane2d boundingBox = pjs::getBoundingBox();
+    
+    
+    s1.applyHomography(size);
+    s2.applyHomography(size);
+    s1.addTransparency();
+    s2.addTransparency();
+
+//    s1.display("s1");
+//    s1.save("s1.png");
+//    s2.display("s2");
+//    s2.save("s2.png");
+
     cv::Mat finalImage = utils.getImageFromSurfaces(surfaces);
 
     int keyPressed = 0;
+    
+    cv::namedWindow("Final", CV_WINDOW_NORMAL);
+    cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
+    
     cv::imshow("Final", finalImage);
+    
     cv::imwrite("finalImage.png", finalImage);
     std::cout << "Press ESC to continue..." << std::endl;
     //TODO define constants for ESC key
