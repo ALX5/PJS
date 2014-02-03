@@ -4,12 +4,12 @@
  * 
  * Created on January 28, 2014, 3:33 PM
  */
-
+#include <iostream>
 #include <opencv2/opencv.hpp>
 #include "TestProjection.h"
 #include "Projection.h"
 #include "User.h"
-#include <iostream>
+#include "Utils.h"
 
 TestProjection::TestProjection() {
 }
@@ -33,20 +33,20 @@ void TestProjection::test() {
     cv::Point3f p23(543, 228, -543);
     cv::Point3f p24(0, 175, 0);
 
-    Plane3d p1(p11, p12, p13, p14);
+    Plane3d proj1(p11, p12, p13, p14);
 
-    Plane3d p2(p21, p22, p23, p24);
+    Plane3d proj2(p21, p22, p23, p24);
 
     std::cout << "***********************************************" << std::endl;
     std::cout << "                   Testing                     " << std::endl;
     std::cout << "***********************************************" << std::endl;
-    std::cout << p1 << std::endl;
-    std::cout << p2 << std::endl << std::endl;
+    std::cout << proj1 << std::endl;
+    std::cout << proj2 << std::endl << std::endl;
 
     
     std::vector<Plane3d> planes;
-    planes.push_back(p1);
-    planes.push_back(p2);
+    planes.push_back(proj1);
+    planes.push_back(proj2);
 
     //Cet objet-ci représent-il la projection, avec l'ensemble de plans projetés
     Projection proj(planes);
@@ -67,15 +67,83 @@ void TestProjection::test() {
     //intersections son les bonnes, mais je suis pas completement sûr
     //qu'elle soient bien représentées selon les coordonnées du plan
     //projectif de l'utilisateur. J'essaierais de le voir demain.
-    std::cout << "Intersections" << std::endl;
-    std::vector<Plane3d>::iterator ii;
-    std::vector<Plane3d> pPlanes = u.getProjectedPlanes();
-    for (ii = pPlanes.begin(); ii != pPlanes.end(); ii++) {
-        std::cout << *ii << std::endl;
-    }
-    
+//    std::cout << "Intersections" << std::endl;
+//    std::vector<Plane3d>::iterator ii;
+//    std::vector<Plane3d> pPlanes = u.getProjectedPlanes();
+//    for (ii = pPlanes.begin(); ii != pPlanes.end(); ii++) {
+//        std::cout << *ii << std::endl;
+//    }
+//    
     //En utilisant les plans obtenues par u.getProjectedPlanes(); et les plans
     //parfaits qu'on definissent nous mêmes, on pourra recalculer les homographies
     //à chaque pas de temps
+    
+    
+    
+    //Plane 1
+    Plane2d p1 = u.getProjectedPlanes().at(0).to2d();
+    Plane2d p2(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
+    
+    //Plane 2
+    Plane2d p3 = u.getProjectedPlanes().at(1).to2d();
+    Plane2d p4(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
+    
+    std::cout << "Distorted plane 1: " << std::endl << p1 << std::endl;
+    std::cout << "Distorted plane 2: " << std::endl << p2 << std::endl;
+    
+    Utils utils;
+
+    const char* nom1 = "../src/grid-straight2half.png";
+    cv::Mat img = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
+    if (!img.data) {
+        std::cout << " --(!) Error reading image" << std::endl;
+        throw std::exception();
+    }
+
+    //Divide the image in two
+    std::vector<cv::Mat> images = utils.divideImageInTwo(img);
+    
+    std::cout << "Rows" << images.at(0).rows << std::endl;
+    std::cout << "Rows" << images.at(1).rows << std::endl;
+
+    //Build the surfaces with their reference planes and their corresponding
+    //image
+    Surface s1(p1, p2, images.at(0));
+    Surface s2(p3, p4, images.at(1));
+    
+    s1.print("s1");
+    s2.print("s2");
+
+    //TODO recursive position correction
+    //Correct the position of the surfaces
+    cv::Point2f origin(100, 100);
+    s1.correctBBPosition(origin);
+    cv::Point2f s1ur = s1.getUpperRightCorner();
+    std::cout << "Upper right: " << s1ur << std::endl;
+    s2.correctPosition(s1ur);
+
+    s1.applyHomography();
+    s2.applyHomography();
+    s1.addTransparency();
+    s2.addTransparency();
+
+    s1.display("s1");
+    s1.save("s1.png");
+    s2.display("s2");
+    s2.save("s2.png");
+
+    std::vector<Surface*> surfaces;
+    surfaces.push_back(&s1);
+    surfaces.push_back(&s2);
+    cv::Mat finalImage = utils.getImageFromSurfaces(surfaces);
+
+    int keyPressed = 0;
+    cv::imshow("Final", finalImage);
+    cv::imwrite("finalImage.png", finalImage);
+    std::cout << "Press ESC to continue..." << std::endl;
+    //TODO define constants for ESC key
+    do {
+        keyPressed = cv::waitKey(0);
+    } while (keyPressed != 27);
     
 }

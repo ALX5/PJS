@@ -11,6 +11,7 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 #include "Plane.h"
+#include "Plane2d.h"
 
 class Plane3d : public Plane<cv::Point3f>{
     
@@ -20,6 +21,11 @@ public:
     Plane3d(const Plane3d& orig);
     virtual ~Plane3d();
     
+    /**
+     * Returns the projection of this plane onto 2D space
+     * @return 
+     */
+    Plane2d to2d();
     
 private:    
 };

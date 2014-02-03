@@ -44,8 +44,8 @@ cv::Point3f GeometryUtils::rotateAroundAxis(const cv::Vec3f &vect, const cv::Vec
 
     rotMatrix.at<double>(12) = (0);
     rotMatrix.at<double>(13) = (0);
-    rotMatrix.at<double>(14) = (1);
-    rotMatrix.at<double>(15) = (0);
+    rotMatrix.at<double>(14) = (0);
+    rotMatrix.at<double>(15) = (1);
 
 
     cv::Point3f result;

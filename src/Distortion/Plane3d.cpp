@@ -21,3 +21,11 @@ Plane3d::Plane3d(const Plane3d& orig) : Plane(orig){
 Plane3d::~Plane3d() {
 }
 
+Plane2d Plane3d::to2d() {
+    Plane2d p(cv::Point2f(points.at(0).x, points.at(0).y), 
+                cv::Point2f(points.at(1).x, points.at(1).y), 
+                cv::Point2f(points.at(2).x, points.at(2).y), 
+                cv::Point2f(points.at(3).x, points.at(3).y));
+    return p;
+    
+}
