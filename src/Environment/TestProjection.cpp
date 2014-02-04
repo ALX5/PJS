@@ -20,7 +20,7 @@ TestProjection::TestProjection(const TestProjection& orig) {
 TestProjection::~TestProjection() {
 }
 
-void TestProjection::test() {
+void TestProjection::test(double userX, double userY, double userZ) {
 
     //Ces plans-ci représentent les coordonnées des surfaces projetées
     cv::Point3f p11(-543, 1314, -543);    
@@ -58,7 +58,8 @@ void TestProjection::test() {
     double y = 1000.0;
     double z = -3500.0;
     //Cette méthode là fait-elle tout ce qui est necessaire    
-    u.updatePosition(x, y, z);
+//    u.updatePosition(x, y, z);
+        u.updatePosition(userX, userY, userZ);
 
     std::cout << "User" << std::endl;
     std::cout << x << ", " << y << ", " << z << std::endl << std::endl;
@@ -125,8 +126,8 @@ void TestProjection::test() {
     //Correct the position of the surfaces
     //TODO test xOffset when the plane to the left is narrower
     //TODO yOffset?
-    int xOffset = size.width - s1.getWidth();
-    cv::Point2f origin(0, 0);
+    int xOffset = size.width/2 - s1.getWidth();
+    cv::Point2f origin(xOffset, 0);
     s1.correctBBPosition(origin);
     cv::Point2f s1ur = s1.getUpperRightCorner();
     s2.correctPosition(s1ur);

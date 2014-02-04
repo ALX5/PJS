@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 //    t.test();  
     
     TestProjection t;
-    t.test();
+    t.test(-1500.0, 1000.0, -3500.0);
 
 //    TestPlanes t;
 //    t.test();

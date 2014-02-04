@@ -14,7 +14,7 @@ public:
     TestProjection(const TestProjection& orig);
     virtual ~TestProjection();
     
-    void test(); 
+    void test(double userX, double userY, double userZ); 
     
 private:
 
