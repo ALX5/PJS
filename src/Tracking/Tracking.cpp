@@ -119,7 +119,7 @@ int Tracking::setupTracking(int argc, char *argv[], Mat rot, Mat trls)
 
         cout << "User head at (" << -head.position.position.X << ","
              << head.position.position.Y+850 << ","
-             << 4000-head.position.position.Z << ")" << endl;
+             << head.position.position.Z << ")" << endl;
 
         //cout << "User head at (" << headcoorprime.at<double>(0) << ","
           //           << headcoorprime.at<double>(1) << ","

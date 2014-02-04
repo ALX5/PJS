@@ -141,8 +141,6 @@ Plane2d Plane2d::getBoundingBox(Plane2d &p2, Plane2d &p1) {
     return p;
 }
 
-//TODO not finished
-
 bool Plane2d::contains(cv::Point2f& p) {
 
     bool oddNodes = false;
@@ -349,9 +347,9 @@ Plane2d Plane2d::getInnerBox() {
 }
 
 int Plane2d::getWidth() {
-    return getUpperRightCorner().x - getUpperLeftCorner().x;
+    return this->getBoundingBox().getUpperRightCorner().x - this->getBoundingBox().getUpperLeftCorner().x;
 }
 
-int Plane2d::getHeight() {
-    return getLowerRightCorner().y - getUpperRightCorner().y;
+int Plane2d::getHeight() {    
+    return this->getBoundingBox().getLowerRightCorner().y - this->getBoundingBox().getUpperRightCorner().y;
 }

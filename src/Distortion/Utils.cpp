@@ -5,8 +5,9 @@
  * Created on January 16, 2014, 1:29 PM
  */
 
-#include "Utils.h"
 #include <iostream>
+#include "Utils.h"
+
 //#include <boost/date_time/posix_time/posix_time.hpp>
 //#include <boost/date_time/posix_time/posix_time_types.hpp>
 
@@ -27,7 +28,8 @@ void Utils::addAlphaChannel(Mat& image, Plane2d& plane) {
     
     cout << "Adding alpha channel..." << endl;
     //ptime initTime = microsec_clock::local_time();
-
+    std::cout << plane << std::endl;
+    
     int height = image.rows;
     int width = image.cols;
 
@@ -219,6 +221,9 @@ cv::Mat Utils::getImageFromSurfaces(std::vector<Surface*> surfaces) {
 }
 
 cv::Size Utils::getFinalSize(std::vector<Surface*> surfaces) {
+    std::cout << "FINAL SIZE " << std::endl;
+    
+    
     Mat image(surfaces.at(0)->transformedImage.rows,
             surfaces.at(0)->transformedImage.cols, CV_8UC4);
     
@@ -228,6 +233,7 @@ cv::Size Utils::getFinalSize(std::vector<Surface*> surfaces) {
     std::vector<Surface*>::iterator ii;
     for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
         Plane2d p = (*ii)->transformedRegion.getBoundingBox();
+        std::cout << "bb: " << p << std::endl;
         int w = p.getWidth();
         int h = p.getHeight();
         if(w > maxWidth){

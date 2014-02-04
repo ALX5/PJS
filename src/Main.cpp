@@ -17,37 +17,22 @@
 //void runTests();
 
 int main(int argc, char** argv) {    
-//    TestSurface t;
-//    t.test();  
-    
-    TestProjection t;
-<<<<<<< HEAD
-<<<<<<< HEAD
-    t.test();
-=======
-    t.test(-1500.0, 1000.0, -3500.0);
->>>>>>> 32a6818ae0d9d86380aeb166f11fd39e64c52591
-=======
-    t.test(-1500.0, 1000.0, -3500.0);
->>>>>>> 32a6818ae0d9d86380aeb166f11fd39e64c52591
 
-//    TestPlanes t;
-//    t.test();
-
-    Calib c;
+//    Calib c;
 
     /* USER TRACKING. */
-<<<<<<< HEAD
-    Tracking tracking;
-    tracking.setupTracking(argc,argv,c.rotationVectors.at(0),c.translationVectors.at(0));
-=======
+
+//    Tracking tracking;
+//    tracking.setupTracking(argc,argv,c.rotationVectors.at(0),c.translationVectors.at(0));
+
+    
+    TestProjection t;
+    t.test(-1500.0, 1000.0, -3500.0);
+
+    
 //    Tracking tracking;
 //    tracking.setupTracking(argc,argv);
 //    Calib();
-<<<<<<< HEAD
->>>>>>> 32a6818ae0d9d86380aeb166f11fd39e64c52591
-=======
->>>>>>> 32a6818ae0d9d86380aeb166f11fd39e64c52591
 
     //  int mode = openni_wrapper::OpenNIDevice::OpenNI_12_bit_depth;
     //  console::parse_argument (argc, argv, "-mode", mode);

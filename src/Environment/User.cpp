@@ -110,6 +110,9 @@ void User::updatePosition(double &x, double &y, double &z) {
         std::vector<cv::Point3f>::iterator jj;
 
         std::vector<cv::Point3f> rotatedPoints;
+        
+        std::cout << "Non-Rotated plane" << std::endl;
+        std::cout << *ii << std::endl;
 
         for (jj = points.begin(); jj != points.end(); jj++) {
             cv::Point3f p = *jj;
@@ -117,7 +120,10 @@ void User::updatePosition(double &x, double &y, double &z) {
             cv::Point3f rotated = gUtils.rotateAroundAxis(p, normalAxis, -angle);
             rotatedPoints.push_back(rotated);
         }
+        
         Plane3d plane(rotatedPoints);
+        std::cout << "Rotated plane" << std::endl;
+        std::cout << plane << std::endl;
         _projectedPlanes.push_back(plane);
     }
 }
