@@ -11,6 +11,9 @@ class Calib
 {
 public:
     Calib();
+    vector<Mat> rotationVectors;
+    vector<Mat> translationVectors;
+
 
 private:
 

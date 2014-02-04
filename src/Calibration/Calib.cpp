@@ -53,10 +53,10 @@ Calib::Calib()
         imshow("Corners find", images.at(i));
 
         int keyPressed;
-        do
+        /*do
         {
             keyPressed = waitKey(0);
-        } while (keyPressed != 27);
+        } while (keyPressed != 27);*/
     }
 
     // Getting the chessboard's corners on the mire's image
@@ -72,8 +72,6 @@ Calib::Calib()
       }
 
     // Getting the camera's parameters
-    vector<Mat> rotationVectors;
-    vector<Mat> translationVectors;
 
     Mat distortionCoefficients = Mat::zeros(8, 1, CV_64F);
     Mat cameraMatrix = Mat::eye(3, 3, CV_64F);

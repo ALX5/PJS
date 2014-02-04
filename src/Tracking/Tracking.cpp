@@ -62,7 +62,7 @@ void XN_CALLBACK_TYPE userCalibrationFinished(SkeletonCapability&, XnUserID id, 
 
 Tracking::Tracking() {}
 
-int Tracking::setupTracking(int argc, char *argv[])
+int Tracking::setupTracking(int argc, char *argv[], Mat rot, Mat trls)
 {
     Calibration c;
     c.launchCalibration(argc,argv);
@@ -85,6 +85,15 @@ int Tracking::setupTracking(int argc, char *argv[])
 
     cout << "Waiting for user." << endl;
 
+    Mat h;
+    Rodrigues(rot,h);
+    cout << h << endl;
+    h.resize(3,4);
+    h.at<double>(0,3)=trls.at<double>(0);
+    h.at<double>(1,3)=trls.at<double>(1);
+    h.at<double>(2,3)=trls.at<double>(2);
+
+
     // Main loop for users detection, calibration and tracking.
     while (!xnOSWasKeyboardHit())
     {
@@ -97,8 +106,24 @@ int Tracking::setupTracking(int argc, char *argv[])
             continue;
 
         user.GetSkeletonCap().GetSkeletonJoint(users[0],XN_SKEL_HEAD,head);
-        cout << "User head at (" << head.position.position.X << ","
-             << head.position.position.Y << ","
-             << head.position.position.Z << ")" << endl;
+        Mat headcoor = Mat(3,1, CV_64F);
+        //cout << "X:" << head.position.position.X << endl;
+        //cout << "Y:" << head.position.position.Y << endl;
+        //cout << "Z:" << head.position.position.Z << endl;
+        //headcoor.at<double> (0,0)= head.position.position.X;
+        //headcoor.at<double> (1,0)= head.position.position.Y;
+        //headcoor.at<double> (2,0)= head.position.position.Z;
+        //cout << headcoor << endl;
+        //cout << h << endl;
+        //Mat headcoorprime = h*headcoor;
+
+        cout << "User head at (" << -head.position.position.X << ","
+             << head.position.position.Y+850 << ","
+             << 4000-head.position.position.Z << ")" << endl;
+
+        //cout << "User head at (" << headcoorprime.at<double>(0) << ","
+          //           << headcoorprime.at<double>(1) << ","
+            //         << headcoorprime.at<double>(2) << ")" << endl;
+
     }
 }
