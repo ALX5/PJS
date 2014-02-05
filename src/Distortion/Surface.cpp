@@ -22,7 +22,10 @@ Surface::Surface(Plane2d& src, Plane2d& dst, cv::Mat image) {
     this->sourcePlane = src;
     this->destinationPlane = dst;
     this->image = image;
-
+    
+    this->affineTransformation = 
+            (cv::Mat_<double>(3,3) << 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+    
     this->determineHomography();
     this->calculateTransformedPlane();
 }
@@ -41,7 +44,7 @@ void Surface::determineHomography() {
     dst.push_back(destinationPlane.getPoint(2));
     dst.push_back(destinationPlane.getPoint(3));
 
-    homography = cv::findHomography(src, dst, CV_RANSAC);
+    homography = cv::findHomography(src, dst);
 }
 
 void Surface::calculateTransformedPlane() {
@@ -52,29 +55,48 @@ void Surface::calculateTransformedPlane() {
     src.push_back(destinationPlane.getPoint(1));
     src.push_back(destinationPlane.getPoint(2));
     src.push_back(destinationPlane.getPoint(3));
+    
+//    std::cout << "Applying homography on plane: " << src << std::endl;
 
+    
+    //TODO Transform reference plane with affine tr
+    
     cv::perspectiveTransform(src, dst, homography);
-
+//    cv::transform(dst, dst, affineTransformation);
+    
+    std::cout << "Applying transformation on plane: " << std::endl;
+    std::cout << dst << std::endl;
+    
     transformedRegion = Plane2d(dst);
 
-    Plane2d boundingBox = transformedRegion.getBoundingBox();
+//    Plane2d boundingBox = transformedRegion.getBoundingBox();
 
-    size = boundingBox.getSize();
+//    size = boundingBox.getSize();
 
 }
 
 void Surface::adjustTranslations(cv::Point2f &offset) {
-    homography.at<double>(0, 2) -= offset.x;
-    homography.at<double>(1, 2) -= offset.y;
+//    homography.at<double>(0, 2) -= offset.x;
+//    homography.at<double>(1, 2) -= offset.y;
+
+    affineTransformation.at<double>(0, 2) = -offset.x;
+    affineTransformation.at<double>(1, 2) = -offset.y;
+    
+    //TODO Find how to apply the translation correctly (negative values, segfault))
+    //It's just that the other plane is higher, so he should be the one we checked
+    //to get the offset
+    //    homography = homography*affineTransformation;
+    homography = affineTransformation*homography;
 }
 
-//TODO get right size
-//It is like this right now because the second half needs to be
-//located to the right
-
 void Surface::applyHomography(cv::Size size) {
+        
+    
     cv::warpPerspective(image, transformedImage,
-            homography, cv::Size(size.width, size.height));
+            homography, cv::Size(size.width+offset.x, size.height+offset.y));
+//    cv::warpAffine(transformedImage, transformedImage, 
+//            affineTransformation, cv::Size(size.width, size.height));
+    
 }
 
 //TODO this should store the offset but not apply it
@@ -88,9 +110,15 @@ void Surface::correctPosition(cv::Point2f& point) {
 }
 
 void Surface::correctBBPosition(cv::Point2f& point) {
+    std::cout << "Correcting BB" << std::endl;
+    std::cout << "Plane: " << transformedRegion << std::endl;
     cv::Point2f offset = transformedRegion.findBBOffset(point);
+    std::cout << "Transform: " << std::endl << affineTransformation << std::endl;
     this->adjustTranslations(offset);
+    std::cout << "Corrected transform: " << std::endl << affineTransformation << std::endl;
     this->calculateTransformedPlane();
+    std::cout << "Offset: " << offset << std::endl;
+    std::cout << "Corrected Plane: " << transformedRegion << std::endl;
 }
 
 void Surface::display() {

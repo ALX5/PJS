@@ -22,111 +22,60 @@ TestProjection::~TestProjection() {
 
 void TestProjection::test(double userX, double userY, double userZ) {
 
-    //Ces plans-ci représentent les coordonnées des surfaces projetées
-//    cv::Point3f p11(-543, 1314, -543);    
-//    cv::Point3f p12(0, 1474, 0);    
-//    cv::Point3f p13(0, 175, 0);
-//    cv::Point3f p14(-543, 228, -543);
-//
-//    cv::Point3f p21(0, 1474, 0);
-//    cv::Point3f p22(543, 1314, -543);
-//    cv::Point3f p23(543, 228, -543);
-//    cv::Point3f p24(0, 175, 0);
-
-//    cv::Point3f p11(-480+480, 735, -420);    
-//    cv::Point3f p12(0+480, 935, 0);    
-//    cv::Point3f p13(0+480, 220, 0);
-//    cv::Point3f p14(-480+480, 240, -420);
-//
-//    cv::Point3f p21(0, 935, 0);
-//    cv::Point3f p22(480, 735, -420);
-//    cv::Point3f p23(480, 240, -420);
-//    cv::Point3f p24(0, 220, 0);
-
-    cv::Point3f p11(-480, 1000-735, -420);    
-    cv::Point3f p12(0, 1000-935, 0);    
-    cv::Point3f p13(0, 1000-220, 0);
-    cv::Point3f p14(-480, 1000-240, -420);
-
-    cv::Point3f p21(0, 1000-935, 0);
-    cv::Point3f p22(480, 1000-735, -420);
-    cv::Point3f p23(480, 1000-240, -420);
-    cv::Point3f p24(0, 1000-220, 0);
-
-//    cv::Point3f p11(-480, 1000-735, -420);    
-//    cv::Point3f p12(0, 1000-935, 0);    
-//    cv::Point3f p13(0, 1000-220, 0);
-//    cv::Point3f p14(-480, 1000-240, -420);
-//
-//    cv::Point3f p21(0, 1000-935, 0);
-//    cv::Point3f p22(480, 1000-735, -420);
-//    cv::Point3f p23(480, 1000-240, -420);
-//    cv::Point3f p24(0, 1000-220, 0);
-        
+    //TODO ******* In order to get the right Y offset, check the whole picture
+    //2 passes, at least for the moment?
+    //It does not work, anyway. We get the same shit
     
+    //    cv::Point3f p11(-543, 1314, -543);    
+    //    cv::Point3f p12(0, 1474, 0);    
+    //    cv::Point3f p13(0, 175, 0);
+    //    cv::Point3f p14(-543, 228, -543);
+    //
+    //    cv::Point3f p21(0, 1474, 0);
+    //    cv::Point3f p22(543, 1314, -543);
+    //    cv::Point3f p23(543, 228, -543);
+    //    cv::Point3f p24(0, 175, 0);
+
     
+    //Coordinates of the projection in the real world
+    cv::Point3f p11(-480, 735, -420);
+    cv::Point3f p12(0, 935, 0);
+    cv::Point3f p13(0, 220, 0);
+    cv::Point3f p14(-480, 240, -420);
     Plane3d proj1(p11, p12, p13, p14);
 
+    cv::Point3f p21(0, 935, 0);
+    cv::Point3f p22(480, 735, -420);
+    cv::Point3f p23(480, 240, -420);
+    cv::Point3f p24(0, 220, 0);
     Plane3d proj2(p21, p22, p23, p24);
 
-    std::cout << "***********************************************" << std::endl;
-    std::cout << "                   Testing                     " << std::endl;
-    std::cout << "***********************************************" << std::endl;
-    std::cout << proj1 << std::endl;
-    std::cout << proj2 << std::endl << std::endl;
-
-    
     std::vector<Plane3d> planes;
     planes.push_back(proj1);
     planes.push_back(proj2);
 
-    //Cet objet-ci représent-il la projection, avec l'ensemble de plans projetés
     Projection proj(planes);
 
-    //L'utilisateur. À chaque pas de temps il faut mettre à jour
-    //sa position
+    proj.print();
+    
+    //Create the user with the obtained projection coordinates
     User u(proj);
-    double x = -1500.0;
-    double y = 1000.0;
-    double z = -3500.0;
-    //Cette méthode là fait-elle tout ce qui est necessaire    
-//    u.updatePosition(x, y, z);
-        u.updatePosition(userX, userY, userZ);
 
-    std::cout << "User" << std::endl;
-    std::cout << x << ", " << y << ", " << z << std::endl << std::endl;
+    //Update his position
+    u.updatePosition(userX, userY, userZ);
+    u.print();
 
-    //Ici j'imprime les intersections trouvées. Je crois que les
-    //intersections son les bonnes, mais je suis pas completement sûr
-    //qu'elle soient bien représentées selon les coordonnées du plan
-    //projectif de l'utilisateur. J'essaierais de le voir demain.
-//    std::cout << "Intersections" << std::endl;
-//    std::vector<Plane3d>::iterator ii;
-//    std::vector<Plane3d> pPlanes = u.getProjectedPlanes();
-//    for (ii = pPlanes.begin(); ii != pPlanes.end(); ii++) {
-//        std::cout << *ii << std::endl;
-//    }
-//    
-    //En utilisant les plans obtenues par u.getProjectedPlanes(); et les plans
-    //parfaits qu'on definissent nous mêmes, on pourra recalculer les homographies
-    //à chaque pas de temps
-    
-    
-    
+    //Create the distorted-corrected plane pairs, using the projections
+    //on the user's view plane
     //Plane 1
     Plane2d p1 = u.getProjectedPlanes().at(0).to2d();
 //    Plane2d p2(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
     Plane2d p2(cv::Point2f(-480, 0), cv::Point2f(0, 0), cv::Point2f(0, 540), cv::Point2f(-480, 540));
-    
     //Plane 2
     Plane2d p3 = u.getProjectedPlanes().at(1).to2d();
     Plane2d p4(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
-    
-    std::cout << "Distorted plane 1: " << std::endl << p1 << std::endl;
-    std::cout << "Distorted plane 2: " << std::endl << p3 << std::endl;
-    
-    Utils utils;
 
+    //Load the target image
     const char* nom1 = "../src/grid-straight2half.png";
     cv::Mat img = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
     if (!img.data) {
@@ -134,90 +83,92 @@ void TestProjection::test(double userX, double userY, double userZ) {
         throw std::exception();
     }
 
+    //Helper object
+    Utils utils;
     //Divide the image in two
     std::vector<cv::Mat> images = utils.divideImageInTwo(img);
-    
-    std::cout << "Rows" << images.at(0).rows << std::endl;
-    std::cout << "Rows" << images.at(1).rows << std::endl;
 
     //Build the surfaces with their reference planes and their corresponding
     //image
     Surface s1(p1, p2, images.at(0));
     Surface s2(p3, p4, images.at(1));
-    
-    
-
-    
+  
     std::vector<Surface*> surfaces;
     surfaces.push_back(&s1);
     surfaces.push_back(&s2);
-        
-    cv::Size size = utils.getFinalSize(surfaces);
-//    cv::Size size;
-    size.width +=400;
-    size.height += 200;
-    
-    std::cout << "Size: " << size << std::endl;
-    
+
+    s1.print("s1");
+    s2.print("s2");
+  
+
     //TODO recursive position correction
     //Correct the position of the surfaces
     //TODO test xOffset when the plane to the left is narrower
     //TODO yOffset?
-    
-    int xOffset;
-    if(s1.getWidth() > s2.getWidth()){
-        xOffset = size.width/2 - s1.getWidth();
-    } else {
-        xOffset = size.width/2 - s2.getWidth();
-    }
-    int yOffset;
-    if(s1.getHeight() > s2.getHeight()){
-        yOffset = size.height - s1.getHeight();
-    } else {
-        yOffset = size.height - s2.getHeight();
-    }
-    std::cout << "Offset: " << xOffset << ", " << yOffset << std::endl;
-    
-    cv::Point2f origin(xOffset, yOffset);
+
+//    int xOffset;
+//    if (s1.getWidth() > s2.getWidth()) {
+//        xOffset = size.width / 2 - s1.getWidth();
+//    } else {
+//        xOffset = size.width / 2 - s2.getWidth();
+//    }
+//    int yOffset;
+//    if (s1.getHeight() > s2.getHeight()) {
+//        yOffset = size.height - s1.getHeight();
+//    } else {
+//        yOffset = size.height - s2.getHeight();
+//    }
+//    std::cout << "Offset: " << xOffset << ", " << yOffset << std::endl;
+
+    //TODO Changing the translation in the homography further affects the
+    //transformation
+    cv::Point2f origin(0, 0);
     s1.correctBBPosition(origin);
     cv::Point2f s1ur = s1.getUpperRightCorner();
     s2.correctPosition(s1ur);
-
-
-//    Plane2d boundingBox = pjs::getBoundingBox();
+    cv::Size size = utils.getFinalSize(surfaces);
+    std::cout << "Size: " << size << std::endl;
     
+//    cv::Point2f origin3(0, 0);
+//    s1.correctBBPosition(origin3);
+//    s1ur = s1.getUpperRightCorner();
+//    s2.correctPosition(s1ur);
+//    size = utils.getFinalSize(surfaces);
+//    std::cout << "Size: " << size << std::endl;
+   
+    
+    s1.print("s1");
+    s2.print("s2");
+
     
     s1.applyHomography(size);
     s2.applyHomography(size);
     s1.addTransparency();
     s2.addTransparency();
 
-    s1.display("s1");
-//    s1.save("s1.png");
-    s2.display("s2");
-//    s2.save("s2.png");
+//        s1.display("s1");
+//        s1.save("s1.png");
+//        s2.display("s2");
+//        s2.save("s2.png");
 
-    s1.print("s1");
-    s2.print("s2");
-    
     cv::Mat finalImage = utils.getImageFromSurfaces(surfaces);
 
     int keyPressed = 0;
-    
-//    cv::namedWindow("Final", CV_WINDOW_NORMAL);
-//    cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
-//    
+
+    //    cv::namedWindow("Final", CV_WINDOW_NORMAL);
+    //    cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
+    //    
     cv::imshow("Final", finalImage);
-    
+
     cv::imwrite("finalImage.png", finalImage);
     std::cout << "Press ESC to continue..." << std::endl;
     //TODO define constants for ESC key
     do {
         keyPressed = cv::waitKey(0);
     } while (keyPressed != 27);
-    
+
     surfaces.clear();
-    
+
     cv::destroyAllWindows();
-    
+
 }

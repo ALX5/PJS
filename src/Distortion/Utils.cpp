@@ -6,13 +6,12 @@
  */
 
 #include <iostream>
+#include <algorithm>
 #include "Utils.h"
 
 //#include <boost/date_time/posix_time/posix_time.hpp>
 //#include <boost/date_time/posix_time/posix_time_types.hpp>
 
-using namespace std;
-using namespace cv;
 //using namespace boost::posix_time;
 
 Utils::Utils() {
@@ -24,22 +23,18 @@ Utils::Utils(const Utils& orig) {
 Utils::~Utils() {
 }
 
-void Utils::addAlphaChannel(Mat& image, Plane2d& plane) {
-    
-    cout << "Adding alpha channel..." << endl;
+void Utils::addAlphaChannel(cv::Mat& image, Plane2d& plane) {
+
+    std::cout << "Adding alpha channel..." << std::endl;
     //ptime initTime = microsec_clock::local_time();
     std::cout << plane << std::endl;
-    
+
     int height = image.rows;
     int width = image.cols;
-
-    Mat transparent(height, width, CV_8UC4);
-    Mat alphaMask(height, width, CV_8U, Scalar(0.0));
+    //std::cout << width << ", " << height << std::endl;
+    cv::Mat transparent(height, width, CV_8UC4);
+    cv::Mat alphaMask(height, width, CV_8U, cv::Scalar(0.0));
     uchar *alphaPtr = alphaMask.ptr();
-
-    //TODO Too slow! Find a faster method for adding an alpha channel
-    //Hint: use BB. Everything outside it is left blank
-    //Hint: crop before doing this
 
     //Get BB
     Plane2d bb = plane.getBoundingBox();
@@ -51,35 +46,41 @@ void Utils::addAlphaChannel(Mat& image, Plane2d& plane) {
     //Initialize all alpha values to 0
     for (int row = 0; row < alphaMask.rows; row++) {
         for (int col = 0; col < alphaMask.cols; col++) {
-            Point2f p(col, row);
+            cv::Point2f p(col, row);
             *alphaPtr = 0;
             alphaPtr++;
         }
     }
 
-    
+
     //Assign an alpha value of 255 to the points inside the plane
-    int planeWidth = plane.getWidth();    
+    int planeWidth = plane.getWidth();
     alphaPtr = alphaMask.ptr();
     alphaPtr += bbY * width + bbX;
+    
+    bbY = std::max(0, bbY);
+    bbX = std::max(0, bbX);
+    
     uchar alphaValue;
-    for (int row = bbY; row < bbH+bbY; row++) {
-        for (int col = bbX; col < bbW+bbX; col++) {
-            
-            Point2f p(col, row);            
+    for (int row = bbY; row < bbH + bbY; row++) {
+        for (int col = bbX; col < bbW + bbX; col++) {
+            cv::Point2f p(col, row);
+//                std::cout << row << ", " << col << std::endl;        
             if (plane.contains(p)) {
                 *alphaPtr = 255;
+                
             }
-            
+
             alphaPtr++;
+            
         }
-        alphaPtr += (width-bbW);    
+        alphaPtr += (width - bbW);
     }
 
 
-    Mat srcImg[] = {image, alphaMask};
+    cv::Mat srcImg[] = {image, alphaMask};
     int from_to[] = {0, 0, 1, 1, 2, 2, 3, 3};
-    mixChannels(srcImg, 2, &transparent, 1, from_to, 4);
+    cv::mixChannels(srcImg, 2, &transparent, 1, from_to, 4);
 
     image = transparent;
 
@@ -89,16 +90,16 @@ void Utils::addAlphaChannel(Mat& image, Plane2d& plane) {
 
 }
 
-vector<Mat> Utils::divideImageInTwo(cv::Mat& img) {
+std::vector<cv::Mat> Utils::divideImageInTwo(cv::Mat& img) {
 
-    vector<Mat> images;
+    std::vector<cv::Mat> images;
 
     int cols = img.cols;
     int firstHalfCols = (img.cols / 2);
     int rows = img.rows;
 
-    Mat firstHalf(img.rows, firstHalfCols, IMG_UNIT);
-    Mat secondHalf(img.rows, img.cols - firstHalfCols, IMG_UNIT);
+   cv:: Mat firstHalf(img.rows, firstHalfCols, IMG_UNIT);
+    cv::Mat secondHalf(img.rows, img.cols - firstHalfCols, IMG_UNIT);
 
     uchar *fhPtr = firstHalf.ptr();
     uchar *shPtr = secondHalf.ptr();
@@ -132,7 +133,7 @@ cv::Mat Utils::joinImagesAtMiddle(cv::Mat& img1, cv::Mat& img2) {
     int rows = img1.rows;
     int channels = img1.channels();
 
-    Mat finalImage(img1.rows, img1.cols, CV_8UC4);
+    cv::Mat finalImage(img1.rows, img1.cols, CV_8UC4);
     uchar *fPtr = img1.ptr();
     uchar *sPtr = img2.ptr();
     uchar *iPtr = finalImage.ptr();
@@ -166,8 +167,8 @@ cv::Mat Utils::joinImagesAtMiddle(cv::Mat& img1, cv::Mat& img2) {
 }
 
 cv::Mat Utils::joinImagesAtMiddle(Surface &s1, Surface &s2) {
-    Mat im1 = s1.transformedImage;
-    Mat im2 = s2.transformedImage;
+    cv::Mat im1 = s1.transformedImage;
+    cv::Mat im2 = s2.transformedImage;
 
     return this->joinImagesAtMiddle(im1, im2);
 }
@@ -192,7 +193,7 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < cols; col++) {
-            int alphaValue = src.at<Vec4b>(row, col)[3];
+            int alphaValue = src.at<cv::Vec4b>(row, col)[3];
             for (int i = 0; i < src.channels(); i++) {
                 if (alphaValue > 0) {
                     *dstPtr = *srcPtr;
@@ -207,45 +208,31 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 }
 
 //TODO remove pointer syntax
+
 cv::Mat Utils::getImageFromSurfaces(std::vector<Surface*> surfaces) {
 
-    Mat image(surfaces.at(0)->transformedImage.rows,
+    cv::Mat image(surfaces.at(0)->transformedImage.rows,
             surfaces.at(0)->transformedImage.cols, CV_8UC4);
 
     std::vector<Surface*>::iterator ii;
     for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
         this->writeToTimage((*ii)->transformedImage, image);
     }
-    
+
     return image;
 }
 
 cv::Size Utils::getFinalSize(std::vector<Surface*> surfaces) {
-    std::cout << "FINAL SIZE " << std::endl;
     
-    
-    Mat image(surfaces.at(0)->transformedImage.rows,
-            surfaces.at(0)->transformedImage.cols, CV_8UC4);
-    
-    int maxWidth = 0;
-    int maxHeight = 0;
-    
-    std::vector<Surface*>::iterator ii;
-    for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
-        Plane2d p = (*ii)->transformedRegion.getBoundingBox();
-        std::cout << "bb: " << p << std::endl;
-        int w = p.getWidth();
-        int h = p.getHeight();
-        if(w > maxWidth){
-            maxWidth = w;
-        }
-        if(h > maxHeight){
-            maxHeight = h;
-        }
-    }
-    
-    cv::Size size(maxWidth*2, maxHeight);
-    
+    Plane2d p1 = surfaces.at(0)->transformedRegion;
+    Plane2d p2 = surfaces.at(1)->transformedRegion;
+
+    Plane2d bb = pjs::getBoundingBox(p1, p2);
+
+    int maxWidth = bb.getWidth();
+    int maxHeight = bb.getHeight();
+
+    cv::Size size(maxWidth, maxHeight);
+
     return size;
 }
- 

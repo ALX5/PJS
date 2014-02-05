@@ -7,7 +7,6 @@
 
 
 class Plane2d : public Plane<cv::Point2f>{
-    friend class Plane;
 private:    
 //    std::vector<cv::Point2f> points;
 

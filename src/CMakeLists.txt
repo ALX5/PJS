@@ -114,7 +114,10 @@ add_executable (PJS
 		Environment/GeometryUtils.cpp
 	
 		Modelisation/Modelisation.cpp Modelisation/Modelisation.h
+		
 		Tests/PlaneTests.cpp Tests/PlaneTests.h 
+		Tests/AffineTests.cpp Tests/AffineTests.h
+
 		Tracking/Tracking.cpp Tracking/Tracking.h
 		Main.cpp Main.h)
      

@@ -13,8 +13,9 @@
 
 
 #include "Calibration/Calib.h"
+#include "Tests/AffineTests.h"
 
-//void runTests();
+void runTests();
 
 int main(int argc, char** argv) {    
 
@@ -39,11 +40,13 @@ int main(int argc, char** argv) {
     //  Modelisation m (static_cast<openni_wrapper::OpenNIDevice::DepthMode> (mode));
     //  m.run ();
 
+//    runTests();
+    
     return 0;
 
 }
 
 void runTests(){
-    PlaneTests planeTests;
-    planeTests.testContains();
+    AffineTests at;
+    at.testAffineTransform();
 }

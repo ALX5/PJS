@@ -130,6 +130,7 @@ private:
     Plane2d destinationPlane;
     Plane2d transformedRegion;
     cv::Mat homography;
+    cv::Mat affineTransformation;
     cv::Mat image;
     cv::Mat transformedImage;
     cv::Size size;

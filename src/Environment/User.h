@@ -23,6 +23,8 @@ public:
     
     std::vector<Plane3d> getProjectedPlanes();
     
+    void print();
+    
 private:
     //The position of the user's head. This varies constantly.
     cv::Point3f _position;

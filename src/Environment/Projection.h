@@ -22,6 +22,8 @@ public:
     cv::Point3f getCenter();
     std::vector<Plane3d> getPlanes();
     
+    void print();
+    
 private:
     std::vector<Plane3d> _planes;
     cv::Point3f _center;

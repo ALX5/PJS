@@ -27,8 +27,8 @@ void User::updatePosition(double &x, double &y, double &z) {
 
     //Get the projection center and surfaces
     cv::Point3f projectionCenter = _projection.getCenter();
-    std::vector<Plane3d> planes = _projection.getPlanes();    
-    
+    std::vector<Plane3d> planes = _projection.getPlanes();
+
     GeometryUtils gUtils;
 
     //Compute the projection plane normal
@@ -53,27 +53,18 @@ void User::updatePosition(double &x, double &y, double &z) {
         //of each corresponding ray
         for (jj = points.begin(); jj != points.end(); jj++) {
 
-            std::cout << "Calculating inter for: " << *jj << std::endl;
-
-            //TODO Shit semantics. Use vectors when necessary.
-
             //Express the point and the projection center       
             //in user space (only considering location)
             //to obtain the corresponding ray and plane
             cv::Vec3f p = *jj - _position;
-            cv::Point3f center = projectionCenter - _position;                    
+            cv::Point3f center = projectionCenter - _position;
 
             //Calculate the intersection
             cv::Point3f intersection = gUtils.intersection(p, normal, center);
-            
+
             //Return the intersection from user space to world space
             //TODO verify the correctness of this transformation
             intersection = -intersection + _position;
-
-            std::cout << intersection << std::endl;
-            std::cout << "In plane?" << std::endl;
-            std::cout << "Epsilon = " << (intersection - projectionCenter).dot(normal) 
-            << std::endl;
 
             //And add it to the list
             intersections.push_back(intersection);
@@ -99,10 +90,7 @@ void User::updatePosition(double &x, double &y, double &z) {
     double angle = std::acos(normalized[0] * zed[0] +
             normalized[1] * zed[1] +
             normalized[2] * zed[2]);
-    
-    std::cout << "Angle: " << angle << std::endl;
-    
-    //TODO Not sure if this works properly
+
     //Rotate all intersections to align them with the plane
     for (ii = projectedPlanes.begin(); ii != projectedPlanes.end(); ii++) {
         //Get the points of the current surface
@@ -110,9 +98,6 @@ void User::updatePosition(double &x, double &y, double &z) {
         std::vector<cv::Point3f>::iterator jj;
 
         std::vector<cv::Point3f> rotatedPoints;
-        
-        std::cout << "Non-Rotated plane" << std::endl;
-        std::cout << *ii << std::endl;
 
         for (jj = points.begin(); jj != points.end(); jj++) {
             cv::Point3f p = *jj;
@@ -120,14 +105,32 @@ void User::updatePosition(double &x, double &y, double &z) {
             cv::Point3f rotated = gUtils.rotateAroundAxis(p, normalAxis, -angle);
             rotatedPoints.push_back(rotated);
         }
-        
+
         Plane3d plane(rotatedPoints);
-        std::cout << "Rotated plane" << std::endl;
-        std::cout << plane << std::endl;
         _projectedPlanes.push_back(plane);
     }
 }
 
 std::vector<Plane3d> User::getProjectedPlanes() {
     return _projectedPlanes;
+}
+
+void User::print() {
+    std::cout << std::endl << "========= USER =========" << std::endl;
+
+    std::cout << "Position: " << _position << std::endl;
+
+    std::cout << "Projection: " << std::endl;
+    if (_projectedPlanes.size() == 0) {
+        std::cout << "Projection not yet calculated. Please update position" <<
+                " before trying to retrieve the projection data." << std::endl;
+    } else {
+
+
+        std::vector<Plane3d>::iterator ii;
+        for (ii = _projectedPlanes.begin(); ii != _projectedPlanes.end(); ii++) {
+            std::cout << *ii << std::endl;
+        }
+    }
+    std::cout << std::endl << "===========================" << std::endl << std::endl;
 }
