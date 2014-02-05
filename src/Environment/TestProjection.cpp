@@ -69,11 +69,19 @@ void TestProjection::test(double userX, double userY, double userZ) {
     //on the user's view plane
     //Plane 1
     Plane2d p1 = u.getProjectedPlanes().at(0).to2d();
+    Plane2d pp1(cv::Point2f(p1.getPoint(0).x, -p1.getPoint(0).y),
+            cv::Point2f(p1.getPoint(1).x, -p1.getPoint(1).y),
+            cv::Point2f(p1.getPoint(2).x, -p1.getPoint(2).y),
+            cv::Point2f(p1.getPoint(3).x, -p1.getPoint(3).y));
 //    Plane2d p2(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
-//    Plane2d p2(cv::Point2f(-480, 0), cv::Point2f(0, 0), cv::Point2f(0, 540), cv::Point2f(-480, 540));
-    Plane2d p2(cv::Point2f(-480, 540), cv::Point2f(0, 540), cv::Point2f(0, 0), cv::Point2f(-480, 0));
+    Plane2d p2(cv::Point2f(-480, 0), cv::Point2f(0, 0), cv::Point2f(0, 540), cv::Point2f(-480, 540));
+//    Plane2d p2(cv::Point2f(-480, 540), cv::Point2f(0, 540), cv::Point2f(0, 0), cv::Point2f(-480, 0));
     //Plane 2
     Plane2d p3 = u.getProjectedPlanes().at(1).to2d();
+    Plane2d pp3(cv::Point2f(p3.getPoint(0).x, -p3.getPoint(0).y),
+            cv::Point2f(p3.getPoint(1).x, -p3.getPoint(1).y),
+            cv::Point2f(p3.getPoint(2).x, -p3.getPoint(2).y),
+            cv::Point2f(p3.getPoint(3).x, -p3.getPoint(3).y));
     Plane2d p4(cv::Point2f(0, 540), cv::Point2f(480, 540), cv::Point2f(480, 0), cv::Point2f(0, 0));
 
     //Load the target image
@@ -91,15 +99,12 @@ void TestProjection::test(double userX, double userY, double userZ) {
 
     //Build the surfaces with their reference planes and their corresponding
     //image
-    Surface s1(p1, p2, images.at(0));
-    Surface s2(p3, p4, images.at(1));
+    Surface s1(pp1, p2, images.at(0));
+    Surface s2(pp3, p4, images.at(1));
   
     std::vector<Surface*> surfaces;
     surfaces.push_back(&s1);
     surfaces.push_back(&s2);
-
-    s1.print("s1");
-    s2.print("s2");
   
 
     //TODO recursive position correction
@@ -128,6 +133,11 @@ void TestProjection::test(double userX, double userY, double userZ) {
     cv::Point2f s1ur = s1.getUpperRightCorner();
     s2.correctPosition(s1ur);
     
+    
+    s1.print("s1");
+    s2.print("s2");
+    
+    
     cv::Point2f upperLeft = s2.getUpperLeftCorner();
     cv::Point2f upperRight = s2.getUpperRightCorner();
     double topY;
@@ -139,13 +149,18 @@ void TestProjection::test(double userX, double userY, double userZ) {
     
     std::cout << "topy " << topY << std::endl;
     
-    cv::Point2f newOrigin(0, -topY);
-    s1.correctBBPosition(newOrigin);    
-    s1ur = s1.getUpperRightCorner();
-    s2.correctPosition(s1ur);
+    if(topY < 0){
     
+        cv::Point2f newOrigin(0, -topY);
+        s1.correctBBPosition(newOrigin);    
+        s1ur = s1.getUpperRightCorner();
+        s2.correctPosition(s1ur);
+    }
     cv::Size size = utils.getFinalSize(surfaces);
     std::cout << "Size: " << size << std::endl;
+    
+    s1.print("s1");
+    s2.print("s2");
     
 //    cv::Point2f origin3(0, 0);
 //    s1.correctBBPosition(origin3);
@@ -155,8 +170,8 @@ void TestProjection::test(double userX, double userY, double userZ) {
 //    std::cout << "Size: " << size << std::endl;
    
     
-    s1.print("s1");
-    s2.print("s2");
+//    s1.print("s1");
+//    s2.print("s2");
 
     
     s1.applyHomography(size);
