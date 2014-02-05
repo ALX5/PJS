@@ -82,7 +82,8 @@ void TestProjection::test(double userX, double userY, double userZ) {
             cv::Point2f(p3.getPoint(1).x, -p3.getPoint(1).y),
             cv::Point2f(p3.getPoint(2).x, -p3.getPoint(2).y),
             cv::Point2f(p3.getPoint(3).x, -p3.getPoint(3).y));
-    Plane2d p4(cv::Point2f(0, 540), cv::Point2f(480, 540), cv::Point2f(480, 0), cv::Point2f(0, 0));
+//    Plane2d p4(cv::Point2f(0, 540), cv::Point2f(480, 540), cv::Point2f(480, 0), cv::Point2f(0, 0));
+    Plane2d p4(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
 
     //Load the target image
     const char* nom1 = "../src/grid-straight2half.png";
