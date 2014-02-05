@@ -85,7 +85,7 @@ void Surface::adjustTranslations(cv::Point2f &offset) {
     //TODO Find how to apply the translation correctly (negative values, segfault))
     //It's just that the other plane is higher, so he should be the one we checked
     //to get the offset
-    //    homography = homography*affineTransformation;
+//        homography = homography*affineTransformation;
     homography = affineTransformation*homography;
 }
 
@@ -113,9 +113,9 @@ void Surface::correctBBPosition(cv::Point2f& point) {
     std::cout << "Correcting BB" << std::endl;
     std::cout << "Plane: " << transformedRegion << std::endl;
     cv::Point2f offset = transformedRegion.findBBOffset(point);
-    std::cout << "Transform: " << std::endl << affineTransformation << std::endl;
+    std::cout << "Transform: " << std::endl << homography << std::endl;
     this->adjustTranslations(offset);
-    std::cout << "Corrected transform: " << std::endl << affineTransformation << std::endl;
+    std::cout << "Corrected transform: " << std::endl << homography << std::endl;
     this->calculateTransformedPlane();
     std::cout << "Offset: " << offset << std::endl;
     std::cout << "Corrected Plane: " << transformedRegion << std::endl;
@@ -136,6 +136,33 @@ void Surface::display(const char *name) {
     this->print(name);
 }
 
+void Surface::addTransparency() {
+    Utils utils;
+    utils.addAlphaChannel(transformedImage, transformedRegion);
+}
+
+void Surface::print() {
+    this->print("Surface");
+}
+
+
+void Surface::save() {
+    this->save("image.png");
+}
+
+void Surface::save(const char *name) {
+    cv::imwrite(name, transformedImage);
+}
+
+
+int Surface::getWidth() {
+    return transformedRegion.getWidth();
+}
+
+int Surface::getHeight() {
+    return transformedRegion.getHeight();
+}
+
 cv::Point2f Surface::getUpperLeftCorner() {
     return transformedRegion.getUpperLeftCorner();
 }
@@ -150,19 +177,6 @@ cv::Point2f Surface::getUpperRightCorner() {
 
 cv::Point2f Surface::getLowerLeftCorner() {
     return transformedRegion.getLowerLeftCorner();
-}
-
-void Surface::addTransparency() {
-    Utils utils;
-    utils.addAlphaChannel(transformedImage, transformedRegion);
-}
-
-cv::Size Surface::getSize() {
-    return size;
-}
-
-void Surface::print() {
-    this->print("Surface");
 }
 
 void Surface::print(const char *name) {
@@ -186,13 +200,6 @@ void Surface::print(const char *name) {
     std::cout << std::endl << "===========================" << std::endl << std::endl;
 }
 
-void Surface::save() {
-    this->save("image.png");
-}
-
-void Surface::save(const char *name) {
-    cv::imwrite(name, transformedImage);
-}
 
 namespace pjs {
 
@@ -230,12 +237,3 @@ namespace pjs {
         return p;
     }
 }
-
-int Surface::getWidth() {
-    return transformedRegion.getWidth();
-}
-
-int Surface::getHeight() {
-    return transformedRegion.getHeight();
-}
-

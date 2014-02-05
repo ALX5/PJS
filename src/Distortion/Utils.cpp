@@ -173,6 +173,8 @@ cv::Mat Utils::joinImagesAtMiddle(Surface &s1, Surface &s2) {
     return this->joinImagesAtMiddle(im1, im2);
 }
 
+//TODO Decouple this. This method demands a 4 channel image,
+//but it might be useful for others
 void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
     //The source image must fit into the destination image

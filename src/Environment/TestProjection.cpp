@@ -69,13 +69,18 @@ void TestProjection::test(double userX, double userY, double userZ) {
     //on the user's view plane
     //Plane 1
     Plane2d p1 = u.getProjectedPlanes().at(0).to2d();
-    Plane2d pp1(cv::Point2f(p1.getPoint(0).x, -p1.getPoint(0).y),
-            cv::Point2f(p1.getPoint(1).x, -p1.getPoint(1).y),
-            cv::Point2f(p1.getPoint(2).x, -p1.getPoint(2).y),
-            cv::Point2f(p1.getPoint(3).x, -p1.getPoint(3).y));
+    Plane2d pp1(cv::Point2f(p1.getPoint(0).x+480, -p1.getPoint(0).y),
+            cv::Point2f(p1.getPoint(1).x+480, -p1.getPoint(1).y),
+            cv::Point2f(p1.getPoint(2).x+480, -p1.getPoint(2).y),
+            cv::Point2f(p1.getPoint(3).x+480, -p1.getPoint(3).y));
 //    Plane2d p2(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
-    Plane2d p2(cv::Point2f(-480, 0), cv::Point2f(0, 0), cv::Point2f(0, 540), cv::Point2f(-480, 540));
-//    Plane2d p2(cv::Point2f(-480, 540), cv::Point2f(0, 540), cv::Point2f(0, 0), cv::Point2f(-480, 0));
+//    Plane2d p2(cv::Point2f(-480, 0), cv::Point2f(0, 0), cv::Point2f(0, 540), cv::Point2f(-480, 540));
+//    Plane2d p2(cv::Point2f(-480, 540), cv::Point2f(0, 540), cv::Point2f(0, 0), cv::Point2f(-480, 0));    
+    
+    //****************************************************************************************************    
+    Plane2d p2(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));            
+    //****************************************************************************************************
+             
     //Plane 2
     Plane2d p3 = u.getProjectedPlanes().at(1).to2d();
     Plane2d pp3(cv::Point2f(p3.getPoint(0).x, -p3.getPoint(0).y),
@@ -83,8 +88,11 @@ void TestProjection::test(double userX, double userY, double userZ) {
             cv::Point2f(p3.getPoint(2).x, -p3.getPoint(2).y),
             cv::Point2f(p3.getPoint(3).x, -p3.getPoint(3).y));
 //    Plane2d p4(cv::Point2f(0, 540), cv::Point2f(480, 540), cv::Point2f(480, 0), cv::Point2f(0, 0));
+    
+    //****************************************************************************************************
     Plane2d p4(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
-
+    //****************************************************************************************************
+    
     //Load the target image
     const char* nom1 = "../src/grid-straight2half.png";
     cv::Mat img = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
@@ -127,6 +135,10 @@ void TestProjection::test(double userX, double userY, double userZ) {
 //    }
 //    std::cout << "Offset: " << xOffset << ", " << yOffset << std::endl;
 
+
+        s1.print("s1");
+    s2.print("s2");
+
     //TODO Changing the translation in the homography further affects the
     //transformation
     cv::Point2f origin(0, 0);
@@ -135,8 +147,7 @@ void TestProjection::test(double userX, double userY, double userZ) {
     s2.correctPosition(s1ur);
     
     
-    s1.print("s1");
-    s2.print("s2");
+
     
     
     cv::Point2f upperLeft = s2.getUpperLeftCorner();
