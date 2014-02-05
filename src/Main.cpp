@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 
     
     TestProjection t;
-    t.test(-1500.0, 1000.0, -3500.0);
+    t.test(-1.0, 1000.0, -3500.0);
 
     
 //    Tracking tracking;

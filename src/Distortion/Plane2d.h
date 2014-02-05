@@ -145,7 +145,6 @@ public:
     bool innerBoxContains(cv::Point2f&);
     
     
-    
     int getWidth();
     int getHeight();
     

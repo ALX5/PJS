@@ -70,10 +70,11 @@ void TestProjection::test(double userX, double userY, double userZ) {
     //Plane 1
     Plane2d p1 = u.getProjectedPlanes().at(0).to2d();
 //    Plane2d p2(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
-    Plane2d p2(cv::Point2f(-480, 0), cv::Point2f(0, 0), cv::Point2f(0, 540), cv::Point2f(-480, 540));
+//    Plane2d p2(cv::Point2f(-480, 0), cv::Point2f(0, 0), cv::Point2f(0, 540), cv::Point2f(-480, 540));
+    Plane2d p2(cv::Point2f(-480, 540), cv::Point2f(0, 540), cv::Point2f(0, 0), cv::Point2f(-480, 0));
     //Plane 2
     Plane2d p3 = u.getProjectedPlanes().at(1).to2d();
-    Plane2d p4(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
+    Plane2d p4(cv::Point2f(0, 540), cv::Point2f(480, 540), cv::Point2f(480, 0), cv::Point2f(0, 0));
 
     //Load the target image
     const char* nom1 = "../src/grid-straight2half.png";
@@ -126,6 +127,23 @@ void TestProjection::test(double userX, double userY, double userZ) {
     s1.correctBBPosition(origin);
     cv::Point2f s1ur = s1.getUpperRightCorner();
     s2.correctPosition(s1ur);
+    
+    cv::Point2f upperLeft = s2.getUpperLeftCorner();
+    cv::Point2f upperRight = s2.getUpperRightCorner();
+    double topY;
+    if(upperLeft.y < upperRight.y){
+        topY = upperLeft.y;
+    } else {
+        topY = upperRight.y;
+    }
+    
+    std::cout << "topy " << topY << std::endl;
+    
+    cv::Point2f newOrigin(0, -topY);
+    s1.correctBBPosition(newOrigin);    
+    s1ur = s1.getUpperRightCorner();
+    s2.correctPosition(s1ur);
+    
     cv::Size size = utils.getFinalSize(surfaces);
     std::cout << "Size: " << size << std::endl;
     
