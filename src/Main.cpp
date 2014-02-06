@@ -8,27 +8,53 @@
 #include "Tests/PlaneTests.h"
 #include "Tracking/Tracking.h"
 #include "Distortion/TestPlanes.h"
+
 #include "Environment/TestProjection.h"
-
-
-
 #include "Calibration/Calib.h"
 #include "Tests/AffineTests.h"
+
+#include <boost/thread.hpp>
 
 void runTests();
 
 int main(int argc, char** argv) {    
 
-//    Calib c;
+    Tracking tracking;
+    TestProjection t;
 
-    /* USER TRACKING. */
+    boost::thread threadTracking(&Tracking::setupTracking, &tracking);
+    //threadTracking.join();
 
-//    Tracking tracking;
-//    tracking.setupTracking(argc,argv,c.rotationVectors.at(0),c.translationVectors.at(0));
+    cout << "here" << endl;
+
+    double x = 0.0, lastX = 0.0;
+    double y = 0.0, lastY = 0.0;
+    double z = 0.0, lastZ = 0.0;
+
+    while(1) {
+        if(tracking.getX() == 0.0 && tracking.getY() == 0.0 && tracking.getZ() == 0.0)
+            continue;
+        //lastX=x;
+        //lastY=y;
+        //lastZ=z;
+        x=tracking.getX();
+        y=tracking.getY();
+        z=tracking.getZ();
+        cout << x << endl;
+        cout << y << endl;
+        cout << z << endl;
+        //if(x<lastX+1000 && x> lastX-1000 && y<lastY+1000 && y> lastY-1000 && z<lastZ+1000 && z> lastZ-1000)
+            t.test(x,y,z);
+    }
+
+/*
+
+    Tracking tracking;
+    tracking.setupTracking(argc,argv);
 
     
-    TestProjection t;
-    t.test(0.0, 1800, -2000.0);
+    //TestProjection t;
+    //t.test(294.899,1617.23,-3020.34);
 
     
 //    Tracking tracking;
@@ -40,7 +66,7 @@ int main(int argc, char** argv) {
     //  Modelisation m (static_cast<openni_wrapper::OpenNIDevice::DepthMode> (mode));
     //  m.run ();
 
-//    runTests();
+//    runTests(); */
     
     return 0;
 

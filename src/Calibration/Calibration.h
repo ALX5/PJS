@@ -11,7 +11,7 @@ class Calibration
 public :
     Calibration();
     void calibrationDisplay();
-    void launchCalibration(int argc, char *argv[]);
+    void launchCalibration();
     Context context;
 
 private :

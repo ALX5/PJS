@@ -94,7 +94,7 @@ void TestProjection::test(double userX, double userY, double userZ) {
     //****************************************************************************************************
     
     //Load the target image
-    const char* nom1 = "../src/grid-straight2half.png";
+    const char* nom1 = "../src/fox.png";
     cv::Mat img = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
     if (!img.data) {
         std::cout << " --(!) Error reading image" << std::endl;
@@ -159,7 +159,7 @@ void TestProjection::test(double userX, double userY, double userZ) {
         topY = upperRight.y;
     }
     
-    std::cout << "topy " << topY << std::endl;
+    //std::cout << "topy " << topY << std::endl;
     
     if(topY < 0){
     
@@ -169,10 +169,10 @@ void TestProjection::test(double userX, double userY, double userZ) {
         s2.correctPosition(s1ur);
     }
     cv::Size size = utils.getFinalSize(surfaces);
-    std::cout << "Size: " << size << std::endl;
+    //std::cout << "Size: " << size << std::endl;
     
-    s1.print("s1");
-    s2.print("s2");
+    //s1.print("s1");
+    //s2.print("s2");
     
 //    cv::Point2f origin3(0, 0);
 //    s1.correctBBPosition(origin3);
@@ -196,12 +196,17 @@ void TestProjection::test(double userX, double userY, double userZ) {
 //        s2.display("s2");
 //        s2.save("s2.png");
 
-    cv::Mat finalImage = utils.getImageFromSurfaces(surfaces);
+    cv::Mat finalImage;
+    finalImage.setTo(cv::Scalar(0,0,0));
+    finalImage = utils.getImageFromSurfaces(surfaces);
 
     int keyPressed = 0;
 
-    //    cv::namedWindow("Final", CV_WINDOW_NORMAL);
-    //    cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
+        cv::namedWindow("Final", CV_WINDOW_NORMAL);
+
+        cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
+
+
     //    
     cv::imshow("Final", finalImage);
 
@@ -210,7 +215,9 @@ void TestProjection::test(double userX, double userY, double userZ) {
     //TODO define constants for ESC key
     do {
         keyPressed = cv::waitKey(0);
-    } while (keyPressed != 27);
+        std::cout << keyPressed << std::endl;
+        if(keyPressed==1048585) cv::imshow("Final", img);
+    } while (keyPressed != 1048603);
 
     surfaces.clear();
 

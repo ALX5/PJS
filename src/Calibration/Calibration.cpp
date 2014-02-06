@@ -137,9 +137,12 @@ void Calibration::initContext() {
     pDepthHist = (float*)malloc(nZRes * sizeof(float));
 }
 
-void Calibration::launchCalibration(int argc, char *argv[]) {
+void Calibration::launchCalibration() {
     initContext();
-    glutInit(&argc, argv);
+    char *myargv [1];
+    int myargc=1;
+    myargv [0]=strdup ("Myappname");
+    glutInit(&myargc, myargv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize(1280, 1024);
     glutCreateWindow ("PJS Calibration");

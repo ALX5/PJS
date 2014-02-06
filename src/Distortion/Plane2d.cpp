@@ -177,7 +177,7 @@ cv::Size Plane2d::getSize() {
     int height = p4.y - p1.y;
 
     cv::Size size = cv::Size(width, height);
-    cout << height << endl;
+    //cout << height << endl;
 
     return size;
 }

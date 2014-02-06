@@ -64,8 +64,8 @@ void Surface::calculateTransformedPlane() {
     cv::perspectiveTransform(src, dst, homography);
 //    cv::transform(dst, dst, affineTransformation);
     
-    std::cout << "Applying transformation on plane: " << std::endl;
-    std::cout << dst << std::endl;
+    //std::cout << "Applying transformation on plane: " << std::endl;
+    //std::cout << dst << std::endl;
     
     transformedRegion = Plane2d(dst);
 
@@ -110,15 +110,15 @@ void Surface::correctPosition(cv::Point2f& point) {
 }
 
 void Surface::correctBBPosition(cv::Point2f& point) {
-    std::cout << "Correcting BB" << std::endl;
-    std::cout << "Plane: " << transformedRegion << std::endl;
+    //std::cout << "Correcting BB" << std::endl;
+    //std::cout << "Plane: " << transformedRegion << std::endl;
     cv::Point2f offset = transformedRegion.findBBOffset(point);
-    std::cout << "Transform: " << std::endl << homography << std::endl;
+    //std::cout << "Transform: " << std::endl << homography << std::endl;
     this->adjustTranslations(offset);
-    std::cout << "Corrected transform: " << std::endl << homography << std::endl;
+    //std::cout << "Corrected transform: " << std::endl << homography << std::endl;
     this->calculateTransformedPlane();
-    std::cout << "Offset: " << offset << std::endl;
-    std::cout << "Corrected Plane: " << transformedRegion << std::endl;
+    //std::cout << "Offset: " << offset << std::endl;
+    //std::cout << "Corrected Plane: " << transformedRegion << std::endl;
 }
 
 void Surface::display() {
@@ -180,7 +180,7 @@ cv::Point2f Surface::getLowerLeftCorner() {
 }
 
 void Surface::print(const char *name) {
-    std::cout << std::endl << "========= " << name << " =========" << std::endl;
+    /*std::cout << std::endl << "========= " << name << " =========" << std::endl;
     std::cout << "Source image: " << std::endl;
     std::cout << "\tChannels: " << image.channels() << std::endl;
     std::cout << "\trows: " << image.rows << std::endl;
@@ -197,7 +197,7 @@ void Surface::print(const char *name) {
     std::cout << transformedRegion << std::endl;
     std::cout << "Homography: " << std::endl;
     std::cout << homography << std::endl;
-    std::cout << std::endl << "===========================" << std::endl << std::endl;
+    std::cout << std::endl << "===========================" << std::endl << std::endl;*/
 }
 
 
