@@ -96,6 +96,7 @@ add_definitions(${Boost_DEFINITIONS})
     	include_directories(${PROJECT_SOURCE_DIR}/Distortion)
     	include_directories(${PROJECT_SOURCE_DIR}/Tracking)
     	include_directories(${PROJECT_SOURCE_DIR}/Environment)
+		include_directories(${PROJECT_SOURCE_DIR}/Tests)
 
 add_executable (PJS
 		GUI.cpp
@@ -115,8 +116,9 @@ add_executable (PJS
 	
 		Modelisation/Modelisation.cpp Modelisation/Modelisation.h
 		
-		Tests/PlaneTests.cpp Tests/PlaneTests.h 
-		Tests/AffineTests.cpp Tests/AffineTests.h
+		Tests/PlaneTests.cpp
+		Tests/AffineTests.cpp
+		Tests/X11Tests.cpp
 
 		Tracking/Tracking.cpp Tracking/Tracking.h
 		Main.cpp Main.h)

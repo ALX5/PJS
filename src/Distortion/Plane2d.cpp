@@ -5,11 +5,13 @@ using namespace std;
 Plane2d::Plane2d() {
 }
 
-Plane2d::Plane2d(cv::Point2f p1, cv::Point2f p2, cv::Point2f p3, cv::Point2f p4) 
-: Plane(p1, p2, p3, p4){
-    
+Plane2d::Plane2d(cv::Point2f p1, cv::Point2f p2, cv::Point2f p3, cv::Point2f p4)
+: Plane(p1, p2, p3, p4) {
+
 }
-Plane2d::Plane2d(vector<cv::Point2f> pts) : Plane (pts){}
+
+Plane2d::Plane2d(vector<cv::Point2f> pts) : Plane(pts) {
+}
 
 void Plane2d::moveTo(cv::Point2f &p) {
 
@@ -100,13 +102,14 @@ Plane2d Plane2d::getBoundingBox() {
     float maxX = *std::max_element(xCoords.begin(), xCoords.end());
     float maxY = *std::max_element(yCoords.begin(), yCoords.end());
 
-    Plane2d p(cv::Point2f(minX, minY), cv::Point2f(minX, maxY), 
+    Plane2d p(cv::Point2f(minX, minY), cv::Point2f(minX, maxY),
             cv::Point2f(maxX, minY), cv::Point2f(maxX, maxY));
 
     return p;
 }
 
 //TODO remove
+
 Plane2d Plane2d::getBoundingBox(Plane2d &p2, Plane2d &p1) {
     vector<float> xCoords;
 
@@ -336,11 +339,13 @@ bool Plane2d::boxContains(cv::Point2f &p) {
 }
 
 //TODO inner box
+
 bool Plane2d::innerBoxContains(cv::Point2f&) {
     return true;
 }
 
 //TODO Look for algorithm to find inner box
+
 Plane2d Plane2d::getInnerBox() {
     Plane2d p(cv::Point2f(0.0, 0.0), cv::Point2f(0.0, 0.0), cv::Point2f(0.0, 0.0), cv::Point2f(0.0, 0.0));
     return p;
@@ -350,6 +355,44 @@ int Plane2d::getWidth() {
     return this->getBoundingBox().getUpperRightCorner().x - this->getBoundingBox().getUpperLeftCorner().x;
 }
 
-int Plane2d::getHeight() {    
+int Plane2d::getHeight() {
     return this->getBoundingBox().getLowerRightCorner().y - this->getBoundingBox().getUpperRightCorner().y;
+}
+
+//TODO Generic implementation
+
+cv::Point2f Plane2d::getCenter() {
+
+    std::vector<cv::Point2f>::iterator ii;
+
+    float sumX = 0.0;
+    float sumY = 0.0;
+
+    for (ii = points.begin(); ii != points.end(); ii++) {
+
+        sumX += (*ii).x;
+        sumY += (*ii).y;
+
+    }
+
+    cv::Point2f center(sumX / points.size(), sumY / points.size());
+    return center;
+}
+
+namespace pjs{
+    cv::Vec2f distance(Plane2d &p1, Plane2d &p2){
+        cv::Point2f c1 = p1.getCenter();
+        cv::Point2f c2 = p2.getCenter();        
+        cv::Vec2f distance(c1.x-c2.x, c1.y-c2.y);
+        return distance;        
+    }
+}
+
+Plane2d Plane2d::yInverted() {
+    Plane2d p(cv::Point2f(this->getPoint(0).x, -this->getPoint(0).y),
+            cv::Point2f(this->getPoint(1).x, -this->getPoint(1).y),
+            cv::Point2f(this->getPoint(2).x, -this->getPoint(2).y),
+            cv::Point2f(this->getPoint(3).x, -this->getPoint(3).y));
+    
+    return p;
 }

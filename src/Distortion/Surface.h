@@ -133,7 +133,7 @@ private:
     cv::Mat affineTransformation;
     cv::Mat image;
     cv::Mat transformedImage;
-//    cv::Size size;
+    cv::Size size;
     
     //TODO
     cv::Point2f offset;

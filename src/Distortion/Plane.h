@@ -9,6 +9,7 @@
 #define	PLANE_H
 #include <iostream>
 #include <vector>
+#include <opencv2/opencv.hpp>
 
 template <class T>
 class Plane {
@@ -35,6 +36,7 @@ public:
     }
 
     //TODO Move semantics
+
     Plane<T>(const Plane& orig) {
         points.push_back(orig.points.at(0));
         points.push_back(orig.points.at(1));
@@ -52,6 +54,8 @@ public:
     T getPoint(int n) const {
         return points.at(n);
     }
+
+    
 
 private:
     std::vector<T> points;

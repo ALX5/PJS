@@ -6,47 +6,78 @@
  */
 
 #include "Tests/PlaneTests.h"
-#include "Distortion/TestSurface.h"
 #include "Tracking/Tracking.h"
 #include "Distortion/TestPlanes.h"
+
 #include "Environment/TestProjection.h"
+#include "Calibration/Calib.h"
+#include "Tests/X11Tests.h"
+
+#include <boost/thread.hpp>
 
 void runTests();
 
-<<<<<<< HEAD
-int main(int argc, char** argv) {
-    //    TestSurface t;
-    //    t.test();  
-
-=======
 int main(int argc, char** argv) {    
-//    TestSurface t;
-//    t.test();
-    
->>>>>>> 1b5d49d2736a28bef80ac539084927d33c36fe56
+
+    Tracking tracking;
     TestProjection t;
-    t.test();
 
-    //    TestPlanes t;
-    //    t.test();
+    boost::thread threadTracking(&Tracking::setupTracking, &tracking);
+    //threadTracking.join();
 
-    /* USER TRACKING. */
-    //    Tracking tracking;
-    //    tracking.setupTracking(argc,argv);
+    cout << "here" << endl;
 
+    double x = 0.0, lastX = 0.0;
+    double y = 0.0, lastY = 0.0;
+    double z = 0.0, lastZ = 0.0;
+
+    while(1) {
+        if(tracking.getX() == 0.0 && tracking.getY() == 0.0 && tracking.getZ() == 0.0)
+            continue;
+        //lastX=x;
+        //lastY=y;
+        //lastZ=z;
+        x=tracking.getX();
+        y=tracking.getY();
+        z=tracking.getZ();
+        cout << x << endl;
+        cout << y << endl;
+        cout << z << endl;
+        //if(x<lastX+1000 && x> lastX-1000 && y<lastY+1000 && y> lastY-1000 && z<lastZ+1000 && z> lastZ-1000)
+            t.test(x,y,z);
+    }
+
+/*
+
+    Tracking tracking;
+    tracking.setupTracking(argc,argv);
+
+    
 <<<<<<< HEAD
+    //TestProjection t;
+    //t.test(294.899,1617.23,-3020.34);
 =======
+    TestProjection t;
+    t.test(2000.0, 1800, -3000.0);
+>>>>>>> aac2ac7560bb67656fbda029580802d3c5520f67
+
+    
+//    Tracking tracking;
+//    tracking.setupTracking(argc,argv);
+//    Calib();
+
     //  int mode = openni_wrapper::OpenNIDevice::OpenNI_12_bit_depth;
     //  console::parse_argument (argc, argv, "-mode", mode);
     //  Modelisation m (static_cast<openni_wrapper::OpenNIDevice::DepthMode> (mode));
     //  m.run ();
 
->>>>>>> 1b5d49d2736a28bef80ac539084927d33c36fe56
+//    runTests(); */
+    
     return 0;
 
 }
 
-void runTests() {
-    PlaneTests planeTests;
-    planeTests.testContains();
+void runTests(){
+    X11Tests t;
+    t.testGetScreenSize();
 }
