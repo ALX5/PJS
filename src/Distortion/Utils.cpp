@@ -8,7 +8,7 @@
 #include <iostream>
 #include <algorithm>
 #include "Utils.h"
-
+#include <stdio.h>
 //#include <boost/date_time/posix_time/posix_time.hpp>
 //#include <boost/date_time/posix_time/posix_time_types.hpp>
 
@@ -25,13 +25,13 @@ Utils::~Utils() {
 
 void Utils::addAlphaChannel(cv::Mat& image, Plane2d& plane) {
 
-    std::cout << "Adding alpha channel..." << std::endl;
+//    std::cout << "Adding alpha channel..." << std::endl;
     //ptime initTime = microsec_clock::local_time();
-    std::cout << plane << std::endl;
+//    std::cout << plane << std::endl;
 
     int height = image.rows;
     int width = image.cols;
-    //std::cout << width << ", " << height << std::endl;
+//    std::cout << width << ", " << height << std::endl;
     cv::Mat transparent(height, width, CV_8UC4);
     cv::Mat alphaMask(height, width, CV_8U, cv::Scalar(0.0));
     uchar *alphaPtr = alphaMask.ptr();
@@ -52,23 +52,23 @@ void Utils::addAlphaChannel(cv::Mat& image, Plane2d& plane) {
         }
     }
 
-
+    //***********************************************************
     //Assign an alpha value of 255 to the points inside the plane
-    int planeWidth = plane.getWidth();
+    //***********************************************************
+    
+    //Initialize the pointer to the alpha mask
     alphaPtr = alphaMask.ptr();
+    //Make it point to the top left corner of the bounding box of the plane
     alphaPtr += bbY * width + bbX;
     
-    bbY = std::max(0, bbY);
-    bbX = std::max(0, bbX);
-    
-    uchar alphaValue;
     for (int row = bbY; row < bbH + bbY; row++) {
         for (int col = bbX; col < bbW + bbX; col++) {
             cv::Point2f p(col, row);
 //                std::cout << row << ", " << col << std::endl;        
             if (plane.contains(p)) {
-                *alphaPtr = 255;
-                
+//                std::cout << "Doing it" << std::endl;
+                *alphaPtr = 255;             
+//                std::cout << "Did it" << std::endl;
             }
 
             alphaPtr++;
@@ -76,7 +76,6 @@ void Utils::addAlphaChannel(cv::Mat& image, Plane2d& plane) {
         }
         alphaPtr += (width - bbW);
     }
-
 
     cv::Mat srcImg[] = {image, alphaMask};
     int from_to[] = {0, 0, 1, 1, 2, 2, 3, 3};
@@ -237,4 +236,23 @@ cv::Size Utils::getFinalSize(std::vector<Surface*> surfaces) {
     cv::Size size(maxWidth, maxHeight);
 
     return size;
+}
+
+namespace pjs{
+    
+    //TODO Incomplete
+    cv::Size getScreenSize(){
+        
+        char *command="xrandr | grep '*'";
+        FILE *fpipe = (FILE*)popen(command,"r");
+        char line[256];
+        while ( fgets( line, sizeof(line), fpipe))
+        {
+            std::cout << line << std::endl;
+        }
+        pclose(fpipe);
+
+        cv::Size();
+        
+    }
 }

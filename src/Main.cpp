@@ -13,7 +13,7 @@
 
 
 #include "Calibration/Calib.h"
-#include "Tests/AffineTests.h"
+#include "Tests/X11Tests.h"
 
 void runTests();
 
@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 
     
     TestProjection t;
-    t.test(0.0, 1800, -2000.0);
+    t.test(2000.0, 1800, -3000.0);
 
     
 //    Tracking tracking;
@@ -47,6 +47,6 @@ int main(int argc, char** argv) {
 }
 
 void runTests(){
-    AffineTests at;
-    at.testAffineTransform();
+    X11Tests t;
+    t.testGetScreenSize();
 }

@@ -29,9 +29,15 @@ public:
     cv::Mat getImageFromSurfaces(std::vector<Surface*> surfaces);
     cv::Size getFinalSize(std::vector<Surface*>);
     
+    
+    
 private:
 
 };
+
+namespace pjs{
+    cv::Size getScreenSize();
+}
 
 #endif	/* UTILS_H */
 

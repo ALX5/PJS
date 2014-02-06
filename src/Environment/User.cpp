@@ -9,6 +9,11 @@
 #include "User.h"
 #include "GeometryUtils.h"
 
+User::User() {
+
+}
+
+
 User::User(Projection& projection) {
     _projection = projection;
 }

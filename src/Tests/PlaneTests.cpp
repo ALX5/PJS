@@ -37,6 +37,10 @@ void PlaneTests::testContains() {
     assert(p1.contains(point4));
     assert(p1.contains(point5));
     
+    Plane2d p2(Point2f(25.0, 0.0), Point2f(0.0, 100.0), Point2f(100.0, 10.0), Point2f(91.0, 110.0));
+    
+    p2.getCenter();
+    
     cout << "Tests OK" << endl;
     
 }

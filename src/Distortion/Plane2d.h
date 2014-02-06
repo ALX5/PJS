@@ -144,11 +144,31 @@ public:
      */
     bool innerBoxContains(cv::Point2f&);
     
+    /**
+     * Returns the gravity center of this plane
+     * @return A point representing the gravity center
+     */
+    cv::Point2f getCenter() ;
+    
+    /**
+     * This function inverts the Y coordinate of each point
+     */
+    Plane2d yInverted();
     
     int getWidth();
     int getHeight();
     
 };
 
+namespace pjs{
+
+    /**
+     * Calculates the distance between the gravity centers of the 2 given planes
+     * @param p1
+     * @param p2
+     * @return A Vec2f representing this distance
+     */
+    cv::Vec2f distance(Plane2d &p1, Plane2d &p2);
+}
 
 #endif // PLANE_H
