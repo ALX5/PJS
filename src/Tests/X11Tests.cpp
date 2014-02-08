@@ -35,7 +35,7 @@ void X11Tests::test() {
         XFlush(d);
 
         // Sleep long enough to see the window.
-              sleep(10);
+//              sleep(10);
 
         cv::waitKey(0);
     } else {
