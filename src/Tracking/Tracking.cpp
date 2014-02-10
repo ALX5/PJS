@@ -64,7 +64,6 @@ Tracking::Tracking() {}
 
 void Tracking::setupTracking()
 {
-    X=0.0; Y=0.0; Z=0.0;
     Calibration c;
     c.launchCalibration();
     c.context.FindExistingNode(XN_NODE_TYPE_USER, user);
@@ -102,10 +101,10 @@ void Tracking::setupTracking()
 
         /*cout << "User head at (" << -head.position.position.X << ","
              << head.position.position.Y+1350 << ","
-             << -(4100-head.position.position.Z) << ")" << endl;*/
+             << head.position.position.Z << ")" << endl;*/
 
         X = -head.position.position.X;
         Y = head.position.position.Y+1350;
-        Z = -(4100-head.position.position.Z);
+        Z = -(5700-head.position.position.Z);
     }
 }

@@ -180,7 +180,7 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
     assert(src.cols <= dst.cols && src.rows <= dst.rows);
 
     //Source and destination must have the same number of channels
-    assert(src.channels() == 4 && dst.channels() == 4);
+    //assert(src.channels() == 4 && dst.channels() == 4);
 
 
     uchar *srcPtr = src.ptr();
@@ -194,16 +194,16 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < cols; col++) {
-            int alphaValue = src.at<cv::Vec4b>(row, col)[3];
+           // int alphaValue = src.at<cv::Vec4b>(row, col)[3];
             for (int i = 0; i < src.channels(); i++) {
-                if (alphaValue > 0) {
+                //if (alphaValue > 0) {
                     *dstPtr = *srcPtr;
-                }
+               // }
                 dstPtr++;
                 srcPtr++;
             }
         }
-        dstPtr += diffCols * 4;
+        dstPtr += diffCols * src.channels();
     }
 
 }
@@ -213,7 +213,7 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 cv::Mat Utils::getImageFromSurfaces(std::vector<Surface*> surfaces) {
 
     cv::Mat image(surfaces.at(0)->transformedImage.rows,
-            surfaces.at(0)->transformedImage.cols, CV_8UC4);
+            surfaces.at(0)->transformedImage.cols, CV_8UC3);
 
     std::vector<Surface*>::iterator ii;
     for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {

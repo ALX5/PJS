@@ -88,7 +88,7 @@ void TestProjection::test(double userX, double userY, double userZ) {
     //***********************
     //Load the target image
     //***********************
-    const char* nom1 = "../src/fox.png";
+    const char* nom1 = "../src/logo.png";
     cv::Mat img = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
     if (!img.data) {
         std::cout << " --(!) Error reading image" << std::endl;
@@ -153,8 +153,8 @@ void TestProjection::test(double userX, double userY, double userZ) {
 
     s1.applyHomography(size);
     s2.applyHomography(size);
-    s1.addTransparency();
-    s2.addTransparency();
+    //s1.addTransparency();
+    //s2.addTransparency();
 
     cv::Mat finalImage = utils.getImageFromSurfaces(surfaces);
 
@@ -168,10 +168,10 @@ void TestProjection::test(double userX, double userY, double userZ) {
     cv::imwrite("finalImage.png", finalImage);
     std::cout << "Press ESC to continue..." << std::endl;
     //TODO define constants for ESC key
-    do {
-        keyPressed = cv::waitKey(0);
-        if(keyPressed==1048585) cv::imshow("Final", img);
-    } while (keyPressed != 1048603);
+    //do {
+    keyPressed = cv::waitKey(1000);
+    if(keyPressed==1048585) cv::imshow("Final", img);
+    //} while (keyPressed != 1048603);
 
     surfaces.clear();
 
