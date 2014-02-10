@@ -23,6 +23,7 @@ int main(int argc, char** argv) {
     TestProjection t;
 
     boost::thread threadTracking(&Tracking::setupTracking, &tracking);
+    //boost::thread threadProjection(&TestProjection::test, &t, tracking.getX(), tracking.getY(), tracking.getZ());
     //threadTracking.join();
 
     //cout << "here" << endl;
@@ -32,6 +33,7 @@ int main(int argc, char** argv) {
     double z = 0.0, lastZ = 0.0;
 
     while(1) {
+        int keyPressed = 0;
         if(tracking.getX() == 0.0 && tracking.getY() == 0.0 && tracking.getZ() == 0.0)
             continue;
         //lastX=x;
@@ -40,11 +42,8 @@ int main(int argc, char** argv) {
         x=tracking.getX();
         y=tracking.getY();
         z=tracking.getZ();
-        cout << x << endl;
-        cout << y << endl;
-        cout << z << endl;
         //if(x<lastX+1000 && x> lastX-1000 && y<lastY+1000 && y> lastY-1000 && z<lastZ+1000 && z> lastZ-1000)
-            t.test(x,y,z);
+            keyPressed = t.test(x,y,z,keyPressed);
     }
 
 /*

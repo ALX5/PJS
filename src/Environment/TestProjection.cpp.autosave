@@ -161,6 +161,7 @@ int TestProjection::test(double userX, double userY, double userZ, int keyPresse
     cv::namedWindow("Final", CV_WINDOW_NORMAL);
     cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
 
+    cv::imshow("Final", finalImage);
 
     cv::imwrite("finalImage.png", finalImage);
 
@@ -168,7 +169,6 @@ int TestProjection::test(double userX, double userY, double userZ, int keyPresse
     std::cout << keyPressed << std::endl;
 
     if(keyPressed==1048585) cv::imshow("Final", img);
-    else cv::imshow("Final", finalImage);
 
     surfaces.clear();
 
