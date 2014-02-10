@@ -32,8 +32,8 @@ int main(int argc, char** argv) {
     double z = 0.0, lastZ = 0.0;
 
     while(1) {
-        if(tracking.getX() == 0.0 && tracking.getY() == 0.0 && tracking.getZ() == 0.0)
-            continue;
+        //if(tracking.getX() == 0.0 && tracking.getY() == 0.0 && tracking.getZ() == 0.0)
+           // continue;
         //lastX=x;
         //lastY=y;
         //lastZ=z;
@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
         cout << y << endl;
         cout << z << endl;
         //if(x<lastX+1000 && x> lastX-1000 && y<lastY+1000 && y> lastY-1000 && z<lastZ+1000 && z> lastZ-1000)
-            t.test(x,y,z);
+            t.test(0,1700,-2500);
     }
 
 /*

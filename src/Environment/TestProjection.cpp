@@ -11,6 +11,7 @@
 #include "Projection.h"
 #include "User.h"
 #include "Utils.h"
+#include "opencv/cv.hpp"
 
 TestProjection::TestProjection() {
 }
@@ -169,7 +170,6 @@ void TestProjection::test(double userX, double userY, double userZ) {
     //TODO define constants for ESC key
     do {
         keyPressed = cv::waitKey(0);
-        std::cout << keyPressed << std::endl;
         if(keyPressed==1048585) cv::imshow("Final", img);
     } while (keyPressed != 1048603);
 
