@@ -7,6 +7,7 @@
 
 #include "RealTimeVisualizer.h"
 #include "DummyTracker.h"
+#include "Tracking.h"
 #include "TestProjection.h"
 
 RealTimeVisualizer::RealTimeVisualizer() {
@@ -19,23 +20,18 @@ RealTimeVisualizer::~RealTimeVisualizer() {
 }
 
 void RealTimeVisualizer::visualize() {
-    //    Tracking tracker;
-    DummyTracker tracker(*this);
+    Tracking tracker;
+    //    DummyTracker tracker;
     TestProjection t;
 
     tracker.setupTracking();
 
 
 
-        cv::namedWindow("Final", CV_WINDOW_NORMAL);
-        cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
+    cv::namedWindow("Final", CV_WINDOW_NORMAL);
+    cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
 
     cv::Mat finalImage;
-
-
-    double x = 0.0, lastX = 0.0;
-    double y = 0.0, lastY = 0.0;
-    double z = 0.0, lastZ = 0.0;
 
     bool done = false;
 
@@ -43,7 +39,7 @@ void RealTimeVisualizer::visualize() {
     //    boost::thread threadTracking(tracker.track);
     //    boost::thread threadTracking(tracker.track);
     //threadTracking.join();
-    boost::thread threadedTracking(&DummyTracker::track, &tracker);
+    boost::thread threadedTracking(&Tracking::setupTracking, &tracker);
 
     while (!done) {
         //TODO Make sure thread does not change coords while we get 'em
@@ -60,20 +56,21 @@ void RealTimeVisualizer::visualize() {
         //        
         //        finalImage = t.test(x, y, z);
 
-        boost::lock_guard<boost::mutex> guard(_mtx);
+
         int keyPressed = 0;
-        finalImage = t.test(0, 1000, -4000);
+        cv::Point3f pos = tracker.getUserPosition();
+        finalImage = t.test(pos.x, pos.y, pos.z);
         std::cout << "Press ESC to continue..." << std::endl;
-//        do {
-            cv::imshow("Final", finalImage);
-//            keyPressed = cv::waitKey(0);
-//        } while (keyPressed != 27);
-
-
-
+        std::cout << pos << std::endl;
+        //        do {
         cv::imshow("Final", finalImage);
+        keyPressed = cv::waitKey(40);
+        if (keyPressed == 27) {
+            done = true;
+        }
+        //        } while (keyPressed != 27);
 
-        done = true;
+
     }
 
 
@@ -82,10 +79,10 @@ void RealTimeVisualizer::visualize() {
 
 }
 
-void RealTimeVisualizer::lock() {
-    _mtx.lock();
-}
-
-void RealTimeVisualizer::unlock() {
-    _mtx.unlock();
-}
+//void RealTimeVisualizer::lock() {
+//    _mtx.lock();
+//}
+//
+//void RealTimeVisualizer::unlock() {
+//    _mtx.unlock();
+//}

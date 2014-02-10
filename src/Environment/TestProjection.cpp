@@ -177,5 +177,5 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     surfaces.clear();
 
-    return finalImage;    
+    return finalImage;          
 }

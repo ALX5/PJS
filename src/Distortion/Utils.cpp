@@ -25,13 +25,13 @@ Utils::~Utils() {
 
 void Utils::addAlphaChannel(cv::Mat& image, Plane2d& plane) {
 
-//    std::cout << "Adding alpha channel..." << std::endl;
+    //    std::cout << "Adding alpha channel..." << std::endl;
     //ptime initTime = microsec_clock::local_time();
-//    std::cout << plane << std::endl;
+    //    std::cout << plane << std::endl;
 
     int height = image.rows;
     int width = image.cols;
-//    std::cout << width << ", " << height << std::endl;
+    //    std::cout << width << ", " << height << std::endl;
     cv::Mat transparent(height, width, CV_8UC4);
     cv::Mat alphaMask(height, width, CV_8U, cv::Scalar(0.0));
     uchar *alphaPtr = alphaMask.ptr();
@@ -55,24 +55,24 @@ void Utils::addAlphaChannel(cv::Mat& image, Plane2d& plane) {
     //***********************************************************
     //Assign an alpha value of 255 to the points inside the plane
     //***********************************************************
-    
+
     //Initialize the pointer to the alpha mask
     alphaPtr = alphaMask.ptr();
     //Make it point to the top left corner of the bounding box of the plane
     alphaPtr += bbY * width + bbX;
-    
+
     for (int row = bbY; row < bbH + bbY; row++) {
         for (int col = bbX; col < bbW + bbX; col++) {
             cv::Point2f p(col, row);
-//                std::cout << row << ", " << col << std::endl;        
+            //                std::cout << row << ", " << col << std::endl;        
             if (plane.contains(p)) {
-//                std::cout << "Doing it" << std::endl;
-                *alphaPtr = 255;             
-//                std::cout << "Did it" << std::endl;
+                //                std::cout << "Doing it" << std::endl;
+                *alphaPtr = 255;
+                //                std::cout << "Did it" << std::endl;
             }
 
             alphaPtr++;
-            
+
         }
         alphaPtr += (width - bbW);
     }
@@ -97,7 +97,7 @@ std::vector<cv::Mat> Utils::divideImageInTwo(cv::Mat& img) {
     int firstHalfCols = (img.cols / 2);
     int rows = img.rows;
 
-   cv:: Mat firstHalf(img.rows, firstHalfCols, IMG_UNIT);
+    cv::Mat firstHalf(img.rows, firstHalfCols, IMG_UNIT);
     cv::Mat secondHalf(img.rows, img.cols - firstHalfCols, IMG_UNIT);
 
     uchar *fhPtr = firstHalf.ptr();
@@ -174,17 +174,14 @@ cv::Mat Utils::joinImagesAtMiddle(Surface &s1, Surface &s2) {
 
 //TODO Decouple this. This method demands a 4 channel image,
 //but it might be useful for others
+
 void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
     //The source image must fit into the destination image
-//    assert(src.cols <= dst.cols && src.rows <= dst.rows);
+    //    assert(src.cols <= dst.cols && src.rows <= dst.rows);
 
     //Source and destination must have the same number of channels
-//    assert(src.channels() == 4 && dst.channels() == 4);
-
-    
-    std::cout << "Src chan: " << src.channels() << std::endl;
-    std::cout << "Dst chan: " << dst.channels() << std::endl;
+    //    assert(src.channels() == 4 && dst.channels() == 4);
 
     uchar *srcPtr = src.ptr();
     uchar *dstPtr = dst.ptr();
@@ -197,11 +194,11 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < cols; col++) {
-//            int alphaValue = src.at<cv::Vec4b>(row, col)[3];
+            //            int alphaValue = src.at<cv::Vec4b>(row, col)[3];
             for (int i = 0; i < src.channels(); i++) {
-//                if (alphaValue > 0) {
-                    *dstPtr = *srcPtr;
-//                }
+                //                if (alphaValue > 0) {
+                *dstPtr = *srcPtr;
+                //                }
                 dstPtr++;
                 srcPtr++;
             }
@@ -220,17 +217,17 @@ cv::Mat Utils::getImageFromSurfaces(std::vector<Surface*> surfaces) {
 
     this->writeToTimage(surfaces.at(1)->transformedImage, image);
     this->writeToTimage(surfaces.at(0)->transformedImage, image);
-    
-//    std::vector<Surface*>::iterator ii;
-//    for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
-//        this->writeToTimage((*ii)->transformedImage, image);
-//    }
+
+    //    std::vector<Surface*>::iterator ii;
+    //    for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
+    //        this->writeToTimage((*ii)->transformedImage, image);
+    //    }
 
     return image;
 }
 
 cv::Size Utils::getFinalSize(std::vector<Surface*> surfaces) {
-    
+
     Plane2d p1 = surfaces.at(0)->transformedRegion;
     Plane2d p2 = surfaces.at(1)->transformedRegion;
 
@@ -244,21 +241,21 @@ cv::Size Utils::getFinalSize(std::vector<Surface*> surfaces) {
     return size;
 }
 
-namespace pjs{
-    
+namespace pjs {
+
     //TODO Incomplete
-    cv::Size getScreenSize(){
-        
-        char *command="xrandr | grep '*'";
-        FILE *fpipe = (FILE*)popen(command,"r");
+
+    cv::Size getScreenSize() {
+
+        char *command = "xrandr | grep '*'";
+        FILE *fpipe = (FILE*) popen(command, "r");
         char line[256];
-        while ( fgets( line, sizeof(line), fpipe))
-        {
+        while (fgets(line, sizeof (line), fpipe)) {
             std::cout << line << std::endl;
         }
         pclose(fpipe);
 
         cv::Size();
-        
+
     }
 }
