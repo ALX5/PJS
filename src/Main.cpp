@@ -12,67 +12,34 @@
 #include "Environment/TestProjection.h"
 #include "Calibration/Calib.h"
 #include "Tests/AffineTests.h"
-
+#include "Tests/DummyTracker.h"
+#include "EventHandler.h"
+#include "PeriodicVisualizer.h"
+#include "Visualizer.h"
 #include <boost/thread.hpp>
 
 void runTests();
-
-int main(int argc, char** argv) {    
-
-    Tracking tracking;
-    TestProjection t;
-
-    boost::thread threadTracking(&Tracking::setupTracking, &tracking);
-    //threadTracking.join();
-
-    cout << "here" << endl;
-
-    double x = 0.0, lastX = 0.0;
-    double y = 0.0, lastY = 0.0;
-    double z = 0.0, lastZ = 0.0;
-
-    while(1) {
-        if(tracking.getX() == 0.0 && tracking.getY() == 0.0 && tracking.getZ() == 0.0)
-            continue;
-        //lastX=x;
-        //lastY=y;
-        //lastZ=z;
-        x=tracking.getX();
-        y=tracking.getY();
-        z=tracking.getZ();
-        cout << x << endl;
-        cout << y << endl;
-        cout << z << endl;
-        //if(x<lastX+1000 && x> lastX-1000 && y<lastY+1000 && y> lastY-1000 && z<lastZ+1000 && z> lastZ-1000)
-            t.test(x,y,z);
-    }
-
-/*
-
-    Tracking tracking;
-    tracking.setupTracking(argc,argv);
-
+void listen(bool &done){
     
-    //TestProjection t;
-    //t.test(294.899,1617.23,-3020.34);
+    int keyPressed = 0;
+    do{
+        std::cout << "Waiting key: " << keyPressed << std::endl;
+        keyPressed = cv::waitKey(0);
+//        std::cin >> keyPressed;
+        std::cout << "KEY: " << keyPressed << std::endl;
+    }while(keyPressed != 27);
+    done = true;
+}
+int main(int argc, char** argv) {
 
-    
-//    Tracking tracking;
-//    tracking.setupTracking(argc,argv);
-//    Calib();
-
-    //  int mode = openni_wrapper::OpenNIDevice::OpenNI_12_bit_depth;
-    //  console::parse_argument (argc, argv, "-mode", mode);
-    //  Modelisation m (static_cast<openni_wrapper::OpenNIDevice::DepthMode> (mode));
-    //  m.run ();
-
-//    runTests(); */
+    Visualizer *visualizer = new PeriodicVisualizer();    
+    visualizer->visualize();    
+    delete visualizer;
     
     return 0;
-
 }
 
-void runTests(){
+void runTests() {
     AffineTests at;
     at.testAffineTransform();
 }

@@ -7,6 +7,7 @@
 
 #ifndef TESTPROJECTION_H
 #define	TESTPROJECTION_H
+#include <opencv2/opencv.hpp>
 
 class TestProjection {
 public:
@@ -14,7 +15,7 @@ public:
     TestProjection(const TestProjection& orig);
     virtual ~TestProjection();
     
-    void test(double userX, double userY, double userZ); 
+    cv::Mat test(double userX, double userY, double userZ); 
     
 private:
 
