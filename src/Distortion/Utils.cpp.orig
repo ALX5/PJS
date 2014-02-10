@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Utils.cpp
  * Author: bruno
  * 
@@ -25,15 +25,9 @@ Utils::~Utils() {
 
 void Utils::addAlphaChannel(cv::Mat& image, Plane2d& plane) {
 
-<<<<<<< HEAD
-    //std::cout << "Adding alpha channel..." << std::endl;
-    //ptime initTime = microsec_clock::local_time();
-    //std::cout << plane << std::endl;
-=======
 //    std::cout << "Adding alpha channel..." << std::endl;
     //ptime initTime = microsec_clock::local_time();
 //    std::cout << plane << std::endl;
->>>>>>> aac2ac7560bb67656fbda029580802d3c5520f67
 
     int height = image.rows;
     int width = image.cols;
@@ -183,11 +177,18 @@ cv::Mat Utils::joinImagesAtMiddle(Surface &s1, Surface &s2) {
 void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
     //The source image must fit into the destination image
-    assert(src.cols <= dst.cols && src.rows <= dst.rows);
+//    assert(src.cols <= dst.cols && src.rows <= dst.rows);
 
     //Source and destination must have the same number of channels
+<<<<<<< HEAD
     assert(src.channels() == 4 && dst.channels() == 4);
+=======
+//    assert(src.channels() == 4 && dst.channels() == 4);
+>>>>>>> dbc162d5727f26c0cbf5e6b1a1f18053fe47c6a8
 
+    
+    std::cout << "Src chan: " << src.channels() << std::endl;
+    std::cout << "Dst chan: " << dst.channels() << std::endl;
 
     uchar *srcPtr = src.ptr();
     uchar *dstPtr = dst.ptr();
@@ -200,11 +201,19 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < cols; col++) {
+<<<<<<< HEAD
             int alphaValue = src.at<cv::Vec4b>(row, col)[3];
             for (int i = 0; i < src.channels(); i++) {
                 if (alphaValue > 0) {
                     *dstPtr = *srcPtr;
                 }
+=======
+//            int alphaValue = src.at<cv::Vec4b>(row, col)[3];
+            for (int i = 0; i < src.channels(); i++) {
+//                if (alphaValue > 0) {
+                    *dstPtr = *srcPtr;
+//                }
+>>>>>>> dbc162d5727f26c0cbf5e6b1a1f18053fe47c6a8
                 dstPtr++;
                 srcPtr++;
             }
@@ -218,13 +227,21 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
 cv::Mat Utils::getImageFromSurfaces(std::vector<Surface*> surfaces) {
 
+<<<<<<< HEAD
     cv::Mat image(surfaces.at(0)->transformedImage.rows,
             surfaces.at(0)->transformedImage.cols, CV_8UC4);
+=======
+    cv::Mat image(surfaces.at(1)->transformedImage.rows,
+            surfaces.at(1)->transformedImage.cols, CV_8UC3);
+>>>>>>> dbc162d5727f26c0cbf5e6b1a1f18053fe47c6a8
 
-    std::vector<Surface*>::iterator ii;
-    for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
-        this->writeToTimage((*ii)->transformedImage, image);
-    }
+    this->writeToTimage(surfaces.at(1)->transformedImage, image);
+    this->writeToTimage(surfaces.at(0)->transformedImage, image);
+    
+//    std::vector<Surface*>::iterator ii;
+//    for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
+//        this->writeToTimage((*ii)->transformedImage, image);
+//    }
 
     return image;
 }

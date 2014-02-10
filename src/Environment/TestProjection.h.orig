@@ -15,7 +15,11 @@ public:
     TestProjection(const TestProjection& orig);
     virtual ~TestProjection();
     
+<<<<<<< HEAD
+    int test(double userX, double userY, double userZ, int keyPressed);
+=======
     cv::Mat test(double userX, double userY, double userZ); 
+>>>>>>> dbc162d5727f26c0cbf5e6b1a1f18053fe47c6a8
     
 private:
 

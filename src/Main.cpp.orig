@@ -11,11 +11,15 @@
 
 #include "Environment/TestProjection.h"
 #include "Calibration/Calib.h"
-#include "Tests/X11Tests.h"
-
+#include "Tests/AffineTests.h"
+#include "Tests/DummyTracker.h"
+#include "EventHandler.h"
+#include "PeriodicVisualizer.h"
+#include "Visualizer.h"
 #include <boost/thread.hpp>
 
 void runTests();
+<<<<<<< HEAD
 
 int main(int argc, char** argv) {    
 
@@ -23,15 +27,17 @@ int main(int argc, char** argv) {
     TestProjection t;
 
     boost::thread threadTracking(&Tracking::setupTracking, &tracking);
+    //boost::thread threadProjection(&TestProjection::test, &t, tracking.getX(), tracking.getY(), tracking.getZ());
     //threadTracking.join();
 
-    cout << "here" << endl;
+    //cout << "here" << endl;
 
     double x = 0.0, lastX = 0.0;
     double y = 0.0, lastY = 0.0;
     double z = 0.0, lastZ = 0.0;
 
     while(1) {
+        int keyPressed = 0;
         if(tracking.getX() == 0.0 && tracking.getY() == 0.0 && tracking.getZ() == 0.0)
             continue;
         //lastX=x;
@@ -40,11 +46,8 @@ int main(int argc, char** argv) {
         x=tracking.getX();
         y=tracking.getY();
         z=tracking.getZ();
-        cout << x << endl;
-        cout << y << endl;
-        cout << z << endl;
         //if(x<lastX+1000 && x> lastX-1000 && y<lastY+1000 && y> lastY-1000 && z<lastZ+1000 && z> lastZ-1000)
-            t.test(x,y,z);
+            keyPressed = t.test(x,y,z,keyPressed);
     }
 
 /*
@@ -53,31 +56,32 @@ int main(int argc, char** argv) {
     tracking.setupTracking(argc,argv);
 
     
-<<<<<<< HEAD
     //TestProjection t;
     //t.test(294.899,1617.23,-3020.34);
+
 =======
-    TestProjection t;
-    t.test(2000.0, 1800, -3000.0);
->>>>>>> aac2ac7560bb67656fbda029580802d3c5520f67
-
+void listen(bool &done){
+>>>>>>> dbc162d5727f26c0cbf5e6b1a1f18053fe47c6a8
     
-//    Tracking tracking;
-//    tracking.setupTracking(argc,argv);
-//    Calib();
+    int keyPressed = 0;
+    do{
+        std::cout << "Waiting key: " << keyPressed << std::endl;
+        keyPressed = cv::waitKey(0);
+//        std::cin >> keyPressed;
+        std::cout << "KEY: " << keyPressed << std::endl;
+    }while(keyPressed != 27);
+    done = true;
+}
+int main(int argc, char** argv) {
 
-    //  int mode = openni_wrapper::OpenNIDevice::OpenNI_12_bit_depth;
-    //  console::parse_argument (argc, argv, "-mode", mode);
-    //  Modelisation m (static_cast<openni_wrapper::OpenNIDevice::DepthMode> (mode));
-    //  m.run ();
-
-//    runTests(); */
+    Visualizer *visualizer = new PeriodicVisualizer();    
+    visualizer->visualize();    
+    delete visualizer;
     
     return 0;
-
 }
 
-void runTests(){
-    X11Tests t;
-    t.testGetScreenSize();
+void runTests() {
+    AffineTests at;
+    at.testAffineTransform();
 }

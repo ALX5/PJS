@@ -119,8 +119,13 @@ add_executable (PJS
 		Tests/PlaneTests.cpp
 		Tests/AffineTests.cpp
 		Tests/X11Tests.cpp
+		Tests/DummyTracker.cpp
+		Tests/Visualizer.cpp
+		Tests/PeriodicVisualizer.cpp
+		Tests/RealTimeVisualizer.cpp
 
 		Tracking/Tracking.cpp Tracking/Tracking.h
+		EventHandler.cpp
 		Main.cpp Main.h)
      
 	find_package( OpenCV REQUIRED )
