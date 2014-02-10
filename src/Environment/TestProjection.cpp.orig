@@ -11,6 +11,7 @@
 #include "Projection.h"
 #include "User.h"
 #include "Utils.h"
+#include "opencv/cv.hpp"
 
 TestProjection::TestProjection() {
 }
@@ -21,7 +22,7 @@ TestProjection::TestProjection(const TestProjection& orig) {
 TestProjection::~TestProjection() {
 }
 
-void TestProjection::test(double userX, double userY, double userZ) {
+cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     //Coordinates of the projection in the real world
     cv::Point3f p11(-480, 735, -420);
@@ -86,11 +87,8 @@ void TestProjection::test(double userX, double userY, double userZ) {
     
     //***********************
     //Load the target image
-<<<<<<< HEAD
-=======
     //***********************
->>>>>>> aac2ac7560bb67656fbda029580802d3c5520f67
-    const char* nom1 = "../src/fox.png";
+    const char* nom1 = "../src/logo.png";
     cv::Mat img = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
     if (!img.data) {
         std::cout << " --(!) Error reading image" << std::endl;
@@ -141,70 +139,32 @@ void TestProjection::test(double userX, double userY, double userZ) {
     } else {
         topY = upperRight.y;
     }
-<<<<<<< HEAD
-    
-    //std::cout << "topy " << topY << std::endl;
-    
-    if(topY < 0){
-    
-        cv::Point2f newOrigin(0, -topY);
-        s1.correctBBPosition(newOrigin);    
-=======
 
     //2nd position correction if necessary (if second plane is still outside)
     if (topY < 0) {
 
         cv::Point2f newOrigin(originX, -topY);
         s1.correctBBPosition(newOrigin);
->>>>>>> aac2ac7560bb67656fbda029580802d3c5520f67
         s1ur = s1.getUpperRightCorner();
         s2.correctPosition(s1ur);
     }
     cv::Size size = utils.getFinalSize(surfaces);
-<<<<<<< HEAD
-    //std::cout << "Size: " << size << std::endl;
-    
-    //s1.print("s1");
-    //s2.print("s2");
-    
-//    cv::Point2f origin3(0, 0);
-//    s1.correctBBPosition(origin3);
-//    s1ur = s1.getUpperRightCorner();
-//    s2.correctPosition(s1ur);
-//    size = utils.getFinalSize(surfaces);
-//    std::cout << "Size: " << size << std::endl;
-   
-    
-//    s1.print("s1");
-//    s2.print("s2");
-=======
     size.width += padding;
->>>>>>> aac2ac7560bb67656fbda029580802d3c5520f67
 
-    s1.applyHomography(size);
+    cv::Size sizeS1(size.width/2, size.height);
+    
+    s1.applyHomography(sizeS1);
     s2.applyHomography(size);
-    s1.addTransparency();
-    s2.addTransparency();
-
 <<<<<<< HEAD
-//        s1.display("s1");
-//        s1.save("s1.png");
-//        s2.display("s2");
-//        s2.save("s2.png");
+//    s1.addTransparency();
+//    s2.addTransparency();
 
-    cv::Mat finalImage;
-    finalImage.setTo(cv::Scalar(0,0,0));
-    finalImage = utils.getImageFromSurfaces(surfaces);
+    cv::Mat finalImage = utils.getImageFromSurfaces(surfaces);
 
-    int keyPressed = 0;
-
-        cv::namedWindow("Final", CV_WINDOW_NORMAL);
-
-        cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
-
-
-    //    
 =======
+    //s1.addTransparency();
+    //s2.addTransparency();
+
     cv::Mat finalImage = utils.getImageFromSurfaces(surfaces);
 
     int keyPressed = 0;
@@ -212,22 +172,18 @@ void TestProjection::test(double userX, double userY, double userZ) {
     cv::namedWindow("Final", CV_WINDOW_NORMAL);
     cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
 
->>>>>>> aac2ac7560bb67656fbda029580802d3c5520f67
     cv::imshow("Final", finalImage);
 
     cv::imwrite("finalImage.png", finalImage);
     std::cout << "Press ESC to continue..." << std::endl;
     //TODO define constants for ESC key
-    do {
-        keyPressed = cv::waitKey(0);
-        std::cout << keyPressed << std::endl;
-        if(keyPressed==1048585) cv::imshow("Final", img);
-    } while (keyPressed != 1048603);
+    //do {
+    keyPressed = cv::waitKey(1000);
+    if(keyPressed==1048585) cv::imshow("Final", img);
+    //} while (keyPressed != 1048603);
 
+>>>>>>> 9b01359a220c8d1b946647416274bc23892f4a20
     surfaces.clear();
 
-    cv::destroyAllWindows();
-
-
-
+    return finalImage;    
 }
