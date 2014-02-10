@@ -24,16 +24,20 @@ void RealTimeVisualizer::visualize() {
     //    DummyTracker tracker;
     TestProjection t;
 
-    tracker.setupTracking();
-
-
-
     cv::namedWindow("Final", CV_WINDOW_NORMAL);
     cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
 
     cv::Mat finalImage;
 
     bool done = false;
+    bool originalImage = false;
+
+    const char* nom1 = "../src/logo.png";
+    cv::Mat original = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
+    if (!original.data) {
+        std::cout << " --(!) Error reading image" << std::endl;
+        throw std::exception();
+    }
 
     //    boost::thread threadTracking(listen, done);
     //    boost::thread threadTracking(tracker.track);
@@ -59,14 +63,21 @@ void RealTimeVisualizer::visualize() {
 
         int keyPressed = 0;
         cv::Point3f pos = tracker.getUserPosition();
-        finalImage = t.test(pos.x, pos.y, pos.z);
+        if(!originalImage){
+            finalImage = t.test(pos.x, pos.y, pos.z);
+        } else {
+            finalImage = original;
+        }
+
         std::cout << "Press ESC to continue..." << std::endl;
         std::cout << pos << std::endl;
         //        do {
         cv::imshow("Final", finalImage);
-        keyPressed = cv::waitKey(40);
-        if (keyPressed == 27) {
+        keyPressed = cv::waitKey(100);
+        if (keyPressed == 27 || keyPressed == 1048603) {
             done = true;
+        } else if (keyPressed == 1048585){
+            originalImage = !originalImage;
         }
         //        } while (keyPressed != 27);
 

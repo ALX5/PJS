@@ -92,7 +92,7 @@ void Tracking::setupTracking()
     while (!xnOSWasKeyboardHit())
     {
         // TODO : Send the user pixels to the display function.
-        c.calibrationDisplay();
+        //c.calibrationDisplay();
         c.context.WaitOneUpdateAll(user);
         nUsers=MAX_USERS;
         user.GetUsers(users, nUsers);
@@ -110,10 +110,12 @@ void Tracking::setupTracking()
         Z = -(5700-head.position.position.Z);
         
         cv::Point3f p(X, Y, Z);
+        this->setUserPosition(p);
     }
 }
 
 cv::Point3f Tracking::getUserPosition() {
+    std:: cout << "getting pos" << std::endl;
     boost::lock_guard<boost::mutex> guard(_mtx);
     return userPosition;
 }

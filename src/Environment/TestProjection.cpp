@@ -171,8 +171,8 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     std::cout << "Press ESC to continue..." << std::endl;
     //TODO define constants for ESC key
     //do {
-    keyPressed = cv::waitKey(1000);
-    if(keyPressed==1048585) cv::imshow("Final", img);
+//    keyPressed = cv::waitKey(1000);
+//    if(keyPressed==1048585) cv::imshow("Final", img);
     //} while (keyPressed != 1048603);
 
     surfaces.clear();
