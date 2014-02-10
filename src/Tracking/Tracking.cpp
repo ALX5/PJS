@@ -2,6 +2,7 @@
  *
  *
  */
+
 #include "Tracking.h"
 #include "../Calibration/Calibration.h"
 
@@ -60,7 +61,7 @@ void XN_CALLBACK_TYPE userCalibrationFinished(SkeletonCapability&, XnUserID id, 
     }
 }
 
-Tracking::Tracking() {}
+Tracking::Tracking() : userPosition(cv::Point3f(0.0, 0.0, 0.0)) {}
 
 void Tracking::setupTracking()
 {
@@ -107,5 +108,17 @@ void Tracking::setupTracking()
         X = -head.position.position.X;
         Y = head.position.position.Y+1350;
         Z = -(5700-head.position.position.Z);
+        
+        cv::Point3f p(X, Y, Z);
     }
+}
+
+cv::Point3f Tracking::getUserPosition() {
+    boost::lock_guard<boost::mutex> guard(_mtx);
+    return userPosition;
+}
+
+void Tracking::setUserPosition(cv::Point3f &pos) {
+    boost::lock_guard<boost::mutex> guard(_mtx);
+    userPosition = pos;
 }
