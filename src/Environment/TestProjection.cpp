@@ -21,7 +21,7 @@ TestProjection::TestProjection(const TestProjection& orig) {
 TestProjection::~TestProjection() {
 }
 
-void TestProjection::test(double userX, double userY, double userZ) {
+cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     //Coordinates of the projection in the real world
     cv::Point3f p11(-480, 735, -420);
@@ -150,33 +150,16 @@ void TestProjection::test(double userX, double userY, double userZ) {
     cv::Size size = utils.getFinalSize(surfaces);
     size.width += padding;
 
-    s1.applyHomography(size);
+    cv::Size sizeS1(size.width/2, size.height);
+    
+    s1.applyHomography(sizeS1);
     s2.applyHomography(size);
-    s1.addTransparency();
-    s2.addTransparency();
+//    s1.addTransparency();
+//    s2.addTransparency();
 
     cv::Mat finalImage = utils.getImageFromSurfaces(surfaces);
 
-    int keyPressed = 0;
-
-    cv::namedWindow("Final", CV_WINDOW_NORMAL);
-    cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
-
-    cv::imshow("Final", finalImage);
-
-    cv::imwrite("finalImage.png", finalImage);
-    std::cout << "Press ESC to continue..." << std::endl;
-    //TODO define constants for ESC key
-    do {
-        keyPressed = cv::waitKey(0);
-        std::cout << keyPressed << std::endl;
-        if(keyPressed==1048585) cv::imshow("Final", img);
-    } while (keyPressed != 1048603);
-
     surfaces.clear();
 
-    cv::destroyAllWindows();
-
-
-
+    return finalImage;    
 }

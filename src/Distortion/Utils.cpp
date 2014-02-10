@@ -177,11 +177,14 @@ cv::Mat Utils::joinImagesAtMiddle(Surface &s1, Surface &s2) {
 void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
     //The source image must fit into the destination image
-    assert(src.cols <= dst.cols && src.rows <= dst.rows);
+//    assert(src.cols <= dst.cols && src.rows <= dst.rows);
 
     //Source and destination must have the same number of channels
-    assert(src.channels() == 4 && dst.channels() == 4);
+//    assert(src.channels() == 4 && dst.channels() == 4);
 
+    
+    std::cout << "Src chan: " << src.channels() << std::endl;
+    std::cout << "Dst chan: " << dst.channels() << std::endl;
 
     uchar *srcPtr = src.ptr();
     uchar *dstPtr = dst.ptr();
@@ -194,16 +197,16 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < cols; col++) {
-            int alphaValue = src.at<cv::Vec4b>(row, col)[3];
+//            int alphaValue = src.at<cv::Vec4b>(row, col)[3];
             for (int i = 0; i < src.channels(); i++) {
-                if (alphaValue > 0) {
+//                if (alphaValue > 0) {
                     *dstPtr = *srcPtr;
-                }
+//                }
                 dstPtr++;
                 srcPtr++;
             }
         }
-        dstPtr += diffCols * 4;
+        dstPtr += diffCols * src.channels();
     }
 
 }
@@ -212,13 +215,16 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
 cv::Mat Utils::getImageFromSurfaces(std::vector<Surface*> surfaces) {
 
-    cv::Mat image(surfaces.at(0)->transformedImage.rows,
-            surfaces.at(0)->transformedImage.cols, CV_8UC4);
+    cv::Mat image(surfaces.at(1)->transformedImage.rows,
+            surfaces.at(1)->transformedImage.cols, CV_8UC3);
 
-    std::vector<Surface*>::iterator ii;
-    for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
-        this->writeToTimage((*ii)->transformedImage, image);
-    }
+    this->writeToTimage(surfaces.at(1)->transformedImage, image);
+    this->writeToTimage(surfaces.at(0)->transformedImage, image);
+    
+//    std::vector<Surface*>::iterator ii;
+//    for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
+//        this->writeToTimage((*ii)->transformedImage, image);
+//    }
 
     return image;
 }
