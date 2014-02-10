@@ -19,11 +19,11 @@ public:
     
     virtual void visualize();
     
-    void lock();
-    void unlock();
+//    void lock();
+//    void unlock();
 private:
 
-    boost::mutex _mtx;
+//    boost::mutex _mtx;
     
 };
 

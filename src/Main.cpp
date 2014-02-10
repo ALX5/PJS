@@ -32,7 +32,7 @@ void listen(bool &done){
 }
 int main(int argc, char** argv) {
 
-    Visualizer *visualizer = new PeriodicVisualizer();    
+    Visualizer *visualizer = new RealTimeVisualizer();    
     visualizer->visualize();    
     delete visualizer;
     

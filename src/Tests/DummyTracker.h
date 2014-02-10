@@ -16,20 +16,21 @@ public:
     DummyTracker(const DummyTracker& orig);
     virtual ~DummyTracker();
     
-    DummyTracker(RealTimeVisualizer&);
-    
     void setupTracking();
     double getX();
     double getY();
     double getZ();
     
+    
     cv::Point3f getUserPosition();
+    void setUserPosition(cv::Point3f &pos);
     
     void track();
     
+    
 private:    
     cv::Point3f userPosition;
-    RealTimeVisualizer *visualizer;
+    boost::mutex _mtx;
 };
 
 #endif	/* DUMMYTRACKER_H */
