@@ -27,6 +27,8 @@ void XN_CALLBACK_TYPE userDetected(UserGenerator&, XnUserID id, void*)
 void XN_CALLBACK_TYPE userLosted(UserGenerator&, XnUserID id, void*)
 {
     cout << "User " << id << " losted." << endl;
+    if(user.GetSkeletonCap().IsTracking(id))
+        user.GetSkeletonCap().StopTracking(id);
 }
 
 /** Called when a user calibration pose is detected */
