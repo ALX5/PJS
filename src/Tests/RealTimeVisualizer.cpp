@@ -1,7 +1,7 @@
 /* 
  * File:   RealTimeVisualizer.cpp
  * Author: bruno
- * 
+ *
  * Created on February 10, 2014, 11:46 AM
  */
 
@@ -47,17 +47,17 @@ void RealTimeVisualizer::visualize() {
 
     while (!done) {
         //TODO Make sure thread does not change coords while we get 'em
-        //E.g: this locks itself 
-        //thread gets coords and unlocks this, 
+        //E.g: this locks itself
+        //thread gets coords and unlocks this,
         //this locks thread retrieves them and unlocks thread
 
         //        x = tracker.getX();
         //        y = tracker.getY();
         //        z = tracker.getZ();
-        //        cout << done << endl;        
+        //        cout << done << endl;
         //        cout << y << endl;
         //        cout << z << endl;
-        //        
+        //
         //        finalImage = t.test(x, y, z);
 
 
@@ -69,8 +69,8 @@ void RealTimeVisualizer::visualize() {
             finalImage = original;
         }
 
-        std::cout << "Press ESC to continue..." << std::endl;
-        std::cout << pos << std::endl;
+        //std::cout << "Press ESC to continue..." << std::endl;
+        //std::cout << pos << std::endl;
         //        do {
         cv::imshow("Final", finalImage);
         keyPressed = cv::waitKey(100);

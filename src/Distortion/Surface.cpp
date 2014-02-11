@@ -96,7 +96,7 @@ void Surface::applyHomography(cv::Size size) {
     
     cv::warpPerspective(image, transformedImage,
             homography, cv::Size(size.width, size.height), 
-            cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar(255, 255, 255));
+            cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar(0,0,0));
 //    cv::warpPerspective(image, transformedImage,
 //            homography, cv::Size(size.width+offset.x, size.height+offset.y), 
 //            cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar(255, 255, 255));
