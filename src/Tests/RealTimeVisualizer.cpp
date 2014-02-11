@@ -5,6 +5,8 @@
  * Created on February 10, 2014, 11:46 AM
  */
 
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
 #include "RealTimeVisualizer.h"
 #include "DummyTracker.h"
 #include "Tracking.h"
@@ -21,7 +23,7 @@ RealTimeVisualizer::~RealTimeVisualizer() {
 
 void RealTimeVisualizer::visualize() {
     Tracking tracker;
-    //    DummyTracker tracker;
+//    DummyTracker tracker;
     TestProjection t;
 
     cv::namedWindow("Final", CV_WINDOW_NORMAL);
@@ -39,28 +41,16 @@ void RealTimeVisualizer::visualize() {
         throw std::exception();
     }
 
-    //    boost::thread threadTracking(listen, done);
-    //    boost::thread threadTracking(tracker.track);
-    //    boost::thread threadTracking(tracker.track);
-    //threadTracking.join();
-    boost::thread threadedTracking(&Tracking::setupTracking, &tracker);
+    tracker.setupTracking();
+    
+    boost::thread threadedTracking(&Tracking::track, &tracker);
+//    boost::thread threadedTracking(&DummyTracker::track, &tracker);
 
-    while (!done) {
-        //TODO Make sure thread does not change coords while we get 'em
-        //E.g: this locks itself 
-        //thread gets coords and unlocks this, 
-        //this locks thread retrieves them and unlocks thread
+    while (!done) {   
 
-        //        x = tracker.getX();
-        //        y = tracker.getY();
-        //        z = tracker.getZ();
-        //        cout << done << endl;        
-        //        cout << y << endl;
-        //        cout << z << endl;
-        //        
-        //        finalImage = t.test(x, y, z);
-
-
+        //Init time
+//        boost::posix_time::ptime initTime = boost::date_time::microsec_clock::local_time();
+        
         int keyPressed = 0;
         cv::Point3f pos = tracker.getUserPosition();
         if(!originalImage){
@@ -69,22 +59,21 @@ void RealTimeVisualizer::visualize() {
             finalImage = original;
         }
 
-        std::cout << "Press ESC to continue..." << std::endl;
-        std::cout << pos << std::endl;
-        //        do {
         cv::imshow("Final", finalImage);
-        keyPressed = cv::waitKey(100);
+        keyPressed = cv::waitKey(10);
         if (keyPressed == 27 || keyPressed == 1048603) {
             done = true;
-        } else if (keyPressed == 1048585){
+            tracker.stop();
+        } else if (keyPressed == 1048585 || keyPressed == 9 ){
             originalImage = !originalImage;
         }
-        //        } while (keyPressed != 27);
-
-
+       
+        std::cout << "asd" << std::endl;
+//        boost::posix_time::ptime endTime = boost::date_time::microsec_clock::local_time();
+        
+//        std::cout << "Time: " << endTime - initTime << std::endl;
+                
     }
-
-
 
     cv::destroyAllWindows();
 

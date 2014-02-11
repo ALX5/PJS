@@ -20,10 +20,16 @@ public:
     virtual ~Surface();
     
     /**
-     * Finds the homography between the source and destination
+     * Finds the homography between the member source and destination
      * planes and then stores it
      */
     void determineHomography();
+    
+    /**
+     * Finds the homography between the given source and destination
+     * planes and then stores it
+     */
+    void determineHomography(Plane2d source, Plane2d destination);
     
     /**
      * Calculates the transformed plane using the stored homography
@@ -42,7 +48,7 @@ public:
      * field homography. The transformed image is written to a matrix of the given 
      * size
      */
-    void applyHomography(cv::Size size);
+    void applyHomography();
     
     /**
      * Moves this surface so that the upper left corner of its bounding box
@@ -121,9 +127,13 @@ public:
     
     //Getters and setters
     cv::Size getSize();
+    void setSize(cv::Size size);
     
     int getWidth();
     int getHeight();
+
+    //Experimental
+    void fixIntersection(Surface &surface);
     
 private:
     Plane2d sourcePlane;
@@ -133,7 +143,7 @@ private:
     cv::Mat affineTransformation;
     cv::Mat image;
     cv::Mat transformedImage;
-    cv::Size size;
+    cv::Size _size;
     
     //TODO
     cv::Point2f offset;
@@ -142,6 +152,9 @@ private:
     Surface* lowerRightChild;
     Surface* lowerLeftChild;
      
+    
+
+    
 };
 
 namespace pjs{

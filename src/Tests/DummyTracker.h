@@ -26,11 +26,12 @@ public:
     void setUserPosition(cv::Point3f &pos);
     
     void track();
-    
+    void stop();
     
 private:    
     cv::Point3f userPosition;
     boost::mutex _mtx;
+    bool done;
 };
 
 #endif	/* DUMMYTRACKER_H */

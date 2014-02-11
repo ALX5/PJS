@@ -10,7 +10,7 @@
 #include "DummyTracker.h"
 
 DummyTracker::DummyTracker() : 
-        userPosition(cv::Point3f(0.0, 1700.0, -3000.0)){
+        userPosition(cv::Point3f(0.0, 1700.0, -3000.0)), done(false){
     
 }
 
@@ -53,13 +53,22 @@ void DummyTracker::setUserPosition(cv::Point3f &pos) {
 
 
 void DummyTracker::track() {
-    //TODO rand x, rand y, rand z
-    //TODO Get reference to main in order to lock / unlock him
-    
-//    boost::lock_guard<RealTimeVisualizer> guard(*visualizer);
-    while(1){
-        cv::Point3f p(userPosition.x+0.0001, userPosition.y, userPosition.z);
+
+    //TODO Random x, y, z
+    int times = 0;
+    double increment = 1e-4;
+    while(!done){
+        cv::Point3f p(userPosition.x+increment, userPosition.y, userPosition.z);
         this->setUserPosition(p);
+        times++;
+        if(times == 10000000){
+            increment = -increment;
+            times = 0;
+        }
     }
     
+}
+
+void DummyTracker::stop() {
+    done = true;
 }

@@ -208,8 +208,6 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
 }
 
-//TODO remove pointer syntax
-
 cv::Mat Utils::getImageFromSurfaces(std::vector<Surface*> surfaces) {
 
     cv::Mat image(surfaces.at(1)->transformedImage.rows,
@@ -258,4 +256,28 @@ namespace pjs {
         cv::Size();
 
     }
+
+    cv::Point2f average(std::vector<cv::Point2f> points) {
+        
+        double sumX = 0.0;
+        double sumY = 0.0;
+        //Iterate over projected surfaces
+        std::vector<cv::Point2f>::iterator ii;
+        for (ii = points.begin(); ii != points.end(); ii++) {
+            sumX += (*ii).x;
+            sumY += (*ii).y;
+            
+            std::cout << sumX << ", " << sumY << std::endl;
+        }
+        std::cout << "Points: " << points.size() << std::endl;
+        
+        sumX /= points.size();
+        sumY /= points.size();
+        
+        cv::Point2f avg(sumX, sumY);
+        
+        return avg;
+    }
+    
 }
+

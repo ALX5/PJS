@@ -47,6 +47,23 @@ void Surface::determineHomography() {
     homography = cv::findHomography(src, dst);
 }
 
+void Surface::determineHomography(Plane2d source, Plane2d destination) {
+    std::vector<cv::Point2f> src;
+    std::vector<cv::Point2f> dst;
+
+    src.push_back(source.getPoint(0));
+    src.push_back(source.getPoint(1));
+    src.push_back(source.getPoint(2));
+    src.push_back(source.getPoint(3));
+
+    dst.push_back(destination.getPoint(0));
+    dst.push_back(destination.getPoint(1));
+    dst.push_back(destination.getPoint(2));
+    dst.push_back(destination.getPoint(3));
+
+    homography = cv::findHomography(src, dst);
+}
+
 void Surface::calculateTransformedPlane() {
     std::vector<cv::Point2f> src;
     std::vector<cv::Point2f> dst;
@@ -56,53 +73,21 @@ void Surface::calculateTransformedPlane() {
     src.push_back(destinationPlane.getPoint(2));
     src.push_back(destinationPlane.getPoint(3));
     
-//    std::cout << "Applying homography on plane: " << src << std::endl;
-
-    
-    //TODO Transform reference plane with affine tr
-    
     cv::perspectiveTransform(src, dst, homography);
-//    cv::transform(dst, dst, affineTransformation);
-    
-//    std::cout << "Applying transformation on plane: " << std::endl;
-//    std::cout << dst << std::endl;
-    
     transformedRegion = Plane2d(dst);
-
-//    Plane2d boundingBox = transformedRegion.getBoundingBox();
-
-//    size = boundingBox.getSize();
 
 }
 
 void Surface::adjustTranslations(cv::Point2f &offset) {
-//    homography.at<double>(0, 2) -= offset.x;
-//    homography.at<double>(1, 2) -= offset.y;
-
     affineTransformation.at<double>(0, 2) = -offset.x;
-    affineTransformation.at<double>(1, 2) = -offset.y;
-    
-    //TODO Find how to apply the translation correctly (negative values, segfault))
-    //It's just that the other plane is higher, so he should be the one we checked
-    //to get the offset
-//        homography = homography*affineTransformation;
+    affineTransformation.at<double>(1, 2) = -offset.y;    
     homography = affineTransformation*homography;
 }
 
-void Surface::applyHomography(cv::Size size) {
-        
-//        cv::warpPerspective(image, transformedImage,
-//            homography, cv::Size(1366, 768));
-    
+void Surface::applyHomography() {        
     cv::warpPerspective(image, transformedImage,
-            homography, cv::Size(size.width, size.height), 
-            cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar(255, 255, 255));
-//    cv::warpPerspective(image, transformedImage,
-//            homography, cv::Size(size.width+offset.x, size.height+offset.y), 
-//            cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar(255, 255, 255));
-//    cv::warpAffine(transformedImage, transformedImage, 
-//            affineTransformation, cv::Size(size.width, size.height));
-    
+            homography, cv::Size(_size.width, _size.height), 
+            cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar(0, 0, 0));    
 }
 
 //TODO this should store the offset but not apply it
@@ -168,7 +153,7 @@ cv::Point2f Surface::getUpperLeftCorner() {
 }
 
 cv::Point2f Surface::getLowerRightCorner() {
-    return transformedRegion.getUpperRightCorner();
+    return transformedRegion.getLowerRightCorner();
 }
 
 cv::Point2f Surface::getUpperRightCorner() {
@@ -237,3 +222,61 @@ namespace pjs {
         return p;
     }
 }
+
+void Surface::fixIntersection(Surface& surface) {
+    cv::Point2f top1 =  this->getUpperRightCorner();
+    cv::Point2f top2 =  surface.getUpperLeftCorner();
+    cv::Point2f bottom1 =  this->getLowerRightCorner();
+    cv::Point2f bottom2 =  surface.getLowerLeftCorner();
+    
+    std::vector<cv::Point2f> top;
+    top.push_back(top1);
+    top.push_back(top2);
+    std::vector<cv::Point2f> bottom;
+    bottom.push_back(bottom1);
+    bottom.push_back(bottom2);
+    
+    
+    
+    cv::Point2f topAvg = pjs::average(top);
+    cv::Point2f bottomAvg = pjs::average(bottom);
+
+    std::cout << "TopR1: " << top1 << std::endl;
+    std::cout << "TopL2: " << top2 << std::endl;
+    std::cout << "TopAvg: " << topAvg << std::endl;
+    std::cout << "BottomR1: " << bottom1 << std::endl;
+    std::cout << "BottomL2: " << bottom2 << std::endl;
+    std::cout << "BottomAvg: " << bottomAvg << std::endl;
+    
+    Plane2d newPlane1(transformedRegion.getUpperLeftCorner(),
+            topAvg, 
+            bottomAvg, 
+            transformedRegion.getLowerLeftCorner());
+    
+    Plane2d newPlane2(topAvg,
+            surface.getUpperRightCorner(), 
+            surface.getLowerRightCorner(), 
+            bottomAvg);
+    
+    std::cout << "New plane 1: " << newPlane1 << std::endl;
+    std::cout << "New plane 2: " << newPlane2 << std::endl;
+    
+    
+    std::cout << "Old Homography: " << homography << std::endl;    
+    this->determineHomography(destinationPlane, newPlane1);
+    surface.determineHomography(destinationPlane, newPlane2);
+    std::cout << "New Homography: " << homography << std::endl;
+    
+    this->calculateTransformedPlane();
+    surface.calculateTransformedPlane();
+    
+}
+
+cv::Size Surface::getSize() {
+    return _size;
+}
+
+void Surface::setSize(cv::Size size) {
+    _size = size;
+}
+

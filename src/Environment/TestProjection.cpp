@@ -142,7 +142,6 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     //2nd position correction if necessary (if second plane is still outside)
     if (topY < 0) {
-
         cv::Point2f newOrigin(originX, -topY);
         s1.correctBBPosition(newOrigin);
         s1ur = s1.getUpperRightCorner();
@@ -153,28 +152,18 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     cv::Size sizeS1(size.width/2, size.height);
     
-    s1.applyHomography(sizeS1);
-    s2.applyHomography(size);
+    s1.setSize(sizeS1);
+    s2.setSize(size);
+    
+    
+    s1.applyHomography();
+    s2.applyHomography();
 //    s1.addTransparency();
 //    s2.addTransparency();
 
     cv::Mat finalImage = utils.getImageFromSurfaces(surfaces);
 
-    int keyPressed = 0;
-
-    cv::namedWindow("Final", CV_WINDOW_NORMAL);
-    cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
-
-    cv::imshow("Final", finalImage);
-
-    cv::imwrite("finalImage.png", finalImage);
-    std::cout << "Press ESC to continue..." << std::endl;
-    //TODO define constants for ESC key
-    //do {
-//    keyPressed = cv::waitKey(1000);
-//    if(keyPressed==1048585) cv::imshow("Final", img);
-    //} while (keyPressed != 1048603);
-
+    
     surfaces.clear();
 
     return finalImage;          

@@ -2,11 +2,15 @@
 #include <boost/thread.hpp>
 #include "../Main.h"
 
+#define MAX_USERS 1
+
 class Tracking
 {
+    
 public :
     Tracking();
     void setupTracking ();
+    void track ();
     double X;
     double Y;
     double Z;
@@ -19,7 +23,14 @@ public :
     double getY() { return Y; }
     double getZ() { return Z; }
     
+    void stop();
+    
 private:
     boost::mutex _mtx;
     cv::Point3f userPosition;
+    bool done;
+    
+    XnUserID users[MAX_USERS];
+    XnUInt16 nUsers;
+    XnSkeletonJointTransformation head;
 };

@@ -37,6 +37,7 @@ private:
 
 namespace pjs{
     cv::Size getScreenSize();
+    cv::Point2f average(std::vector<cv::Point2f> points);
 }
 
 #endif	/* UTILS_H */
