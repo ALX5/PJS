@@ -1,7 +1,7 @@
 /* 
  * File:   TestProjection.cpp
  * Author: bruno
- * 
+ *
  * Created on January 28, 2014, 3:33 PM
  */
 #include <iostream>
@@ -56,10 +56,10 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     //Create the distorted-corrected plane pairs, using the projections
     //on the user's view plane
     //Plane 1
-        //****************************************************************************************************    
+    //****************************************************************************************************
     Plane2d p1 = u.getProjectedPlanes().at(0).to2d();
     Plane2d p2(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
-    //****************************************************************************************************    
+    //****************************************************************************************************
     //Invert the plane y coordinates
     Plane2d inv1 = p1.yInverted();
     //Move it so that it's closer to the target plane
@@ -70,10 +70,10 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
             cv::Point2f(inv1.getPoint(3).x - dist[0], inv1.getPoint(3).y - dist[1]));
 
     //Plane 2
-    //****************************************************************************************************    
+    //****************************************************************************************************
     Plane2d p3 = u.getProjectedPlanes().at(1).to2d();
     Plane2d p4(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
-    //****************************************************************************************************    
+    //****************************************************************************************************
     //Invert the plane y coordinates
     Plane2d inv2 = p3.yInverted();
     //Move it so that it's closer to the target plane
@@ -115,7 +115,7 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     //TODO recursive position correction
     int width1 = s1.getWidth();
     int width2 = s2.getWidth();
-    int diffW = width1 - width2; 
+    int diffW = width1 - width2;
     
     if(diffW < 0){
         originX = - diffW/2;
@@ -129,7 +129,7 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     cv::Point2f origin(originX, 0);
     s1.correctBBPosition(origin);
     cv::Point2f s1ur = s1.getUpperRightCorner();
-    s2.correctPosition(s1ur);    
+    s2.correctPosition(s1ur);
 
     cv::Point2f upperLeft = s2.getUpperLeftCorner();
     cv::Point2f upperRight = s2.getUpperRightCorner();
@@ -142,6 +142,7 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     //2nd position correction if necessary (if second plane is still outside)
     if (topY < 0) {
+
         cv::Point2f newOrigin(originX, -topY);
         s1.correctBBPosition(newOrigin);
         s1ur = s1.getUpperRightCorner();
@@ -152,19 +153,29 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     cv::Size sizeS1(size.width/2, size.height);
     
-    s1.setSize(sizeS1);
-    s2.setSize(size);
-    
-    
-    s1.applyHomography();
-    s2.applyHomography();
-//    s1.addTransparency();
-//    s2.addTransparency();
+    s1.applyHomography(sizeS1);
+    s2.applyHomography(size);
+    //    s1.addTransparency();
+    //    s2.addTransparency();
 
     cv::Mat finalImage = utils.getImageFromSurfaces(surfaces);
 
-    
+    //int keyPressed = 0;
+
+    cv::namedWindow("Final", CV_WINDOW_NORMAL);
+    cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
+
+    //cv::imshow("Final", finalImage);
+
+    cv::imwrite("finalImage.png", finalImage);
+    //std::cout << "Press ESC to continue..." << std::endl;
+    //TODO define constants for ESC key
+    //do {
+    //    keyPressed = cv::waitKey(1000);
+    //    if(keyPressed==1048585) cv::imshow("Final", img);
+    //} while (keyPressed != 1048603);
+
     surfaces.clear();
 
-    return finalImage;          
+    return finalImage;
 }

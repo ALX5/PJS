@@ -52,14 +52,14 @@ SET(CMAKE_BUILD_TYPE Debug CACHE STRING "default to debug" FORCE)
       		link_directories(${OPENNI_LIBRARY})
       		add_definitions(${OPENNI_DEFINITIONS})
       		message(STATUS "OpenNI found (include: ${OPENNI_INCLUDE_DIR}, lib: ${OPENNI_LIBRARY})")
-    	endif(OPENNI_FOUND)
-     
+        endif(OPENNI_FOUND)
+
 ############################################## PCL ##################################################
-     
-    	find_package(PCL 1.3 REQUIRED COMPONENTS common io)
-    	include_directories(${PCL_INCLUDE_DIRS})
-    	link_directories(${PCL_LIBRARY_DIRS})
-    	add_definitions(${PCL_DEFINITIONS})
+
+        find_package(PCL 1.3 REQUIRED COMPONENTS common io)
+        include_directories(${PCL_INCLUDE_DIRS})
+        link_directories(${PCL_LIBRARY_DIRS})
+        add_definitions(${PCL_DEFINITIONS})
 
 ############################################# OpenGL ################################################
 
@@ -73,20 +73,31 @@ SET(CMAKE_BUILD_TYPE Debug CACHE STRING "default to debug" FORCE)
    	endif(NOT GLUT_FOUND)
 
    	# FIND OPENGL
+<<<<<<< HEAD
+   	#find_package(OpenGL REQUIRED)
+   	#include_directories(${OpenGL_INCLUDE_DIRS})
+   	#link_directories(${OpenGL_LIBRARY_DIRS})
+   	#add_definitions(${OpenGL_DEFINITIONS})
+   	#if(NOT OPENGL_FOUND)
+    #   		message(ERROR " OPENGL not found!")
+   	#endif(NOT OPENGL_FOUND) 
+=======
    	find_package(OpenGL REQUIRED)
    	include_directories(${OpenGL_INCLUDE_DIRS})
    	link_directories(${OpenGL_LIBRARY_DIRS})
    	add_definitions(${OpenGL_DEFINITIONS})
-   	if(NOT OPENGL_FOUND)
+        if(NOT OPENGL_FOUND)
        		message(ERROR " OPENGL not found!")
    	endif(NOT OPENGL_FOUND) 
+>>>>>>> 2f5dae5e1869bede6c3c6a2ce3a7e731dec63ff4
 
-############################################# Boost ################################################  
+############################################# Boost ################################################
 
-#FIND_PACKAGE( Boost COMPONENTS program_options REQUIRED )
-#INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
-#link_directories(${Boost_LIBRARY_DIRS})
-#add_definitions(${Boost_DEFINITIONS})
+        set(BOOST_ROOT D:/boost_1_53_0)
+        FIND_PACKAGE( Boost COMPONENTS program_options REQUIRED )
+        INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
+        link_directories(${Boost_LIBRARY_DIRS})
+        add_definitions(${Boost_DEFINITIONS})
 
 
 ############################################# OpenCV ################################################  
@@ -95,15 +106,15 @@ SET(CMAKE_BUILD_TYPE Debug CACHE STRING "default to debug" FORCE)
     	include_directories(${PROJECT_SOURCE_DIR}/Distortion)
     	include_directories(${PROJECT_SOURCE_DIR}/Tracking)
     	include_directories(${PROJECT_SOURCE_DIR}/Environment)
+		include_directories(${PROJECT_SOURCE_DIR}/Tests)
 
 add_executable (PJS
-		GUI.cpp
+
 		Calibration/Calibration.h Calibration/Calibration.cpp
 		Calibration/Calib.cpp Calibration/Calib.h
-        Distortion/Plane.cpp	
-        Distortion/Plane2d.cpp
-        Distortion/Plane3d.cpp
-		Distortion/TestSurface.cpp
+                Distortion/Plane.cpp
+                Distortion/Plane2d.cpp
+                Distortion/Plane3d.cpp
 		Distortion/TestPlanes.cpp
 		Distortion/Utils.cpp
 		Distortion/Surface.cpp
@@ -111,19 +122,22 @@ add_executable (PJS
 		Environment/Projection.cpp
 		Environment/User.cpp
 		Environment/TestProjection.cpp
-		Environment/GeometryUtils.cpp
-	
-		Modelisation/Modelisation.cpp Modelisation/Modelisation.h
-		Tests/PlaneTests.cpp Tests/PlaneTests.h 
+                Environment/GeometryUtils.cpp
+		
+		Tests/PlaneTests.cpp
+		Tests/AffineTests.cpp
+		Tests/X11Tests.cpp
+		Tests/DummyTracker.cpp
+		Tests/Visualizer.cpp
+		Tests/PeriodicVisualizer.cpp
+		Tests/RealTimeVisualizer.cpp
+
 		Tracking/Tracking.cpp Tracking/Tracking.h
+		EventHandler.cpp
 		Main.cpp Main.h)
      
 	find_package( OpenCV REQUIRED )
 
 
-<<<<<<< HEAD
-target_link_libraries (PJS ${OPENNI_LIBRARY} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${OpenCV_LIBS}) #${Boost_LIBRARIES})
-=======
-target_link_libraries (PJS ${OPENNI_LIBRARY} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${OpenCV_LIBS} ${Boost_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES})
->>>>>>> a63363d5a1b876dd45777bf57f7f0cd062a00041
+target_link_libraries (PJS ${OPENNI_LIBRARY} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${OpenCV_LIBS}  ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES})#${Boost_LIBRARIES}
 

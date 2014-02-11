@@ -23,7 +23,7 @@ RealTimeVisualizer::~RealTimeVisualizer() {
 
 void RealTimeVisualizer::visualize() {
     Tracking tracker;
-//    DummyTracker tracker;
+    //    DummyTracker tracker;
     TestProjection t;
 
     cv::namedWindow("Final", CV_WINDOW_NORMAL);
@@ -41,10 +41,11 @@ void RealTimeVisualizer::visualize() {
         throw std::exception();
     }
 
-    tracker.setupTracking();
-    
-    boost::thread threadedTracking(&Tracking::track, &tracker);
-//    boost::thread threadedTracking(&DummyTracker::track, &tracker);
+    //    boost::thread threadTracking(listen, done);
+    //    boost::thread threadTracking(tracker.track);
+    //    boost::thread threadTracking(tracker.track);
+    //threadTracking.join();
+    boost::thread threadedTracking(&Tracking::setupTracking, &tracker);
 
     while (!done) {   
 
@@ -59,6 +60,9 @@ void RealTimeVisualizer::visualize() {
             finalImage = original;
         }
 
+        std::cout << "Press ESC to continue..." << std::endl;
+        std::cout << pos << std::endl;
+        //        do {
         cv::imshow("Final", finalImage);
         keyPressed = cv::waitKey(10);
         if (keyPressed == 27 || keyPressed == 1048603) {
@@ -68,12 +72,14 @@ void RealTimeVisualizer::visualize() {
             originalImage = !originalImage;
         }
        
-        std::cout << "asd" << std::endl;
+ ;
 //        boost::posix_time::ptime endTime = boost::date_time::microsec_clock::local_time();
         
 //        std::cout << "Time: " << endTime - initTime << std::endl;
                 
     }
+
+
 
     cv::destroyAllWindows();
 

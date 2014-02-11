@@ -25,15 +25,15 @@ void listen(bool &done){
     do{
         std::cout << "Waiting key: " << keyPressed << std::endl;
         keyPressed = cv::waitKey(0);
-//        std::cin >> keyPressed;
+        //        std::cin >> keyPressed;
         std::cout << "KEY: " << keyPressed << std::endl;
     }while(keyPressed != 27);
     done = true;
 }
 int main(int argc, char** argv) {
 
-    Visualizer *visualizer = new RealTimeVisualizer();    
-    visualizer->visualize();    
+    Visualizer *visualizer = new RealTimeVisualizer();
+    visualizer->visualize();
     delete visualizer;
     
     return 0;

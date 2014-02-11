@@ -2,7 +2,7 @@
  *
  *
  */
-#include <iostream>
+
 #include "Tracking.h"
 #include "../Calibration/Calibration.h"
 
@@ -10,8 +10,6 @@ UserGenerator user;
 
 XnBool isNeedingPose = FALSE;
 XnChar pose[20] = "";
-
-#define MAX_USERS 1
 
 /** Called when a new user is detected */
 void XN_CALLBACK_TYPE userDetected(UserGenerator&, XnUserID id, void*) {
@@ -25,6 +23,8 @@ void XN_CALLBACK_TYPE userDetected(UserGenerator&, XnUserID id, void*) {
 /** Called when a user is losted */
 void XN_CALLBACK_TYPE userLosted(UserGenerator&, XnUserID id, void*) {
     cout << "User " << id << " losted." << endl;
+    if(user.GetSkeletonCap().IsTracking(id))
+        user.GetSkeletonCap().StopTracking(id);
 }
 
 /** Called when a user calibration pose is detected */
@@ -53,24 +53,18 @@ void XN_CALLBACK_TYPE userCalibrationFinished(SkeletonCapability&, XnUserID id, 
     }
 }
 
-Tracking::Tracking() {
+Tracking::Tracking() : userPosition(cv::Point3f(0.0, 0.0, 0.0)) {
 }
 
-<<<<<<< HEAD
 void Tracking::setupTracking() {
-    
     X = 0.0;
     Y = 0.0;
     Z = 0.0;
-=======
-void Tracking::setupTracking()
-{
->>>>>>> 9b01359a220c8d1b946647416274bc23892f4a20
     Calibration c;
     c.launchCalibration();
     c.context.FindExistingNode(XN_NODE_TYPE_USER, user);
     user.Create(c.context);
-    
+
     // Used for calling different functions depending of the user action.
     XnCallbackHandle userDetection, calibrationStart, calibrationComplete, poseDetected;
     user.RegisterUserCallbacks(userDetected, userLosted, NULL, userDetection);
@@ -81,36 +75,54 @@ void Tracking::setupTracking()
 
     c.context.StartGeneratingAll();
 
-    XnUserID users[MAX_USERS];
-    XnUInt16 nUsers;
-    XnSkeletonJointTransformation head;
-
     cout << "Waiting for user." << endl;
 
 
     // Main loop for users detection, calibration and tracking.
-    while (!xnOSWasKeyboardHit()) {
+    while (!xnOSWasKeyboardHit() && !done) {
         // TODO : Send the user pixels to the display function.
-        c.calibrationDisplay();
+        //c.calibrationDisplay();
         c.context.WaitOneUpdateAll(user);
         nUsers = MAX_USERS;
         user.GetUsers(users, nUsers);
         if (user.GetSkeletonCap().IsTracking(users[0]) == FALSE)
             continue;
+    }
+}
+
+cv::Point3f Tracking::getUserPosition() {
+<<<<<<< HEAD
+=======
+    //std:: cout << "getting pos" << std::endl;
+>>>>>>> 2f5dae5e1869bede6c3c6a2ce3a7e731dec63ff4
+    boost::lock_guard<boost::mutex> guard(_mtx);
+    return userPosition;
+}
+
+void Tracking::setUserPosition(cv::Point3f &pos) {
+    boost::lock_guard<boost::mutex> guard(_mtx);
+    userPosition = pos;
+}
+
+void Tracking::stop() {
+    done = true;
+}
+
+void Tracking::track() {
+    // Main loop for users detection, calibration and tracking.
+    while (!done) {
 
         user.GetSkeletonCap().GetSkeletonJoint(users[0], XN_SKEL_HEAD, head);
 
         /*cout << "User head at (" << -head.position.position.X << ","
              << head.position.position.Y+1350 << ","
-             << head.position.position.Z << ")" << endl;*/
+             << -(4100-head.position.position.Z) << ")" << endl;*/
 
         X = -head.position.position.X;
-<<<<<<< HEAD
         Y = head.position.position.Y + 1350;
-        Z = -(4100 - head.position.position.Z);
-=======
-        Y = head.position.position.Y+1350;
-        Z = -(5700-head.position.position.Z);
->>>>>>> 9b01359a220c8d1b946647416274bc23892f4a20
+        Z = -(5700 - head.position.position.Z);
+
+        cv::Point3f p(X, Y, Z);
+        this->setUserPosition(p);
     }
 }
