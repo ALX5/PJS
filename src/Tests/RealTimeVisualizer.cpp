@@ -23,7 +23,7 @@ RealTimeVisualizer::~RealTimeVisualizer() {
 
 void RealTimeVisualizer::visualize() {
     Tracking tracker;
-    //    DummyTracker tracker;
+//        DummyTracker tracker;
     TestProjection t;
 
     cv::namedWindow("Final", CV_WINDOW_NORMAL);
@@ -60,9 +60,6 @@ void RealTimeVisualizer::visualize() {
             finalImage = original;
         }
 
-        std::cout << "Press ESC to continue..." << std::endl;
-        std::cout << pos << std::endl;
-        //        do {
         cv::imshow("Final", finalImage);
         keyPressed = cv::waitKey(10);
         if (keyPressed == 27 || keyPressed == 1048603) {

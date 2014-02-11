@@ -115,7 +115,6 @@ void Tracking::setupTracking()
 }
 
 cv::Point3f Tracking::getUserPosition() {
-    std:: cout << "getting pos" << std::endl;
     boost::lock_guard<boost::mutex> guard(_mtx);
     return userPosition;
 }
@@ -123,4 +122,8 @@ cv::Point3f Tracking::getUserPosition() {
 void Tracking::setUserPosition(cv::Point3f &pos) {
     boost::lock_guard<boost::mutex> guard(_mtx);
     userPosition = pos;
+}
+
+void Tracking::stop() {
+    done = true;
 }

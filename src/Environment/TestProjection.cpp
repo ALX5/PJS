@@ -153,8 +153,11 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     cv::Size sizeS1(size.width/2, size.height);
     
-    s1.applyHomography(sizeS1);
-    s2.applyHomography(size);
+    s1.setSize(sizeS1);
+    s2.setSize(size);
+    
+    s1.applyHomography();
+    s2.applyHomography();
     //    s1.addTransparency();
     //    s2.addTransparency();
 
