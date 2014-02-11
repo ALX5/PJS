@@ -52,14 +52,14 @@ SET(CMAKE_BUILD_TYPE Debug CACHE STRING "default to debug" FORCE)
       		link_directories(${OPENNI_LIBRARY})
       		add_definitions(${OPENNI_DEFINITIONS})
       		message(STATUS "OpenNI found (include: ${OPENNI_INCLUDE_DIR}, lib: ${OPENNI_LIBRARY})")
-    	endif(OPENNI_FOUND)
-     
+        endif(OPENNI_FOUND)
+
 ############################################## PCL ##################################################
-     
-    	find_package(PCL 1.3 REQUIRED COMPONENTS common io)
-    	include_directories(${PCL_INCLUDE_DIRS})
-    	link_directories(${PCL_LIBRARY_DIRS})
-    	add_definitions(${PCL_DEFINITIONS})
+
+        find_package(PCL 1.3 REQUIRED COMPONENTS common io)
+        include_directories(${PCL_INCLUDE_DIRS})
+        link_directories(${PCL_LIBRARY_DIRS})
+        add_definitions(${PCL_DEFINITIONS})
 
 ############################################# OpenGL ################################################
 
@@ -77,17 +77,17 @@ SET(CMAKE_BUILD_TYPE Debug CACHE STRING "default to debug" FORCE)
    	include_directories(${OpenGL_INCLUDE_DIRS})
    	link_directories(${OpenGL_LIBRARY_DIRS})
    	add_definitions(${OpenGL_DEFINITIONS})
-   	if(NOT OPENGL_FOUND)
+        if(NOT OPENGL_FOUND)
        		message(ERROR " OPENGL not found!")
    	endif(NOT OPENGL_FOUND) 
 
-############################################# Boost ################################################  
+############################################# Boost ################################################
 
-set(BOOST_ROOT D:/boost_1_53_0)
-FIND_PACKAGE( Boost COMPONENTS program_options REQUIRED )
-INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
-link_directories(${Boost_LIBRARY_DIRS})
-add_definitions(${Boost_DEFINITIONS})
+        set(BOOST_ROOT D:/boost_1_53_0)
+        FIND_PACKAGE( Boost COMPONENTS program_options REQUIRED )
+        INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
+        link_directories(${Boost_LIBRARY_DIRS})
+        add_definitions(${Boost_DEFINITIONS})
 
 
 ############################################# OpenCV ################################################  
@@ -99,12 +99,12 @@ add_definitions(${Boost_DEFINITIONS})
 		include_directories(${PROJECT_SOURCE_DIR}/Tests)
 
 add_executable (PJS
-		GUI.cpp
+
 		Calibration/Calibration.h Calibration/Calibration.cpp
 		Calibration/Calib.cpp Calibration/Calib.h
-        Distortion/Plane.cpp	
-        Distortion/Plane2d.cpp
-        Distortion/Plane3d.cpp
+                Distortion/Plane.cpp
+                Distortion/Plane2d.cpp
+                Distortion/Plane3d.cpp
 		Distortion/TestPlanes.cpp
 		Distortion/Utils.cpp
 		Distortion/Surface.cpp
@@ -112,9 +112,7 @@ add_executable (PJS
 		Environment/Projection.cpp
 		Environment/User.cpp
 		Environment/TestProjection.cpp
-		Environment/GeometryUtils.cpp
-	
-		Modelisation/Modelisation.cpp Modelisation/Modelisation.h
+                Environment/GeometryUtils.cpp
 		
 		Tests/PlaneTests.cpp
 		Tests/AffineTests.cpp
