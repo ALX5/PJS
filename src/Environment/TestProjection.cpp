@@ -43,15 +43,14 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     Projection proj(planes);
 
-    proj.print();
-
+    //    proj.print();
 
     //Create the user with the obtained projection coordinates
     User u(proj);
 
     //Update his position
     u.updatePosition(userX, userY, userZ);
-    u.print();
+    //    u.print();
 
     //Create the distorted-corrected plane pairs, using the projections
     //on the user's view plane
@@ -83,8 +82,8 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
             cv::Point2f(inv2.getPoint(2).x - dist[0], inv2.getPoint(2).y - dist[1]),
             cv::Point2f(inv2.getPoint(3).x - dist[0], inv2.getPoint(3).y - dist[1]));
 
-    
-    
+
+
     //***********************
     //Load the target image
     //***********************
@@ -97,14 +96,14 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     //Helper object
     Utils utils;
-    
+
     //Divide the image in two
-    std::vector<cv::Mat> images = utils.divideImageInTwo(img);
+    //    std::vector<cv::Mat> images = utils.divideImageInTwo(img);
 
     //Build the surfaces with their reference planes and their corresponding
     //image
-    Surface s1(pp1, p2, images.at(0));
-    Surface s2(pp3, p4, images.at(1));
+    Surface s1(pp1, p2);
+    Surface s2(pp3, p4);
 
     std::vector<Surface*> surfaces;
     surfaces.push_back(&s1);
@@ -112,23 +111,28 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     int originX;
     int padding;
+    int screenWidth = 1280;
     //TODO recursive position correction
     int width1 = s1.getWidth();
     int width2 = s2.getWidth();
     int diffW = width1 - width2;
-    
-    if(diffW < 0){
-        originX = - diffW/2;
+    if (diffW < 0) {
+        originX = screenWidth / 2 - width1;
         padding = 0;
     } else {
-        originX = 0;
+        originX = 0 + screenWidth / 2 - width1;
         padding = diffW;
     }
-    
+
     //1st position correction
     cv::Point2f origin(originX, 0);
     s1.correctBBPosition(origin);
     cv::Point2f s1ur = s1.getUpperRightCorner();
+//    std::cout << "Pres1ur: " << s1ur << std::endl;
+//    if (diffW < 0) {
+//        s1ur.x -= -diffW/2;
+//    }
+//    std::cout << "Post1ur: " << s1ur << std::endl;
     s2.correctPosition(s1ur);
 
     cv::Point2f upperLeft = s2.getUpperLeftCorner();
@@ -146,37 +150,41 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
         cv::Point2f newOrigin(originX, -topY);
         s1.correctBBPosition(newOrigin);
         s1ur = s1.getUpperRightCorner();
+//        if (diffW < 0) {
+//            s1ur.x -= -diffW/2;
+//        }
         s2.correctPosition(s1ur);
     }
     cv::Size size = utils.getFinalSize(surfaces);
     size.width += padding;
 
-    cv::Size sizeS1(size.width/2, size.height);
-    
+//    s1.print();
+//    s2.print();
+//    std::cout << "Final size: " << size << std::endl;
+//    std::cout << "prewidth: " << size.width << std::endl;
+//    std::cout << "Screen width: " << screenWidth << std::endl;
+    //**************
+    size.width = std::max(screenWidth, size.width);
+    //**************
+
+    cv::Size sizeS1(size.width / 2, size.height);
+//    std::cout << "postwidth: " << size.width << std::endl;
+
     s1.setSize(sizeS1);
     s2.setSize(size);
-    
+
+    /**********************/
+    std::vector<cv::Mat> images = utils.divideImageInTwo(img);
+    /**********************/
+    s1.setImage(images.at(0));
+    s2.setImage(images.at(1));
+
     s1.applyHomography();
     s2.applyHomography();
-    //    s1.addTransparency();
-    //    s2.addTransparency();
+    //        s1.addTransparency();
+    //        s2.addTransparency();
 
     cv::Mat finalImage = utils.getImageFromSurfaces(surfaces);
-
-    //int keyPressed = 0;
-
-    cv::namedWindow("Final", CV_WINDOW_NORMAL);
-    cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
-
-    //cv::imshow("Final", finalImage);
-
-    cv::imwrite("finalImage.png", finalImage);
-    //std::cout << "Press ESC to continue..." << std::endl;
-    //TODO define constants for ESC key
-    //do {
-    //    keyPressed = cv::waitKey(1000);
-    //    if(keyPressed==1048585) cv::imshow("Final", img);
-    //} while (keyPressed != 1048603);
 
     surfaces.clear();
 

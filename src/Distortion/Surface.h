@@ -15,6 +15,7 @@ class Surface {
 public:
 
     Surface();
+    Surface(Plane2d &src, Plane2d &dst);
     Surface(Plane2d &src, Plane2d &dst, cv::Mat image);
     Surface(const Surface& orig);
     virtual ~Surface();
@@ -129,6 +130,8 @@ public:
     cv::Size getSize();
     void setSize(cv::Size size);
     
+    void setImage(cv::Mat image);
+    
     int getWidth();
     int getHeight();
 
@@ -136,13 +139,13 @@ public:
     void fixIntersection(Surface &surface);
     
 private:
-    Plane2d sourcePlane;
-    Plane2d destinationPlane;
-    Plane2d transformedRegion;
-    cv::Mat homography;
-    cv::Mat affineTransformation;
-    cv::Mat image;
-    cv::Mat transformedImage;
+    Plane2d _sourcePlane;
+    Plane2d _destinationPlane;
+    Plane2d _transformedRegion;
+    cv::Mat _homography;
+    cv::Mat _affineTransformation;
+    cv::Mat _image;
+    cv::Mat _transformedImage;
     cv::Size _size;
     
     //TODO

@@ -41,12 +41,8 @@ void RealTimeVisualizer::visualize() {
         throw std::exception();
     }
 
-    //    boost::thread threadTracking(listen, done);
-    //    boost::thread threadTracking(tracker.track);
-    //    boost::thread threadTracking(tracker.track);
-    //threadTracking.join();
     boost::thread threadedTracking(&Tracking::setupTracking, &tracker);
-
+//    boost::thread threadedTracking(&DummyTracker::track, &tracker);
     while (!done) {   
 
         //Init time
@@ -54,7 +50,7 @@ void RealTimeVisualizer::visualize() {
         
         int keyPressed = 0;
         cv::Point3f pos = tracker.getUserPosition();
-        if(!originalImage){
+        if(!originalImage){            
             finalImage = t.test(pos.x, pos.y, pos.z);
         } else {
             finalImage = original;
@@ -68,24 +64,12 @@ void RealTimeVisualizer::visualize() {
         } else if (keyPressed == 1048585 || keyPressed == 9 ){
             originalImage = !originalImage;
         }
-       
- ;
-//        boost::posix_time::ptime endTime = boost::date_time::microsec_clock::local_time();
-        
+
+//        boost::posix_time::ptime endTime = boost::date_time::microsec_clock::local_time();    
 //        std::cout << "Time: " << endTime - initTime << std::endl;
                 
     }
 
-
-
     cv::destroyAllWindows();
 
 }
-
-//void RealTimeVisualizer::lock() {
-//    _mtx.lock();
-//}
-//
-//void RealTimeVisualizer::unlock() {
-//    _mtx.unlock();
-//}

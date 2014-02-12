@@ -123,6 +123,41 @@ std::vector<cv::Mat> Utils::divideImageInTwo(cv::Mat& img) {
     return images;
 }
 
+std::vector<cv::Mat> Utils::divideImageInTwo(cv::Mat& img, int offset) {
+
+    std::vector<cv::Mat> images;
+
+    int cols = img.cols;
+    int firstHalfCols = img.cols / 2 + offset;
+    int secondHalfCols = img.cols / 2 - offset;
+    int rows = img.rows;
+
+    cv::Mat firstHalf(img.rows, firstHalfCols, IMG_UNIT);
+    cv::Mat secondHalf(img.rows, secondHalfCols, IMG_UNIT);
+
+    uchar *fhPtr = firstHalf.ptr();
+    uchar *shPtr = secondHalf.ptr();
+    uchar *imgPtr = img.ptr();
+    for (int row = 0; row < rows; row++) {
+        for (int col = 0; col < firstHalfCols; col++) {
+            for (int i = 0; i < img.channels(); i++) {
+                *fhPtr++ = *imgPtr++;
+            }
+
+        }
+        for (int col = 0; col < secondHalfCols; col++) {
+            for (int i = 0; i < img.channels(); i++) {
+                *shPtr++ = *imgPtr++;
+            }
+        }
+    }
+
+    images.push_back(firstHalf);
+    images.push_back(secondHalf);
+
+    return images;
+}
+
 cv::Mat Utils::joinImagesAtMiddle(cv::Mat& img1, cv::Mat& img2) {
 
     assert(img1.rows == img2.rows && img1.cols == img2.cols);
@@ -166,8 +201,8 @@ cv::Mat Utils::joinImagesAtMiddle(cv::Mat& img1, cv::Mat& img2) {
 }
 
 cv::Mat Utils::joinImagesAtMiddle(Surface &s1, Surface &s2) {
-    cv::Mat im1 = s1.transformedImage;
-    cv::Mat im2 = s2.transformedImage;
+    cv::Mat im1 = s1._transformedImage;
+    cv::Mat im2 = s2._transformedImage;
 
     return this->joinImagesAtMiddle(im1, im2);
 }
@@ -194,11 +229,11 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < cols; col++) {
-            //            int alphaValue = src.at<cv::Vec4b>(row, col)[3];
+//                        int alphaValue = src.at<cv::Vec4b>(row, col)[3];
             for (int i = 0; i < src.channels(); i++) {
-                //                if (alphaValue > 0) {
+//                                if (alphaValue > 0) {
                 *dstPtr = *srcPtr;
-                //                }
+//                                }
                 dstPtr++;
                 srcPtr++;
             }
@@ -210,24 +245,26 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
 cv::Mat Utils::getImageFromSurfaces(std::vector<Surface*> surfaces) {
 
-    cv::Mat image(surfaces.at(1)->transformedImage.rows,
-            surfaces.at(1)->transformedImage.cols, CV_8UC3);
+    cv::Mat image(surfaces.at(1)->_transformedImage.rows,
+                    surfaces.at(1)->_transformedImage.cols, 
+                    surfaces.at(1)->_transformedImage.type());
 
-    this->writeToTimage(surfaces.at(1)->transformedImage, image);
-    this->writeToTimage(surfaces.at(0)->transformedImage, image);
+    
+    this->writeToTimage(surfaces.at(1)->_transformedImage, image);
+    this->writeToTimage(surfaces.at(0)->_transformedImage, image);
 
-    //    std::vector<Surface*>::iterator ii;
-    //    for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
-    //        this->writeToTimage((*ii)->transformedImage, image);
-    //    }
+//        std::vector<Surface*>::iterator ii;
+//        for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
+//            this->writeToTimage((*ii)->transformedImage, image);
+//        }
 
     return image;
 }
 
 cv::Size Utils::getFinalSize(std::vector<Surface*> surfaces) {
 
-    Plane2d p1 = surfaces.at(0)->transformedRegion;
-    Plane2d p2 = surfaces.at(1)->transformedRegion;
+    Plane2d p1 = surfaces.at(0)->_transformedRegion;
+    Plane2d p2 = surfaces.at(1)->_transformedRegion;
 
     Plane2d bb = pjs::getBoundingBox(p1, p2);
 
