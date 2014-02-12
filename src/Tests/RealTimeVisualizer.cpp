@@ -34,7 +34,11 @@ void RealTimeVisualizer::visualize() {
     bool done = false;
     bool originalImage = false;
 
-    const char* nom1 = "../src/logo.png";
+//    const char* nom1 = "../src/grid-straight2half.png";
+    const char* nom1 = "../src/logoinv.png";
+//    const char* nom1 = "../src/alexis.png";
+//    const char* nom1 = "../src/jon.png";
+//    const char* nom1 = "../src/bruno.png";
     cv::Mat original = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
     if (!original.data) {
         std::cout << " --(!) Error reading image" << std::endl;

@@ -58,6 +58,8 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     //****************************************************************************************************
     Plane2d p1 = u.getProjectedPlanes().at(0).to2d();
     Plane2d p2(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
+//    Plane2d p2(cv::Point2f(0, 0), cv::Point2f(230, 0), cv::Point2f(230, 520), cv::Point2f(0, 520));
+//    Plane2d p2(cv::Point2f(0, 0), cv::Point2f(270, 0), cv::Point2f(270, 405), cv::Point2f(0, 405));
     //****************************************************************************************************
     //Invert the plane y coordinates
     Plane2d inv1 = p1.yInverted();
@@ -72,6 +74,8 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     //****************************************************************************************************
     Plane2d p3 = u.getProjectedPlanes().at(1).to2d();
     Plane2d p4(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
+//    Plane2d p4(cv::Point2f(0, 0), cv::Point2f(230, 0), cv::Point2f(230, 520), cv::Point2f(0, 520));
+//    Plane2d p4(cv::Point2f(0, 0), cv::Point2f(270, 0), cv::Point2f(270, 405), cv::Point2f(0, 405));
     //****************************************************************************************************
     //Invert the plane y coordinates
     Plane2d inv2 = p3.yInverted();
@@ -87,7 +91,11 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     //***********************
     //Load the target image
     //***********************
-    const char* nom1 = "../src/logo.png";
+//    const char* nom1 = "../src/grid-straight2half.png";
+    const char* nom1 = "../src/logoinv.png";
+//    const char* nom1 = "../src/alexis.png";
+//    const char* nom1 = "../src/jon.png";
+//    const char* nom1 = "../src/bruno.png";
     cv::Mat img = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
     if (!img.data) {
         std::cout << " --(!) Error reading image" << std::endl;
@@ -112,6 +120,7 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     int originX;
     int padding;
     int screenWidth = 1280;
+    int screenHeight = 800;
     //TODO recursive position correction
     int width1 = s1.getWidth();
     int width2 = s2.getWidth();
@@ -121,18 +130,18 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
         padding = 0;
     } else {
         originX = 0 + screenWidth / 2 - width1;
-        padding = diffW;
+        padding = 0;
     }
 
     //1st position correction
     cv::Point2f origin(originX, 0);
     s1.correctBBPosition(origin);
     cv::Point2f s1ur = s1.getUpperRightCorner();
-//    std::cout << "Pres1ur: " << s1ur << std::endl;
-//    if (diffW < 0) {
-//        s1ur.x -= -diffW/2;
-//    }
-//    std::cout << "Post1ur: " << s1ur << std::endl;
+    //    std::cout << "Pres1ur: " << s1ur << std::endl;
+    //    if (diffW < 0) {
+    //        s1ur.x -= -diffW/2;
+    //    }
+    //    std::cout << "Post1ur: " << s1ur << std::endl;
     s2.correctPosition(s1ur);
 
     cv::Point2f upperLeft = s2.getUpperLeftCorner();
@@ -143,32 +152,36 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     } else {
         topY = upperRight.y;
     }
-
-    //2nd position correction if necessary (if second plane is still outside)
-    if (topY < 0) {
-
-        cv::Point2f newOrigin(originX, -topY);
-        s1.correctBBPosition(newOrigin);
-        s1ur = s1.getUpperRightCorner();
-//        if (diffW < 0) {
-//            s1ur.x -= -diffW/2;
-//        }
-        s2.correctPosition(s1ur);
-    }
     cv::Size size = utils.getFinalSize(surfaces);
+    int diffH = screenHeight - size.height;
+    //2nd position correction if necessary (if second plane is still outside)
+    if (!topY < 0) {
+        topY = 0;
+    }
+    cv::Point2f newOrigin(originX, -topY + diffH / 2);
+    s1.correctBBPosition(newOrigin);
+    s1ur = s1.getUpperRightCorner();
+    //        if (diffW < 0) {
+    //            s1ur.x -= -diffW/2;
+    //        }
+    s2.correctPosition(s1ur);
+
+    //    cv::Size size = utils.getFinalSize(surfaces);
     size.width += padding;
 
-//    s1.print();
-//    s2.print();
-//    std::cout << "Final size: " << size << std::endl;
-//    std::cout << "prewidth: " << size.width << std::endl;
-//    std::cout << "Screen width: " << screenWidth << std::endl;
+    //    s1.print();
+    //    s2.print();
+    //    std::cout << "Final size: " << size << std::endl;
+    //    std::cout << "prewidth: " << size.width << std::endl;
+    //    std::cout << "Screen width: " << screenWidth << std::endl;
     //**************
     size.width = std::max(screenWidth, size.width);
+    size.height = screenHeight;
+
     //**************
 
     cv::Size sizeS1(size.width / 2, size.height);
-//    std::cout << "postwidth: " << size.width << std::endl;
+    //    std::cout << "postwidth: " << size.width << std::endl;
 
     s1.setSize(sizeS1);
     s2.setSize(size);

@@ -207,7 +207,6 @@ cv::Point2f Plane2d::getUpperLeftCorner() {
         }
     }
 
-
     p3 = this->getPoint(3);
     if (p3.x < p2.x) {
         p2 = p3;
@@ -218,8 +217,6 @@ cv::Point2f Plane2d::getUpperLeftCorner() {
         p1 = p2;
         p2 = aux;
     }
-
-
 
     return p1;
 }
@@ -379,12 +376,13 @@ cv::Point2f Plane2d::getCenter() {
     return center;
 }
 
-namespace pjs{
-    cv::Vec2f distance(Plane2d &p1, Plane2d &p2){
+namespace pjs {
+
+    cv::Vec2f distance(Plane2d &p1, Plane2d &p2) {
         cv::Point2f c1 = p1.getCenter();
-        cv::Point2f c2 = p2.getCenter();        
-        cv::Vec2f distance(c1.x-c2.x, c1.y-c2.y);
-        return distance;        
+        cv::Point2f c2 = p2.getCenter();
+        cv::Vec2f distance(c1.x - c2.x, c1.y - c2.y);
+        return distance;
     }
 }
 
@@ -393,6 +391,6 @@ Plane2d Plane2d::yInverted() {
             cv::Point2f(this->getPoint(1).x, -this->getPoint(1).y),
             cv::Point2f(this->getPoint(2).x, -this->getPoint(2).y),
             cv::Point2f(this->getPoint(3).x, -this->getPoint(3).y));
-    
+
     return p;
 }

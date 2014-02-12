@@ -106,7 +106,7 @@ void Tracking::setupTracking()
              << -(4100-head.position.position.Z) << ")" << endl;*/
 
         X = -head.position.position.X;
-        Y = head.position.position.Y+1350;
+        Y = head.position.position.Y+1350-900;
         Z = -(5700-head.position.position.Z);
         
         cv::Point3f p(X, Y, Z);
