@@ -99,10 +99,10 @@ std::vector<Plane3d> Projection::getPlanes() {
 }
 
 void Projection::print() {
-    /*std::cout << std::endl << "========= PROJECTION =========" << std::endl;
+    std::cout << std::endl << "========= PROJECTION =========" << std::endl;
         std::vector<Plane3d>::iterator ii;
         for (ii = _planes.begin(); ii != _planes.end(); ii++) {
             std::cout << *ii << std::endl;
         }
-    std::cout << std::endl << "===========================" << std::endl << std::endl;*/
+    std::cout << std::endl << "===========================" << std::endl << std::endl;
 }

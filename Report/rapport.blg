@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: rapport.aux
+The style file: myunsrt.bst
+Database file #1: biblio.bib
+You're missing a field part---line 59 of file biblio.bib
+ :     title = 
+ :             ,
+I'm skipping whatever remains of this entry
+Warning--empty title in opencv_library
+Warning--empty year in opencv_library
+You've used 3 entries,
+            1827 wiz_defined-function locations,
+            471 strings with 3937 characters,
+and the built_in function-call counts, 506 in all, are:
+= -- 41
+> -- 16
+< -- 0
++ -- 7
+- -- 4
+* -- 38
+:= -- 84
+add.period$ -- 8
+call.type$ -- 3
+change.case$ -- 1
+chr.to.int$ -- 0
+cite$ -- 5
+duplicate$ -- 23
+empty$ -- 54
+format.name$ -- 4
+if$ -- 108
+int.to.chr$ -- 0
+int.to.str$ -- 3
+missing$ -- 2
+newline$ -- 17
+num.names$ -- 2
+pop$ -- 8
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 8
+stack$ -- 0
+substring$ -- 27
+swap$ -- 3
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 2
+while$ -- 3
+width$ -- 4
+write$ -- 30
+(There was 1 error message)

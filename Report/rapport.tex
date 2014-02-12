@@ -1,0 +1,178 @@
+\documentclass[11pt,oneside,noprintercorrection]{ustl}
+
+%----------------------------------------------------------------------
+%                     chargement des packages
+%----------------------------------------------------------------------
+\usepackage[pdfborder=0 0 0]{ustl}
+\usepackage{aeguill}
+\usepackage{graphicx}
+\usepackage[french]{minitoc}
+\usepackage[frenchb]{babel}
+\usepackage{float}
+% Pour les codes
+\usepackage{listings}
+\lstset{language=C++,basicstyle=\small}
+
+\synctex = 1
+
+%-------------------------------------------------------------------
+%  surcharge de commandes pour les variables et page d'en-tête
+%-------------------------------------------------------------------
+
+\makeatletter
+\renewcommand{\@DFD}{Université Lille 1}
+
+
+\renewcommand{\@NancyIhe@d}{{\UseEntryFont{ThesisFirstPageHead}\noindent
+    \centerline{\if@logo@uhp@
+                    {\setbox0=\hbox{$\raise2.3cm\hbox{\UHPLogo}$}%
+                     \ht0=\baselineskip\box0}\hfill
+                \else
+                    Université des Sciences et Technologies de Lille%
+                \fi}%
+    \@TL@cmn@head\\
+    \par
+    }%
+    }
+
+
+\newcommand\TheseLilleI{\renewcommand{\@ThesisFirstPageHead}{\@NancyIhe@d}%
+                         \ThesisDiploma{{\UseEntryFont{ThesisDiploma}%
+                              \\[3mm]
+            {\UseEntryFont{ThesisSpecialty}( )}}}}
+
+\makeatother
+
+\newcommand{\cfimg}[1]{(\emph{cf.}~Fig.\ref{#1})}
+\newcommand{\cfbiblio}[1]{(\emph{[}\cite{#1}\emph{]})}
+%-------------------------------------------------------------------
+%                             interligne
+%-------------------------------------------------------------------
+\renewcommand{\baselinestretch}{1.3}
+
+%-------------------------------------------------------------------
+%                             en-tetes
+%-------------------------------------------------------------------
+\newcommand\upun[1]{\uppercase{\underline{\underline{#1}}}}
+\FormatHeadingsWith\upun
+\newcommand\itheadings[1]{\textit{#1}}
+\FormatHeadingsWith{\itheadings}
+\setlength{\HeadRuleWidth}{0.4pt}
+
+%-------------------------------------------------------------------
+%                chemin d'inclusion des graphiques
+%-------------------------------------------------------------------
+\graphicspath{{img/}{./}}
+
+%-------------------------------------------------------------------
+%                         les references
+%-------------------------------------------------------------------
+\NoChapterNumberInRef \NoChapterPrefix
+
+\begin{document}
+% Si la commande suivante est presente,
+% elle doit figurer APRES \begin{document}
+% et avant la premiere commande \part
+\ResetChaptersAtParts
+
+%-------------------------------------------------------------------
+%                         page de titre
+%-------------------------------------------------------------------
+\ThesisKind{Rapport technique}
+\ThesisPresentedThe{soutenu le 20 février 2014}
+\ThesisTitle{Affichage d'une image numérique sur une géométrie physique}
+\ThesisAuthor{Alexis Linke, Jonathan Mathieu et Bruno Ordozgoiti}
+
+\TheseLilleI
+
+\NewJuryCategory{encadrant}{\it Encadrant :}
+                        {\it Encadrants :}
+
+\encadrant = {Laurent Grisoni\\
+	      François Cabestaing}
+
+\MakeThesisTitlePage
+%-------------------------------------------------------------------
+\WritePartLabelInToc \WriteChapterLabelInToc
+
+%-------------------------------------------------------------------
+%                        table des matieres
+%-------------------------------------------------------------------
+
+\tableofcontents
+\mainmatter
+
+% ----------------------------------------------------------------
+%			introduction
+% ----------------------------------------------------------------
+\SpecialSection{Introduction}
+ 
+\NoChapterHead
+
+\SpecialSection{Calibration}
+
+\section{Calibration inter-caméra}
+
+  Plusieurs aspects enviseagés en préanbule du projet on mis en évidence la necessité d'une calibration inter-caméras (RGB et infrarouge) du capteur
+  de mouvement ASUS Xtion PRO LIVE \cfimg{fig:asusxtionprolive} utilisé. Plusieurs méthodes ont été étudiées comme la calibration forte, la calibration 
+  faible et la calibration jointe \cite{6205765}. Les outils proposés par OpenNI \cite{OpenNI2010} ont cependant permis de répondre à cet impératif 
+  plus rapidement. Conaissant les caractéristiques des caméras, les méthodes telles que \textit{GetAlternativeViewPointCap} et \textit{SetViewPoint}
+  à disposition permettent de changer le point de vue à partir duquel la scène doit être capturée. De cette manière, donner à la caméra infrarouge le 
+  point de vue de la caméra RGB (ou inversement) connu compense les décalages constatés lors des premières manipulations. Les soucis liés à la 
+  précision des relevés effectués par les caméras sont alors moindres et tolérables dans le cadre des nos experimentations. Néanmoins les méthodes que
+  nous avions étudiées restent fiable pour une système de caméras stéréoscopique indépendantes.
+  
+  \begin{figure}[ht]
+    \begin{center}
+      \includegraphics[width=6cm]{img/AsusXtionProLive.png}
+    \end{center}
+    \caption{ASUS Xtion PRO LIVE.}
+    \label{fig:asusxtionprolive}
+  \end{figure}
+  
+\section{Calibration relative à la surface de projection}
+
+  L'ASUS Xtion a été placé dans la scène de manière à visualiser entièrement le support de projection mais également à pouvoir suivre les déplacements
+  de l'utilisateur, soit en face de la surface d'affiche et une distance permettant à l'utilisateur d'évoluer dans la scène sans quitter le champ de 
+  vision de la caméra. Cette distance a été détérminé manuellement en évaluant à la distance à partir de laquelle l'utilisateur est trop loin pour être 
+  suivi correctement. Nous avons alors chercher à calibrer la caméra dans la scène dans le but de détérminer sa position relative au support de
+  projection et ainsi pour no/temment détérminer précisément la position de l'utilisateur. Pour cela nous nous sommes servi d'une mire \cfimg{fig:mire}
+  que nous avons plaqué sur chacun des plans de notre support dans le but de trouver, dans un premier temps, de détérminer les paramètres intrinsèques
+  et extrinsèques de la caméra RGB à l'aide des fonctions de la librairie OpenCV \cite{opencv_library}. Les méthodes \textit{findChessboardCorners}
+  (permettant de trouver la mire dans une photo prise à par la caméra, et plus particulièrement les coins de celle-ci) et 
+  \textit{calibrateCamera} (déduisant les paramètres de la caméra à partir de plusieurs image de pire sous différents angles et position) nous ont 
+  permis de trouver ces paramètres. Néanmoins ces résultas se sont avérés incorrects du fait que les mires figurants sur le plan horizontale au sol
+  n'était pas détécté et donc pas prises en compte lors de la calibration. Nous avons donc préféré la méthode manuelle consistant à prendre les 
+  mesures nécessaires afin de bien détérminer la position de la caméra, c'est à dire sa distance en profondeur (z) par rapport à l'origine (le coin) du
+  support de projection et sa hauteur (y) par rapport au sol. Cette solution a été préférée de manière a s'assurer de la crédibilité des données
+  transmise à la caméra, mais dépend essentiellement de la disposition de la scène. 
+  
+  (image représentant les axes et la caméra dans la scène)
+  
+  \begin{figure}[ht]
+    \begin{center}
+      \includegraphics[width=8cm]{img/mire.jpg}
+    \end{center}
+    \caption{Mire de calibration.}
+    \label{fig:mire}
+  \end{figure}
+  
+\SpecialSection{User Tracking}
+
+  ... parler de la profondeur faisant varier y
+
+\SpecialSection{Correction des distorsions}
+
+\SpecialSection{Résultats}
+
+\SpecialSection{Conclusion}
+
+%--------------------------------------------------------------------------------------
+%			bibliographie
+%--------------------------------------------------------------------------------------
+\bibliographystyle{myunsrt}
+\small
+\bibliography{biblio}
+
+%--------------------------------------------------------------------------------------
+\end{document}

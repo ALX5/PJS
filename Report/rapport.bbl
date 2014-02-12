@@ -1,0 +1,18 @@
+\begin{thebibliography}{1}
+
+\bibitem{6205765}
+Daniel Herrera~C., Juho Kannala, and Janne Heikkila.
+\newblock Joint depth and color camera calibration with distortion correction.
+\newblock {\em Pattern Analysis and Machine Intelligence, IEEE Transactions
+  on}, 34(10):2058--2064, 2012.
+
+\bibitem{OpenNI2010}
+OpenNI organization.
+\newblock {\em OpenNI User Guide}, November 2010.
+\newblock Last viewed 19-01-2011 11:32.
+
+\bibitem{opencv_library}
+G.~Bradski.
+\newblock {\em Dr. Dobb's Journal of Software Tools}.
+
+\end{thebibliography}

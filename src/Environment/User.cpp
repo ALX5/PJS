@@ -121,7 +121,7 @@ std::vector<Plane3d> User::getProjectedPlanes() {
 }
 
 void User::print() {
-    /*std::cout << std::endl << "========= USER =========" << std::endl;
+    std::cout << std::endl << "========= USER =========" << std::endl;
 
     std::cout << "Position: " << _position << std::endl;
 
@@ -137,5 +137,5 @@ void User::print() {
             std::cout << *ii << std::endl;
         }
     }
-    std::cout << std::endl << "===========================" << std::endl << std::endl;*/
+    std::cout << std::endl << "===========================" << std::endl << std::endl;
 }

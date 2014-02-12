@@ -23,6 +23,7 @@ public:
 
     void addAlphaChannel(cv::Mat&, Plane2d&);
     std::vector<cv::Mat> divideImageInTwo(cv::Mat& img);
+    std::vector<cv::Mat> divideImageInTwo(cv::Mat& img, int offset);
     cv::Mat joinImagesAtMiddle(cv::Mat& img1, cv::Mat& img2);
     cv::Mat joinImagesAtMiddle(Surface& s1 , Surface& s2);
     void writeToTimage(cv::Mat& src, cv::Mat& dst);

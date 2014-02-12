@@ -5,12 +5,15 @@
  * Created on February 6, 2014, 4:23 PM
  */
 
+#include <iostream>
 #include <boost/thread/pthread/thread_data.hpp>
+#include <boost/thread/thread.hpp>
+#include <boost/thread/thread_time.hpp>
 
 #include "DummyTracker.h"
 
 DummyTracker::DummyTracker() : 
-        userPosition(cv::Point3f(0.0, 1700.0, -3000.0)), done(false){
+        userPosition(cv::Point3f(-500.0, 1700.0, -3000.0)), done(false){
     
 }
 
@@ -56,15 +59,16 @@ void DummyTracker::track() {
 
     //TODO Random x, y, z
     int times = 0;
-    double increment = 1e-4;
+    double increment = 10;
     while(!done){
         cv::Point3f p(userPosition.x+increment, userPosition.y, userPosition.z);
         this->setUserPosition(p);
         times++;
-        if(times == 10000000){
+        if(times == 100){
             increment = -increment;
             times = 0;
         }
+        boost::this_thread::sleep(boost::posix_time::milliseconds(40));
     }
     
 }
