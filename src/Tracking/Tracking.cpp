@@ -102,8 +102,10 @@ void Tracking::setupTracking()
         user.GetSkeletonCap().GetSkeletonJoint(users[0],XN_SKEL_HEAD,head);
 
         /*cout << "User head at (" << -head.position.position.X << ","
-             << head.position.position.Y+1350 << ","
-             << -(4100-head.position.position.Z) << ")" << endl;*/
+             <<     head.position.position.Y+1350 << ","
+             << head.position.position.Z << endl;*/
+
+
 
         X = -head.position.position.X;
         Y = head.position.position.Y+1350;

@@ -73,13 +73,13 @@ SET(CMAKE_BUILD_TYPE Debug CACHE STRING "default to debug" FORCE)
    	endif(NOT GLUT_FOUND)
 
    	# FIND OPENGL
-   	#find_package(OpenGL REQUIRED)
-   	#include_directories(${OpenGL_INCLUDE_DIRS})
-   	#link_directories(${OpenGL_LIBRARY_DIRS})
-   	#add_definitions(${OpenGL_DEFINITIONS})
-   	#if(NOT OPENGL_FOUND)
-    #   		message(ERROR " OPENGL not found!")
-   	#endif(NOT OPENGL_FOUND) 
+        find_package(OpenGL REQUIRED)
+        include_directories(${OpenGL_INCLUDE_DIRS})
+        link_directories(${OpenGL_LIBRARY_DIRS})
+        add_definitions(${OpenGL_DEFINITIONS})
+        if(NOT OPENGL_FOUND)
+                message(ERROR " OPENGL not found!")
+        endif(NOT OPENGL_FOUND)
 
 ############################################# Boost ################################################
 
