@@ -111,16 +111,16 @@
 
 \SpecialSection{Calibration}
 
-\section{Calibration inter-caméra}
+\section*{Calibration inter-caméra}
 
-  Plusieurs aspects enviseagés en préanbule du projet on mis en évidence la necessité d'une calibration inter-caméras (RGB et infrarouge) du capteur
-  de mouvement ASUS Xtion PRO LIVE \cfimg{fig:asusxtionprolive} utilisé. Plusieurs méthodes ont été étudiées comme la calibration forte, la calibration 
-  faible et la calibration jointe \cite{6205765}. Les outils proposés par OpenNI \cite{OpenNI2010} ont cependant permis de répondre à cet impératif 
-  plus rapidement. Conaissant les caractéristiques des caméras, les méthodes telles que \textit{GetAlternativeViewPointCap} et \textit{SetViewPoint}
-  à disposition permettent de changer le point de vue à partir duquel la scène doit être capturée. De cette manière, donner à la caméra infrarouge le 
-  point de vue de la caméra RGB (ou inversement) connu compense les décalages constatés lors des premières manipulations. Les soucis liés à la 
-  précision des relevés effectués par les caméras sont alors moindres et tolérables dans le cadre des nos experimentations. Néanmoins les méthodes que
-  nous avions étudiées restent fiable pour une système de caméras stéréoscopique indépendantes.
+ Plusieurs aspects envisagés en préambule du projet ont mis en évidence la nécessité d'une calibration inter-caméras (RGB et infrarouge) du capteur
+ de mouvement ASUS Xtion PRO LIVE \cfimg{fig:asusxtionprolive} utilisé. Plusieurs méthodes ont été étudiées comme la calibration forte, la calibration
+ faible et la calibration jointe \cite{6205765}. Les outils proposés par OpenNI \cite{OpenNI2010} ont cependant permis de répondre à cet impératif
+ plus rapidement. Conaissant les caractéristiques des caméras, les méthodes telles que \textit{GetAlternativeViewPointCap} et \textit{SetViewPoint}
+ à disposition permettent de changer le point de vue à partir duquel la scène doit être capturée. De cette manière, donner à la caméra infrarouge le
+ point de vue de la caméra RGB (ou inversement) connu compense les décalages constatés lors des premières manipulations. Les soucis liés à la
+ précision des relevés effectués par les caméras sont alors moindres et tolérables dans le cadre des nos experimentations. Néanmoins, les méthodes que
+ nous avions étudiées restent fiable pour une système de caméras stéréoscopique indépendantes.
   
   \begin{figure}[ht]
     \begin{center}
@@ -130,24 +130,23 @@
     \label{fig:asusxtionprolive}
   \end{figure}
   
-\section{Calibration relative à la surface de projection}
+\section*{Calibration relative à la surface de projection}
 
-  L'ASUS Xtion a été placé dans la scène de manière à visualiser entièrement le support de projection mais également à pouvoir suivre les déplacements
-  de l'utilisateur, soit en face de la surface d'affiche et une distance permettant à l'utilisateur d'évoluer dans la scène sans quitter le champ de 
-  vision de la caméra. Cette distance a été détérminé manuellement en évaluant à la distance à partir de laquelle l'utilisateur est trop loin pour être 
-  suivi correctement. Nous avons alors chercher à calibrer la caméra dans la scène dans le but de détérminer sa position relative au support de
-  projection et ainsi pour no/temment détérminer précisément la position de l'utilisateur. Pour cela nous nous sommes servi d'une mire \cfimg{fig:mire}
-  que nous avons plaqué sur chacun des plans de notre support dans le but de trouver, dans un premier temps, de détérminer les paramètres intrinsèques
-  et extrinsèques de la caméra RGB à l'aide des fonctions de la librairie OpenCV \cite{opencv_library}. Les méthodes \textit{findChessboardCorners}
-  (permettant de trouver la mire dans une photo prise à par la caméra, et plus particulièrement les coins de celle-ci) et 
-  \textit{calibrateCamera} (déduisant les paramètres de la caméra à partir de plusieurs image de pire sous différents angles et position) nous ont 
-  permis de trouver ces paramètres. Néanmoins ces résultas se sont avérés incorrects du fait que les mires figurants sur le plan horizontale au sol
-  n'était pas détécté et donc pas prises en compte lors de la calibration. Nous avons donc préféré la méthode manuelle consistant à prendre les 
-  mesures nécessaires afin de bien détérminer la position de la caméra, c'est à dire sa distance en profondeur (z) par rapport à l'origine (le coin) du
-  support de projection et sa hauteur (y) par rapport au sol. Cette solution a été préférée de manière a s'assurer de la crédibilité des données
-  transmise à la caméra, mais dépend essentiellement de la disposition de la scène. 
-  
-  (image représentant les axes et la caméra dans la scène)
+ L'ASUS Xtion PRO LIVE a été placé dans la scène de manière à visualiser entièrement le support de projection mais également à pouvoir suivre les
+ déplacements de l'utilisateur, soit en face de la surface d'affichage et une distance permettant à l'utilisateur d'évoluer dans la scène sans
+ quitter le champ de vision de la caméra. Cette distance a été détérminée manuellement en évaluant la distance à partir de laquelle l'utilisateur est
+ trop loin pour être suivi correctement. Nous avons alors cherché à calibrer la caméra dans la scène dans le but de déterminer sa position relative
+ au support de projection pour notamment évaluer précisément la position de l'utilisateur. Pour cela nous nous sommes servi d'une mire
+ \cfimg{fig:mire} que nous avons plaqué sur chacun des plans de notre support dans le but, dans un premier temps, de déterminer les paramètres
+ intrinsèques et extrinsèques de la caméra RGB à l'aide des fonctions de la librairie OpenCV \cite{opencv_library}. Les méthodes
+ \textit{findChessboardCorners} (permettant de trouver la mire dans une photo prise par la caméra, et plus particulièrement les coins de celle-ci)
+ et \textit{calibrateCamera} (déduisant les paramètres de la caméra à partir de plusieurs images de mire sous différents angles et position) nous ont
+ permis de trouver ces paramètres. Cependant ces résultats se sont avérés incorrects du fait que les mires figurants sur le plan parallèle au sol
+ n'étaient pas détectées et donc pas prises en compte lors de la calibration. Nous avons donc préféré la méthode manuelle consistant à prendre les
+ mesures nécessaires afin de bien déterminer la position de la caméra, c'est-à-dire sa distance en profondeur (z) par rapport à l'origine (le coin) du
+ support de projection et sa hauteur (y) par rapport au sol. La troisième coordonnées (x), perpendiculaire à la profondeur, s'obtient fidèlement
+ en plaçant le capteur axactement en face du support. Cette solution a été préférée de manière à s'assurer de la crédibilité des données
+ transmise à la caméra, mais dépend essentiellement de la disposition de la scène.
   
   \begin{figure}[ht]
     \begin{center}
@@ -159,11 +158,51 @@
   
 \SpecialSection{User Tracking}
 
-  ... parler de la profondeur faisant varier y
-
+  Afin d'approximer de façon efficace le point de vue de l'utilisateur à tout instant, la solution retenue et mise en place lors de l'élaboration de
+  ce projet est de suivre la position de sa tête dans le scène par rapport à l'origine de la scène. Les méthodes implémentés par OpenNI 
+  \cite{OpenNI2010}, nécessitant une position de calibration \cfimg{fig:calibrationpose} , permettent de détérminer puis de suivre le squelette d'un 
+  utilisateur. Il est alors possible, en se servant des constantes prédéfinies (\textit{SKEL\_HEAD}), de déduire la position de la tête. Les 
+  coordonnées nous sont données dans le repère local de la caméra \cfimg{fig:xtioncoordinates}. A l'aide de la calibration on détérmine alors la 
+  position de la tête de l'utilisateur cette fois par rapport à l'origine de la scène. Il faut donc inverser la coordonnée en x et augmenter la 
+  coordonnée en y en fonction de la position en hauteur du capteur. Pour la coordonnée de profonduer z, on sert de la position du support de projection
+  selon cet axe pour en déduire la position de l'utilisateur. De cette manière, on obtient une estimation fidèle du point de vue de l'utilisateur dans 
+  le repère sur support.
+  
+  \begin{figure}[ht]
+    \begin{center}
+      \includegraphics[width=8cm]{img/calibrationpose.jpg}
+    \end{center}
+    \caption{Pose de calibration pour le tracking de l'utilisateur.}
+    \label{fig:calibrationpose}
+  \end{figure}
+  
+  \begin{figure}[ht]
+    \begin{center}
+      \includegraphics[width=8cm]{img/xtioncoordinates.png}
+    \end{center}
+    \caption{Repère de la caméra infrarouge.}
+    \label{fig:xtioncoordinates}
+  \end{figure}
+  
 \SpecialSection{Correction des distorsions}
 
 \SpecialSection{Résultats}
+
+  L'efficacité de notre méthode de correction des distorsions est globalement satisfaisante et confirme la viabilité des démarches scientifiques que
+  que nous avons développé. Les meilleurs résultats interviennent pour des utilisateurs positionnés raisonablement dans la scène, ni trop près, ni trop
+  exentré par rapport à la surface d'affichage (cf des images (a) (b)). Certaines pertes sont constatées lorsque ce n'est pas le cas (cf)
+  et que le point de vue est trop rapproché en profondeur de l'origine de la scène avec un angle trop important entre l'axe optique et la normale du
+  support de projection. Les transformations très importantes subient pas l'image dans cette situation explique ces pertes, les pixels débordants des 
+  des parties de l'image étant hommis lors de la superposition. L'ajout du canal alpha doit pouvoir compenser ces pertes mais n'a pas été ici 
+  implémenter car il coutait trop de temps de calcul et était pas cousequent un obstacle au suivi en temps réel de l'utilisateur. Par ailleurs,
+  le degré d'imprécision finalement pluis élevé que prévu des données transmise par le capteur n'a pas entravé la qualité des correction appliquées à
+  l'image. En effet, la calibration manuelle agissant sur le suivi de l'utilisateur s'est avéré très limité, la position en hauteur du centre
+  de gravité de la tête variant considérablement en fonction de sa profondeur dans la scène lorsqu'il ne varie pas ou très peu dans le monde réel.
+  Néanmois, dans le cadre de nos experimentations, ces aléas n'ont pas influencés nos résultats et doivent être prise en compte dans l'optique d'une
+  exploitation à plus grande échelle.
+  
+  
+  \section*{Travaux futurs}
 
 \SpecialSection{Conclusion}
 

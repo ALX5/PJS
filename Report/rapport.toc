@@ -2,10 +2,8 @@
 \@frame@switchfalse 
 \contentsline {spsection}{Introduction}{1}{division.3}
 \contentsline {spsection}{Calibration}{2}{division.4}
-\contentsline {section}{\numberline {1}Calibration inter-cam\'era}{2}{section.4.1}
-\contentsline {section}{\numberline {2}Calibration relative \`a la surface de projection}{2}{section.4.2}
 \contentsline {spsection}{User Tracking}{4}{division.5}
-\contentsline {spsection}{Correction des distorsions}{5}{division.6}
-\contentsline {spsection}{R\'esultats}{6}{division.7}
-\contentsline {spsection}{Conclusion}{7}{division.8}
-\contentsline {spsection}{Bibliographie}{8}{division.9}
+\contentsline {spsection}{Correction des distorsions}{6}{division.6}
+\contentsline {spsection}{R\'esultats}{7}{division.7}
+\contentsline {spsection}{Conclusion}{8}{division.8}
+\contentsline {spsection}{Bibliographie}{9}{division.9}

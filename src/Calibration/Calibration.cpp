@@ -145,8 +145,8 @@ void Calibration::launchCalibration() {
     glutInit(&myargc, myargv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize(1280, 1024);
-    //glutCreateWindow ("PJS Calibration");
-    //glutSetCursor(GLUT_CURSOR_NONE);
+    glutCreateWindow ("PJS Calibration");
+    glutSetCursor(GLUT_CURSOR_NONE);
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
 }
