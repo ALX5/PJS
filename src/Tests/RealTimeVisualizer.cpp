@@ -35,7 +35,7 @@ void RealTimeVisualizer::visualize() {
     bool originalImage = false;
 
 //    const char* nom1 = "../src/grid-straight2half.png";
-    const char* nom1 = "../src/logoinv.png";
+    const char* nom1 = "../src/logo.png";
 //    const char* nom1 = "../src/alexis.png";
 //    const char* nom1 = "../src/jon.png";
 //    const char* nom1 = "../src/bruno.png";

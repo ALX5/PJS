@@ -15,4 +15,11 @@ OpenNI organization.
 G.~Bradski.
 \newblock {\em Dr. Dobb's Journal of Software Tools}.
 
+\bibitem{Quirk:2006:RDM:1130237.1130472}
+Patrick Quirk, Tyler Johnson, Rick Skarbez, Herman Towles, Florian Gyarfas, and
+  Henry Fuchs.
+\newblock Ransac-assisted display model reconstruction for projective display.
+\newblock In {\em Proceedings of the IEEE Conference on Virtual Reality}, VR
+  '06, pages 318--, Washington, DC, USA, 2006. IEEE Computer Society.
+
 \end{thebibliography}

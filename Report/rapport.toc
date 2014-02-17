@@ -3,7 +3,7 @@
 \contentsline {spsection}{Introduction}{1}{division.3}
 \contentsline {spsection}{Calibration}{2}{division.4}
 \contentsline {spsection}{User Tracking}{4}{division.5}
-\contentsline {spsection}{Correction des distorsions}{6}{division.6}
-\contentsline {spsection}{R\'esultats}{7}{division.7}
-\contentsline {spsection}{Conclusion}{8}{division.8}
-\contentsline {spsection}{Bibliographie}{9}{division.9}
+\contentsline {spsection}{Correction des distorsions}{5}{division.6}
+\contentsline {spsection}{R\'esultats}{10}{division.7}
+\contentsline {spsection}{Conclusion}{14}{division.8}
+\contentsline {spsection}{Bibliographie}{15}{division.9}

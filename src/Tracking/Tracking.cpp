@@ -92,7 +92,7 @@ void Tracking::setupTracking()
     while (!xnOSWasKeyboardHit())
     {
         // TODO : Send the user pixels to the display function.
-        c.calibrationDisplay();
+        //c.calibrationDisplay();
         c.context.WaitOneUpdateAll(user);
         nUsers=MAX_USERS;
         user.GetUsers(users, nUsers);
@@ -101,15 +101,15 @@ void Tracking::setupTracking()
 
         user.GetSkeletonCap().GetSkeletonJoint(users[0],XN_SKEL_HEAD,head);
 
-        cout << "User head at (" << head.position.position.X << ","
+        /*cout << "User head at (" << head.position.position.X << ","
              <<     head.position.position.Y << ","
-             << head.position.position.Z << endl;
+             << head.position.position.Z << endl;*/
 
 
 
         X = -head.position.position.X;
         Y = head.position.position.Y+1350-900;
-        Z = -(5700-head.position.position.Z);
+        Z = -(5000-head.position.position.Z);
         
         cv::Point3f p(X, Y, Z);
         this->setUserPosition(p);
