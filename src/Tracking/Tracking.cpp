@@ -92,7 +92,7 @@ void Tracking::setupTracking()
     while (!xnOSWasKeyboardHit())
     {
         // TODO : Send the user pixels to the display function.
-        //c.calibrationDisplay();
+        c.calibrationDisplay();
         c.context.WaitOneUpdateAll(user);
         nUsers=MAX_USERS;
         user.GetUsers(users, nUsers);
@@ -108,8 +108,8 @@ void Tracking::setupTracking()
 
 
         X = -head.position.position.X;
-        Y = head.position.position.Y+1350-900;
-        Z = -(5000-head.position.position.Z);
+        Y = head.position.position.Y+1320-770;
+        Z = -(5290-head.position.position.Z);
         
         cv::Point3f p(X, Y, Z);
         this->setUserPosition(p);

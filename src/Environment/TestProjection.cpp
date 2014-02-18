@@ -25,7 +25,7 @@ TestProjection::~TestProjection() {
 cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     //Coordinates of the projection in the real world
-    cv::Point3f p11(-480, 735, -420);
+    /*cv::Point3f p11(-480, 735, -420);
     cv::Point3f p12(0, 935, 0);
     cv::Point3f p13(0, 220, 0);
     cv::Point3f p14(-480, 240, -420);
@@ -35,6 +35,18 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     cv::Point3f p22(480, 735, -420);
     cv::Point3f p23(480, 240, -420);
     cv::Point3f p24(0, 220, 0);
+    Plane3d proj2(p21, p22, p23, p24);*/
+
+    cv::Point3f p11(-590, 725, -350);
+    cv::Point3f p12(0, 955, 0);
+    cv::Point3f p13(0, 200, 0);
+    cv::Point3f p14(-590, 227, -350);
+    Plane3d proj1(p11, p12, p13, p14);
+
+    cv::Point3f p21(0, 955, 0);
+    cv::Point3f p22(567, 755, -350);
+    cv::Point3f p23(567, 227, -350);
+    cv::Point3f p24(0, 200, 0);
     Plane3d proj2(p21, p22, p23, p24);
 
     std::vector<Plane3d> planes;
