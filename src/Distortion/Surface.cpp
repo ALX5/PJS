@@ -1,8 +1,8 @@
-/* 
- * File:   Surface.cpp
- * Author: bruno
- * 
- * Created on January 20, 2014, 4:22 PM
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
  */
 
 #include <iostream>
@@ -19,7 +19,7 @@ Surface::~Surface() {
 }
 
 Surface::Surface(Plane2d& src, Plane2d& dst) :
-_sourcePlane(src), _destinationPlane(dst) {
+    _sourcePlane(src), _destinationPlane(dst) {
     
     this->_affineTransformation =
             (cv::Mat_<double>(3, 3) << 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
@@ -28,7 +28,7 @@ _sourcePlane(src), _destinationPlane(dst) {
 }
 
 Surface::Surface(Plane2d& src, Plane2d& dst, cv::Mat image) :
-_sourcePlane(src), _destinationPlane(dst), _image(image) {
+    _sourcePlane(src), _destinationPlane(dst), _image(image) {
 
     this->_affineTransformation =
             (cv::Mat_<double>(3, 3) << 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
@@ -93,8 +93,8 @@ void Surface::adjustTranslations(cv::Point2f &offset) {
 
 void Surface::applyHomography() {
     cv::warpPerspective(_image, _transformedImage,
-            _homography, cv::Size(_size.width, _size.height),
-            cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar(0, 0, 0));
+                        _homography, cv::Size(_size.width, _size.height),
+                        cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar(0, 0, 0));
 }
 
 //TODO this should store the offset but not apply it
@@ -193,39 +193,39 @@ void Surface::print(const char *name) {
 
 namespace pjs {
 
-    Plane2d getBoundingBox(Plane2d& p1, Plane2d& p2) {
-        std::vector<float> xCoords;
+Plane2d getBoundingBox(Plane2d& p1, Plane2d& p2) {
+    std::vector<float> xCoords;
 
-        xCoords.push_back(p1.getPoint(0).x);
-        xCoords.push_back(p1.getPoint(1).x);
-        xCoords.push_back(p1.getPoint(2).x);
-        xCoords.push_back(p1.getPoint(3).x);
-        xCoords.push_back(p2.getPoint(0).x);
-        xCoords.push_back(p2.getPoint(1).x);
-        xCoords.push_back(p2.getPoint(2).x);
-        xCoords.push_back(p2.getPoint(3).x);
-
-
-        std::vector<float> yCoords;
-        yCoords.push_back(p1.getPoint(0).y);
-        yCoords.push_back(p1.getPoint(1).y);
-        yCoords.push_back(p1.getPoint(2).y);
-        yCoords.push_back(p1.getPoint(3).y);
-        yCoords.push_back(p2.getPoint(0).y);
-        yCoords.push_back(p2.getPoint(1).y);
-        yCoords.push_back(p2.getPoint(2).y);
-        yCoords.push_back(p2.getPoint(3).y);
+    xCoords.push_back(p1.getPoint(0).x);
+    xCoords.push_back(p1.getPoint(1).x);
+    xCoords.push_back(p1.getPoint(2).x);
+    xCoords.push_back(p1.getPoint(3).x);
+    xCoords.push_back(p2.getPoint(0).x);
+    xCoords.push_back(p2.getPoint(1).x);
+    xCoords.push_back(p2.getPoint(2).x);
+    xCoords.push_back(p2.getPoint(3).x);
 
 
-        float minX = *std::min_element(xCoords.begin(), xCoords.end());
-        float minY = *std::min_element(yCoords.begin(), yCoords.end());
-        float maxX = *std::max_element(xCoords.begin(), xCoords.end());
-        float maxY = *std::max_element(yCoords.begin(), yCoords.end());
+    std::vector<float> yCoords;
+    yCoords.push_back(p1.getPoint(0).y);
+    yCoords.push_back(p1.getPoint(1).y);
+    yCoords.push_back(p1.getPoint(2).y);
+    yCoords.push_back(p1.getPoint(3).y);
+    yCoords.push_back(p2.getPoint(0).y);
+    yCoords.push_back(p2.getPoint(1).y);
+    yCoords.push_back(p2.getPoint(2).y);
+    yCoords.push_back(p2.getPoint(3).y);
 
-        Plane2d p(cv::Point2f(minX, minY), cv::Point2f(minX, maxY), cv::Point2f(maxX, minY), cv::Point2f(maxX, maxY));
 
-        return p;
-    }
+    float minX = *std::min_element(xCoords.begin(), xCoords.end());
+    float minY = *std::min_element(yCoords.begin(), yCoords.end());
+    float maxX = *std::max_element(xCoords.begin(), xCoords.end());
+    float maxY = *std::max_element(yCoords.begin(), yCoords.end());
+
+    Plane2d p(cv::Point2f(minX, minY), cv::Point2f(minX, maxY), cv::Point2f(maxX, minY), cv::Point2f(maxX, maxY));
+
+    return p;
+}
 }
 
 void Surface::fixIntersection(Surface& surface) {
@@ -254,14 +254,14 @@ void Surface::fixIntersection(Surface& surface) {
     std::cout << "BottomAvg: " << bottomAvg << std::endl;
 
     Plane2d newPlane1(_transformedRegion.getUpperLeftCorner(),
-            topAvg,
-            bottomAvg,
-            _transformedRegion.getLowerLeftCorner());
+                      topAvg,
+                      bottomAvg,
+                      _transformedRegion.getLowerLeftCorner());
 
     Plane2d newPlane2(topAvg,
-            surface.getUpperRightCorner(),
-            surface.getLowerRightCorner(),
-            bottomAvg);
+                      surface.getUpperRightCorner(),
+                      surface.getLowerRightCorner(),
+                      bottomAvg);
 
     std::cout << "New plane 1: " << newPlane1 << std::endl;
     std::cout << "New plane 2: " << newPlane2 << std::endl;

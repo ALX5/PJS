@@ -1,6 +1,6 @@
 /* 
  * File:   TestProjection.cpp
- * Author: bruno
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
  * Created on January 28, 2014, 3:33 PM
  */
@@ -144,7 +144,7 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ,
     //1st position correction
     cv::Point2f origin(originX, 0);
     s1.correctBBPosition(origin);
-    cv::Point2f s1ur = s1.getUpperRightCorner();
+    cv::Point2f s1ur = s1.getUpperRightCorner();    
     s2.correctPosition(s1ur);
 
     cv::Point2f upperLeft = s2.getUpperLeftCorner();
@@ -164,32 +164,30 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ,
     cv::Point2f newOrigin(originX, -topY + diffH / 2);
     s1.correctBBPosition(newOrigin);
     s1ur = s1.getUpperRightCorner();
-    //        if (diffW < 0) {
-    //            s1ur.x -= -diffW/2;
-    //        }
     s2.correctPosition(s1ur);
 
     //    cv::Size size = utils.getFinalSize(surfaces);
     size.width += padding;
+
     size.width = std::max(screenWidth, size.width);
     size.height = screenHeight;
 
     cv::Size sizeS1(size.width / 2, size.height);
-    
-    s1.setSize(size);
+
+    s1.setSize(sizeS1);
     s2.setSize(size);
 
     std::vector<cv::Mat> images = utils.divideImageInTwo(img);
+
     s1.setImage(images.at(0));
     s2.setImage(images.at(1));
 
     s1.applyHomography();
     s2.applyHomography();
-            s1.addTransparency();
-            s2.addTransparency();
+    //        s1.addTransparency();
+    //        s2.addTransparency();
 
     cv::Mat finalImage = utils.getImageFromSurfaces(surfaces);
-    cv::imwrite("final.png", finalImage);
 
     surfaces.clear();
 

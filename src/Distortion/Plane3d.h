@@ -1,8 +1,8 @@
-/* 
- * File:   Plane3d.h
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on January 27, 2014, 9:47 AM
+ * Released on Febuary 20, 2014
  */
 
 #ifndef PLANE3D_H
@@ -23,7 +23,7 @@ public:
     
     /**
      * Returns the projection of this plane onto 2D space
-     * @return 
+     * @return
      */
     Plane2d to2d();
     

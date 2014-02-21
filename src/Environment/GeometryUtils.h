@@ -1,8 +1,8 @@
-/* 
- * File:   GeometryUtils.h
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on January 30, 2014, 10:33 AM
+ * Released on Febuary 20, 2014
  */
 
 #ifndef GEOMETRYUTILS_H
@@ -19,15 +19,15 @@ public:
      * @param vect The vector to be rotated
      * @param axis The rotation axis
      * @param theta The angle of rotation in radians
-     * @return 
+     * @return
      */
-    cv::Point3f rotateAroundAxis(const cv::Vec3f &vect, const cv::Vec3f &axis, 
-                                        const double &theta);
+    cv::Point3f rotateAroundAxis(const cv::Vec3f &vect, const cv::Vec3f &axis,
+                                 const double &theta);
     
     /**
      * Yields the normalized version of the given vector
      * @param vect The vector to be normalized
-     * @return The normalized version of the given vector 
+     * @return The normalized version of the given vector
      */
     cv::Vec3f normalizeVector(const cv::Vec3f &vect);
     
@@ -46,8 +46,8 @@ public:
      * @param point A point on the plane
      * @return The point where the ray and the plane intersect
      */
-    cv::Point3f intersection(const cv::Vec3f &ray, const cv::Point3f &normal, 
-                                const cv::Point3f &point);
+    cv::Point3f intersection(const cv::Vec3f &ray, const cv::Point3f &normal,
+                             const cv::Point3f &point);
     
     
 private:

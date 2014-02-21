@@ -1,8 +1,8 @@
-/*
- * File:   main.cpp
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on December 20, 2013, 9:02 PM
+ * Released on Febuary 20, 2014
  */
 
 #include "Tests/PlaneTests.h"

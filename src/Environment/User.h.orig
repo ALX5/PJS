@@ -1,0 +1,64 @@
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
+ */
+
+#ifndef USER_H
+#define	USER_H
+
+#include <opencv2/opencv.hpp>
+#include <vector>
+#include "Projection.h"
+#include "UserPlane.h"
+
+class User {
+public:
+    User();
+    User(Projection &projection);
+    User(const User& orig);
+    virtual ~User();
+
+    /**
+     * This function updates the user's position and recalculates all
+     * necessary values
+     * @param x
+     * @param y
+     * @param z
+     */
+    void updatePosition(double &x, double &y, double &z);
+
+    /**
+     * Casts rays from the user's position to the given points, then finds
+     * the intersections between them and the given plane
+     * @param points
+     * @param plane
+     * @return 
+     */
+    std::vector<cv::Point3f> findIntersections(std::vector<cv::Point3f> &points,
+            UserPlane &plane);
+
+    std::vector<Plane3d> getProjectedPlanes();
+
+    void print();
+
+private:
+    //The position of the user's head. This varies constantly.
+    cv::Point3f _position;
+<<<<<<< HEAD
+
+    //A representation of the surface projected by the projector    
+=======
+    
+    //A representation of the surface projected by the projector
+>>>>>>> fb77577c309c61bf6ebf36305314d7b12636b6d5
+    Projection _projection;
+
+    //The projected surface as viewed by the user
+    std::vector<Plane3d> _projectedPlanes;
+
+};
+
+#endif	/* USER_H */
+

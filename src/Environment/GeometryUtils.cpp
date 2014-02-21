@@ -1,8 +1,8 @@
-/* 
- * File:   GeometryUtils.cpp
- * Author: bruno
- * 
- * Created on January 30, 2014, 10:33 AM
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
  */
 
 #include <opencv2/opencv.hpp>
@@ -20,7 +20,7 @@ GeometryUtils::~GeometryUtils() {
 //TODO optimize
 
 cv::Point3f GeometryUtils::rotateAroundAxis(const cv::Vec3f &vect, const cv::Vec3f &axis,
-        const double &theta) {
+                                            const double &theta) {
     //Build the rotation matrix
     double u = axis[0];
     double v = axis[1];
@@ -95,7 +95,7 @@ cv::Vec3f GeometryUtils::crossProduct(const cv::Vec3f& vectA, const cv::Vec3f& v
 //TODO optimize
 
 cv::Point3f GeometryUtils::intersection(const cv::Vec3f &ray,
-        const cv::Point3f& normal, const cv::Point3f& point) {
+                                        const cv::Point3f& normal, const cv::Point3f& point) {
     double num = -normal.dot(point);
     double den = normal.dot(ray);
     double t = num / den;

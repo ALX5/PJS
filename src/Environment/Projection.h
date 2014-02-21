@@ -1,8 +1,8 @@
-/* 
- * File:   Projection.h
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on January 28, 2014, 2:32 PM
+ * Released on Febuary 20, 2014
  */
 
 #ifndef PROJECTION_H

@@ -1,6 +1,6 @@
 /* 
  * File:   RealTimeVisualizer.cpp
- * Author: bruno
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  * 
  * Created on February 10, 2014, 11:46 AM
  */

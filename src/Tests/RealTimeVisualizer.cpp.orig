@@ -1,8 +1,8 @@
-/* 
- * File:   RealTimeVisualizer.cpp
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on February 10, 2014, 11:46 AM
+ * Released on Febuary 20, 2014
  */
 
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -22,9 +22,15 @@ RealTimeVisualizer::~RealTimeVisualizer() {
 }
 
 void RealTimeVisualizer::visualize() {
+<<<<<<< HEAD
+//    Tracking tracker;
+        DummyTracker tracker;
+    
+=======
     Tracking tracker;
-//    DummyTracker tracker;
+    //        DummyTracker tracker;
     TestProjection t;
+>>>>>>> fb77577c309c61bf6ebf36305314d7b12636b6d5
 
     cv::namedWindow("Final", CV_WINDOW_NORMAL);
     cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
@@ -34,60 +40,56 @@ void RealTimeVisualizer::visualize() {
     bool done = false;
     bool originalImage = false;
 
+<<<<<<< HEAD
+//    const char* filename = "../src/grid-straight2half.png";
+//    const char* filename = "../src/logoinv.png";
+    const char* filename = "../src/logo.png";
+//    const char* filename = "../src/alexis.png";
+//    const char* filename = "../src/jon.png";
+//    const char* filename = "../src/bruno.png";
+//    const char* filename = "../src/avion.png";    
+    cv::Mat original = cv::imread(filename, CV_LOAD_IMAGE_COLOR);
+=======
+    //    const char* nom1 = "../src/grid-straight2half.png";
     const char* nom1 = "../src/logo.png";
+    //    const char* nom1 = "../src/alexis.png";
+    //    const char* nom1 = "../src/jon.png";
+    //    const char* nom1 = "../src/bruno.png";
     cv::Mat original = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
+>>>>>>> fb77577c309c61bf6ebf36305314d7b12636b6d5
     if (!original.data) {
         std::cout << " --(!) Error reading image" << std::endl;
         throw std::exception();
     }
 
 <<<<<<< HEAD
-    tracker.setupTracking();
+    TestProjection t;
     
-    boost::thread threadedTracking(&Tracking::track, &tracker);
-//    boost::thread threadedTracking(&DummyTracker::track, &tracker);
-=======
-    //    boost::thread threadTracking(listen, done);
-    //    boost::thread threadTracking(tracker.track);
-    //    boost::thread threadTracking(tracker.track);
-    //threadTracking.join();
-    boost::thread threadedTracking(&Tracking::setupTracking, &tracker);
-
-    while (!done) {
-        //TODO Make sure thread does not change coords while we get 'em
-        //E.g: this locks itself
-        //thread gets coords and unlocks this,
-        //this locks thread retrieves them and unlocks thread
-
-        //        x = tracker.getX();
-        //        y = tracker.getY();
-        //        z = tracker.getZ();
-        //        cout << done << endl;
-        //        cout << y << endl;
-        //        cout << z << endl;
-        //
-        //        finalImage = t.test(x, y, z);
->>>>>>> 2f5dae5e1869bede6c3c6a2ce3a7e731dec63ff4
-
+//    boost::thread threadedTracking(&Tracking::setupTracking, &tracker);
+    boost::thread threadedTracking(&DummyTracker::track, &tracker);
     while (!done) {   
+=======
+    boost::thread threadedTracking(&Tracking::setupTracking, &tracker);
+    //    boost::thread threadedTracking(&DummyTracker::track, &tracker);
+    while (!done) {
+>>>>>>> fb77577c309c61bf6ebf36305314d7b12636b6d5
 
         //Init time
-//        boost::posix_time::ptime initTime = boost::date_time::microsec_clock::local_time();
+        //        boost::posix_time::ptime initTime = boost::date_time::microsec_clock::local_time();
         
         int keyPressed = 0;
         cv::Point3f pos = tracker.getUserPosition();
+<<<<<<< HEAD
+        if(!originalImage){            
+            finalImage = t.test(pos.x, pos.y, pos.z, filename);
+=======
         if(!originalImage){
             finalImage = t.test(pos.x, pos.y, pos.z);
+>>>>>>> fb77577c309c61bf6ebf36305314d7b12636b6d5
         } else {
             finalImage = original;
         }
 
-<<<<<<< HEAD
-=======
-        //std::cout << "Press ESC to continue..." << std::endl;
-        //std::cout << pos << std::endl;
-        //        do {
->>>>>>> 2f5dae5e1869bede6c3c6a2ce3a7e731dec63ff4
         cv::imshow("Final", finalImage);
         keyPressed = cv::waitKey(10);
         if (keyPressed == 27 || keyPressed == 1048603) {
@@ -96,22 +98,12 @@ void RealTimeVisualizer::visualize() {
         } else if (keyPressed == 1048585 || keyPressed == 9 ){
             originalImage = !originalImage;
         }
-       
-        std::cout << "asd" << std::endl;
-//        boost::posix_time::ptime endTime = boost::date_time::microsec_clock::local_time();
-        
-//        std::cout << "Time: " << endTime - initTime << std::endl;
-                
+
+        //        boost::posix_time::ptime endTime = boost::date_time::microsec_clock::local_time();
+        //        std::cout << "Time: " << endTime - initTime << std::endl;
+
     }
 
     cv::destroyAllWindows();
 
 }
-
-//void RealTimeVisualizer::lock() {
-//    _mtx.lock();
-//}
-//
-//void RealTimeVisualizer::unlock() {
-//    _mtx.unlock();
-//}

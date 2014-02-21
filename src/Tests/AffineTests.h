@@ -1,8 +1,8 @@
-/* 
- * File:   AffineTests.h
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on February 5, 2014, 12:21 AM
+ * Released on Febuary 20, 2014
  */
 
 #ifndef AFFINETESTS_H

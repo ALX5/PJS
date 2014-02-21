@@ -1,8 +1,8 @@
-/* 
- * File:   Utils.h
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on January 16, 2014, 1:29 PM
+ * Released on Febuary 20, 2014
  */
 
 #ifndef UTILS_H
@@ -101,8 +101,8 @@ private:
 };
 
 namespace pjs{
-    cv::Size getScreenSize();
-    cv::Point2f average(std::vector<cv::Point2f> points);
+cv::Size getScreenSize();
+cv::Point2f average(std::vector<cv::Point2f> points);
 }
 
 #endif	/* UTILS_H */

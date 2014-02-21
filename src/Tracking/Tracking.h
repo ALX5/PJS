@@ -1,3 +1,10 @@
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
+ */
+
 #include <opencv2/opencv.hpp>
 #include <boost/thread.hpp>
 #include "../Main.h"

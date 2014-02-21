@@ -1,8 +1,8 @@
-/* 
- * File:   TestProjection.h
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on January 28, 2014, 3:33 PM
+ * Released on Febuary 20, 2014
  */
 
 #ifndef TESTPROJECTION_H
@@ -13,13 +13,13 @@ class TestProjection {
 public:
     TestProjection();
     TestProjection(const TestProjection& orig);
-    virtual ~TestProjection();
+    virtual ~TestProjection();   
     
 <<<<<<< HEAD
-    int test(double userX, double userY, double userZ, int keyPressed);
+    cv::Mat test(double userX, double userY, double userZ, const char* filename); 
 =======
-    cv::Mat test(double userX, double userY, double userZ); 
->>>>>>> dbc162d5727f26c0cbf5e6b1a1f18053fe47c6a8
+    cv::Mat test(double userX, double userY, double userZ);
+>>>>>>> fb77577c309c61bf6ebf36305314d7b12636b6d5
     
 private:
 

@@ -1,8 +1,8 @@
-/* 
- * File:   RealTimeVisualizer.h
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on February 10, 2014, 11:46 AM
+ * Released on Febuary 20, 2014
  */
 
 #ifndef REALTIMEVISUALIZER_H
@@ -19,11 +19,11 @@ public:
     
     virtual void visualize();
     
-//    void lock();
-//    void unlock();
+    //    void lock();
+    //    void unlock();
 private:
 
-//    boost::mutex _mtx;
+    //    boost::mutex _mtx;
     
 };
 

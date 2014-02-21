@@ -1,8 +1,8 @@
-/* 
- * File:   EventHandler.h
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on February 6, 2014, 6:57 PM
+ * Released on Febuary 20, 2014
  */
 
 #ifndef EVENTHANDLER_H

@@ -1,8 +1,8 @@
-/* 
- * File:   Projection.cpp
- * Author: bruno
- * 
- * Created on January 28, 2014, 2:32 PM
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
  */
 
 #include <iostream>
@@ -81,7 +81,7 @@ Projection::Projection(std::vector<Plane3d>& planes) {
         
     }
     cv::Point3f center(sumX / sortedPoints.size(), sumY / sortedPoints.size(),
-            sumZ / sortedPoints.size());
+                       sumZ / sortedPoints.size());
 
     _center = center;
     
@@ -100,9 +100,9 @@ std::vector<Plane3d> Projection::getPlanes() {
 
 void Projection::print() {
     std::cout << std::endl << "========= PROJECTION =========" << std::endl;
-        std::vector<Plane3d>::iterator ii;
-        for (ii = _planes.begin(); ii != _planes.end(); ii++) {
-            std::cout << *ii << std::endl;
-        }
+    std::vector<Plane3d>::iterator ii;
+    for (ii = _planes.begin(); ii != _planes.end(); ii++) {
+        std::cout << *ii << std::endl;
+    }
     std::cout << std::endl << "===========================" << std::endl << std::endl;
 }

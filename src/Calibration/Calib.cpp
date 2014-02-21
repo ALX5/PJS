@@ -1,3 +1,10 @@
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
+ */
+
 #include "Calib.h"
 
 Calib::Calib()
@@ -63,13 +70,13 @@ Calib::Calib()
     vector<vector<Point3f> > cornersMire(1);
 
     for( int y = 0; y < boardSize.height; y++ )
-      {
+    {
         for( int x = 0; x < boardSize.width; x++ )
         {
-          cornersMire[0].push_back(cv::Point3f(float(x*widthSquare),
-                                    float(y*heightSquare), 0));
+            cornersMire[0].push_back(cv::Point3f(float(x*widthSquare),
+                                                 float(y*heightSquare), 0));
         }
-      }
+    }
 
     // Getting the camera's parameters
 

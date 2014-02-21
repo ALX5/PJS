@@ -1,4 +1,10 @@
 /**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
+ */
+/**
  *
  * Based on NiSimpleViewer.cpp
  */
@@ -144,9 +150,9 @@ void Calibration::launchCalibration() {
     myargv [0]=strdup ("Myappname");
     glutInit(&myargc, myargv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-//    glutInitWindowSize(1280, 1024);
-//    glutCreateWindow ("PJS Calibration");
-//    glutSetCursor(GLUT_CURSOR_NONE);
+    //glutInitWindowSize(1280, 1024);
+    //glutCreateWindow ("PJS Calibration");
+    //glutSetCursor(GLUT_CURSOR_NONE);
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
 }

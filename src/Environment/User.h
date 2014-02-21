@@ -1,6 +1,6 @@
 /* 
  * File:   User.h
- * Author: bruno
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
  * Created on January 28, 2014, 2:37 PM
  */

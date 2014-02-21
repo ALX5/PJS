@@ -1,6 +1,6 @@
 /* 
  * File:   TestProjection.h
- * Author: bruno
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
  * Created on January 28, 2014, 3:33 PM
  */
@@ -13,7 +13,7 @@ class TestProjection {
 public:
     TestProjection();
     TestProjection(const TestProjection& orig);
-    virtual ~TestProjection();   
+    virtual ~TestProjection();
     
     cv::Mat test(double userX, double userY, double userZ, const char* filename); 
     

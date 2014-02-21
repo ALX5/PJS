@@ -1,6 +1,6 @@
 /* 
  * File:   DummyTracker.cpp
- * Author: bruno
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  * 
  * Created on February 6, 2014, 4:23 PM
  */
