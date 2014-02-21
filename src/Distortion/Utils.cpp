@@ -25,7 +25,7 @@ Utils::~Utils() {
 
 void Utils::addAlphaChannel(cv::Mat& image, Plane2d& plane) {
 
-    //    std::cout << "Adding alpha channel..." << std::endl;
+        std::cout << "Adding alpha channel..." << std::endl;
     //ptime initTime = microsec_clock::local_time();
     //    std::cout << plane << std::endl;
 
@@ -222,18 +222,17 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
     uchar *dstPtr = dst.ptr();
 
     int diffCols = dst.cols - src.cols;
-    int diffRows = dst.rows - src.rows;
 
     int rows = src.rows;
     int cols = src.cols;
 
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < cols; col++) {
-//                        int alphaValue = src.at<cv::Vec4b>(row, col)[3];
+                        int alphaValue = src.at<cv::Vec4b>(row, col)[3];
             for (int i = 0; i < src.channels(); i++) {
-//                                if (alphaValue > 0) {
+                                if (alphaValue > 0) {
                 *dstPtr = *srcPtr;
-//                                }
+                                }
                 dstPtr++;
                 srcPtr++;
             }
@@ -250,13 +249,13 @@ cv::Mat Utils::getImageFromSurfaces(std::vector<Surface*> surfaces) {
                     surfaces.at(1)->_transformedImage.type());
 
     
-    this->writeToTimage(surfaces.at(1)->_transformedImage, image);
+    
     this->writeToTimage(surfaces.at(0)->_transformedImage, image);
-
-//        std::vector<Surface*>::iterator ii;
-//        for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
-//            this->writeToTimage((*ii)->transformedImage, image);
-//        }
+this->writeToTimage(surfaces.at(1)->_transformedImage, image);
+        std::vector<Surface*>::iterator ii;
+        for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
+            this->writeToTimage((*ii)->_transformedImage, image);
+        }
 
     return image;
 }

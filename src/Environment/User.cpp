@@ -8,6 +8,7 @@
 #include <iostream>
 #include "User.h"
 #include "GeometryUtils.h"
+#include "UserPlane.h"
 
 User::User() {
 
@@ -40,48 +41,33 @@ void User::updatePosition(double &x, double &y, double &z) {
     cv::Point3f normal = gUtils.normalizeVector(_position - projectionCenter);
 
     //This vector will store the projection of the projected surfaces
-    //onto the viewers orthogonal plane
+    //onto the plane orthogonal to the user's point of view
     std::vector<Plane3d> projectedPlanes;
 
+    //The plane orthogonal to the user's point of view
+    UserPlane userPlane(projectionCenter, normal);
+    
     //Iterate over projected surfaces
+    //to find the corresponding intersections
     std::vector<Plane3d>::iterator ii;
     for (ii = planes.begin(); ii != planes.end(); ii++) {
-
+        
         //Get the points of the current surface
         std::vector<cv::Point3f> points = (*ii).getPoints();
-        std::vector<cv::Point3f>::iterator jj;
-
-        //This list will contain the resulting intersections
-        std::vector<cv::Point3f> intersections;
-
-        //Iterate over the points of the surface to find the intersection
-        //of each corresponding ray
-        for (jj = points.begin(); jj != points.end(); jj++) {
-
-            //Express the point and the projection center       
-            //in user space (only considering location)
-            //to obtain the corresponding ray and plane
-            cv::Vec3f p = *jj - _position;
-            cv::Point3f center = projectionCenter - _position;
-
-            //Calculate the intersection
-            cv::Point3f intersection = gUtils.intersection(p, normal, center);
-
-            //Return the intersection from user space to world space
-            //TODO verify the correctness of this transformation
-            intersection = -intersection + _position;
-
-            //And add it to the list
-            intersections.push_back(intersection);
-
-        }
+        
+        //Find the intersections
+        std::vector<cv::Point3f> intersections = this->findIntersections(points, 
+                userPlane);
+        
+        //Create a plane out of the intersections and add it to the list
         Plane3d projectedPlane(intersections);
         projectedPlanes.push_back(projectedPlane);
-
     }
 
+    //************************************************************************
     //Rotate the obtained intersections to align them to the orthogonal plane
-
+    //************************************************************************
+    
     //Normalize the plane normal (equivalent to the user's position from
     //the projection center)
     cv::Vec3f normalized = gUtils.normalizeVector(normal);
@@ -115,6 +101,47 @@ void User::updatePosition(double &x, double &y, double &z) {
         _projectedPlanes.push_back(plane);
     }
 }
+
+std::vector<cv::Point3f> User::findIntersections(std::vector<cv::Point3f> &points, UserPlane& plane) {
+   
+        //This list will contain the resulting intersections
+        std::vector<cv::Point3f> intersections;
+        
+        cv::Point3f projectionCenter = plane.getPosition();
+        cv::Point3f normal = plane.getNormal();
+        
+        GeometryUtils gUtils;
+        
+        //Iterate over the points of the surface to find the intersection
+        //of each corresponding ray             
+        std::vector<cv::Point3f>::iterator jj;
+        for (jj = points.begin(); jj != points.end(); jj++) {
+
+            //Express the point and the projection center       
+            //in user space (only considering location)
+            //to obtain the corresponding ray and plane
+            cv::Vec3f p = *jj - _position;
+            cv::Point3f center = projectionCenter - _position;
+
+            //Calculate the intersection
+            cv::Point3f intersection = gUtils.intersection(p, normal, center);
+
+            //Return the intersection from user space to world space
+            //TODO verify the correctness of this transformation
+            intersection = -intersection + _position;
+
+            //And add it to the list
+            intersections.push_back(intersection);
+
+        }
+        Plane3d projectedPlane(intersections);
+        
+        return intersections;
+        
+}
+
+
+
 
 std::vector<Plane3d> User::getProjectedPlanes() {
     return _projectedPlanes;

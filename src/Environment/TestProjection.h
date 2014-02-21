@@ -13,9 +13,9 @@ class TestProjection {
 public:
     TestProjection();
     TestProjection(const TestProjection& orig);
-    virtual ~TestProjection();
+    virtual ~TestProjection();   
     
-    cv::Mat test(double userX, double userY, double userZ); 
+    cv::Mat test(double userX, double userY, double userZ, const char* filename); 
     
 private:
 

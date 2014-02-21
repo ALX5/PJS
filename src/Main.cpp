@@ -36,6 +36,8 @@ int main(int argc, char** argv) {
     visualizer->visualize();
     delete visualizer;
     
+//    Calib c;
+    
     return 0;
 
 }

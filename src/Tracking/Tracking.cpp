@@ -92,7 +92,7 @@ void Tracking::setupTracking()
     while (!xnOSWasKeyboardHit())
     {
         // TODO : Send the user pixels to the display function.
-        c.calibrationDisplay();
+//        c.calibrationDisplay();
         c.context.WaitOneUpdateAll(user);
         nUsers=MAX_USERS;
         user.GetUsers(users, nUsers);

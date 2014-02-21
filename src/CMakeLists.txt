@@ -110,6 +110,7 @@ add_executable (PJS
 		Distortion/Surface.cpp
 
 		Environment/Projection.cpp
+		Environment/UserPlane.cpp
 		Environment/User.cpp
 		Environment/TestProjection.cpp
                 Environment/GeometryUtils.cpp

@@ -22,7 +22,8 @@ TestProjection::TestProjection(const TestProjection& orig) {
 TestProjection::~TestProjection() {
 }
 
-cv::Mat TestProjection::test(double userX, double userY, double userZ) {
+cv::Mat TestProjection::test(double userX, double userY, double userZ, 
+        const char* filename) {
 
     //Coordinates of the projection in the real world
     /*cv::Point3f p11(-480, 735, -420);
@@ -102,14 +103,8 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     //***********************
     //Load the target image
-    //***********************
-//    const char* nom1 = "../src/grid-straight2half.png";
-     const char* nom1 = "../src/logo.png";
-//    const char* nom1 = "../src/logoinv.png";
-//    const char* nom1 = "../src/alexis.png";
-//    const char* nom1 = "../src/jon.png";
-//    const char* nom1 = "../src/bruno.png";
-    cv::Mat img = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
+    //***********************    
+    cv::Mat img = cv::imread(filename, CV_LOAD_IMAGE_COLOR);
     if (!img.data) {
         std::cout << " --(!) Error reading image" << std::endl;
         throw std::exception();
@@ -150,11 +145,6 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     cv::Point2f origin(originX, 0);
     s1.correctBBPosition(origin);
     cv::Point2f s1ur = s1.getUpperRightCorner();
-    //    std::cout << "Pres1ur: " << s1ur << std::endl;
-    //    if (diffW < 0) {
-    //        s1ur.x -= -diffW/2;
-    //    }
-    //    std::cout << "Post1ur: " << s1ur << std::endl;
     s2.correctPosition(s1ur);
 
     cv::Point2f upperLeft = s2.getUpperLeftCorner();
@@ -181,36 +171,25 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
 
     //    cv::Size size = utils.getFinalSize(surfaces);
     size.width += padding;
-
-    //    s1.print();
-    //    s2.print();
-    //    std::cout << "Final size: " << size << std::endl;
-    //    std::cout << "prewidth: " << size.width << std::endl;
-    //    std::cout << "Screen width: " << screenWidth << std::endl;
-    //**************
     size.width = std::max(screenWidth, size.width);
     size.height = screenHeight;
 
-    //**************
-
     cv::Size sizeS1(size.width / 2, size.height);
-    //    std::cout << "postwidth: " << size.width << std::endl;
-
-    s1.setSize(sizeS1);
+    
+    s1.setSize(size);
     s2.setSize(size);
 
-    /**********************/
     std::vector<cv::Mat> images = utils.divideImageInTwo(img);
-    /**********************/
     s1.setImage(images.at(0));
     s2.setImage(images.at(1));
 
     s1.applyHomography();
     s2.applyHomography();
-    //        s1.addTransparency();
-    //        s2.addTransparency();
+            s1.addTransparency();
+            s2.addTransparency();
 
     cv::Mat finalImage = utils.getImageFromSurfaces(surfaces);
+    cv::imwrite("final.png", finalImage);
 
     surfaces.clear();
 

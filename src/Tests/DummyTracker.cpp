@@ -13,7 +13,7 @@
 #include "DummyTracker.h"
 
 DummyTracker::DummyTracker() : 
-        userPosition(cv::Point3f(-500.0, 1700.0, -3000.0)), done(false){
+        userPosition(cv::Point3f(-500.0, 700.0, -3000.0)), done(false){
     
 }
 
@@ -64,7 +64,7 @@ void DummyTracker::track() {
         cv::Point3f p(userPosition.x+increment, userPosition.y, userPosition.z);
         this->setUserPosition(p);
         times++;
-        if(times == 100){
+        if(times == 300){
             increment = -increment;
             times = 0;
         }

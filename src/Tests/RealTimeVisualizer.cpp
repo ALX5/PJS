@@ -22,9 +22,9 @@ RealTimeVisualizer::~RealTimeVisualizer() {
 }
 
 void RealTimeVisualizer::visualize() {
-    Tracking tracker;
-//        DummyTracker tracker;
-    TestProjection t;
+//    Tracking tracker;
+        DummyTracker tracker;
+    
 
     cv::namedWindow("Final", CV_WINDOW_NORMAL);
     cv::setWindowProperty("Final", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
@@ -34,19 +34,23 @@ void RealTimeVisualizer::visualize() {
     bool done = false;
     bool originalImage = false;
 
-//    const char* nom1 = "../src/grid-straight2half.png";
-    const char* nom1 = "../src/logo.png";
-//    const char* nom1 = "../src/alexis.png";
-//    const char* nom1 = "../src/jon.png";
-//    const char* nom1 = "../src/bruno.png";
-    cv::Mat original = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
+//    const char* filename = "../src/grid-straight2half.png";
+//    const char* filename = "../src/logoinv.png";
+    const char* filename = "../src/logo.png";
+//    const char* filename = "../src/alexis.png";
+//    const char* filename = "../src/jon.png";
+//    const char* filename = "../src/bruno.png";
+//    const char* filename = "../src/avion.png";    
+    cv::Mat original = cv::imread(filename, CV_LOAD_IMAGE_COLOR);
     if (!original.data) {
         std::cout << " --(!) Error reading image" << std::endl;
         throw std::exception();
     }
 
-    boost::thread threadedTracking(&Tracking::setupTracking, &tracker);
-//    boost::thread threadedTracking(&DummyTracker::track, &tracker);
+    TestProjection t;
+    
+//    boost::thread threadedTracking(&Tracking::setupTracking, &tracker);
+    boost::thread threadedTracking(&DummyTracker::track, &tracker);
     while (!done) {   
 
         //Init time
@@ -55,7 +59,7 @@ void RealTimeVisualizer::visualize() {
         int keyPressed = 0;
         cv::Point3f pos = tracker.getUserPosition();
         if(!originalImage){            
-            finalImage = t.test(pos.x, pos.y, pos.z);
+            finalImage = t.test(pos.x, pos.y, pos.z, filename);
         } else {
             finalImage = original;
         }

@@ -45,7 +45,7 @@ void PeriodicVisualizer::visualize() {
 
         std::cout << x << ", " << y << ", " << z << std::endl;
 
-        cv::Mat img = t.test(x, y, z);
+        cv::Mat img = t.test(x, y, z, "logoinv.png");
 
         int keyPressed = cv::waitKey(1000);
         if (keyPressed == 1048585) cv::imshow("Final", img);
