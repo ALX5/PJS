@@ -1,8 +1,8 @@
-/* 
- * File:   PeriodicVisualizer.h
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on February 10, 2014, 12:00 PM
+ * Released on Febuary 20, 2014
  */
 
 #ifndef PERIODICVISUALIZER_H

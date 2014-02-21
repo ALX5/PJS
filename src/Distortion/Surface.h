@@ -1,8 +1,8 @@
-/* 
- * File:   Surface.h
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on January 20, 2014, 4:22 PM
+ * Released on Febuary 20, 2014
  */
 
 #ifndef SURFACE_H
@@ -46,7 +46,7 @@ public:
     
     /**
      * Transforms the original image using the stored homography stored in
-     * field homography. The transformed image is written to a matrix of the given 
+     * field homography. The transformed image is written to a matrix of the given
      * size
      */
     void applyHomography();
@@ -67,19 +67,19 @@ public:
     
     /**
      * Sets the upper right reconstruction algorithm child surface
-     * @param 
+     * @param
      */
     void setUpperRightChild(Surface&);
     
     /**
      * Sets the lower right reconstruction algorithm child surface
-     * @param 
+     * @param
      */
     void setLowerRightChild(Surface&);
     
     /**
      * Sets the lower left reconstruction algorithm child surface
-     * @param 
+     * @param
      */
     void setLowerLeftChild(Surface&);
     
@@ -102,7 +102,7 @@ public:
     cv::Point2f getUpperLeftCorner();
     cv::Point2f getLowerLeftCorner();
     cv::Point2f getUpperRightCorner();
-    cv::Point2f getLowerRightCorner();    
+    cv::Point2f getLowerRightCorner();
     
     /**
      * Shows the transformed image
@@ -120,7 +120,7 @@ public:
     void save();
     
     /**
-     * Saves the transformed image to drive, using the given string 
+     * Saves the transformed image to drive, using the given string
      * as filename
      */
     void save(const char* name);
@@ -154,14 +154,14 @@ private:
     Surface* upperRightChild;
     Surface* lowerRightChild;
     Surface* lowerLeftChild;
-     
+
     
 
     
 };
 
 namespace pjs{
-    Plane2d getBoundingBox(Plane2d&, Plane2d&);
+Plane2d getBoundingBox(Plane2d&, Plane2d&);
 }
 
 #endif	/* SURFACE_H */

@@ -1,8 +1,8 @@
-/* 
- * File:   User.h
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on January 28, 2014, 2:37 PM
+ * Released on Febuary 20, 2014
  */
 
 #ifndef USER_H
@@ -29,7 +29,7 @@ private:
     //The position of the user's head. This varies constantly.
     cv::Point3f _position;
     
-    //A representation of the surface projected by the projector    
+    //A representation of the surface projected by the projector
     Projection _projection;
     
     //The projected surface as viewed by the user

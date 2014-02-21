@@ -1,8 +1,8 @@
-/* 
- * File:   RealTimeVisualizer.cpp
- * Author: bruno
- * 
- * Created on February 10, 2014, 11:46 AM
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
  */
 
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -23,7 +23,7 @@ RealTimeVisualizer::~RealTimeVisualizer() {
 
 void RealTimeVisualizer::visualize() {
     Tracking tracker;
-//        DummyTracker tracker;
+    //        DummyTracker tracker;
     TestProjection t;
 
     cv::namedWindow("Final", CV_WINDOW_NORMAL);
@@ -34,11 +34,11 @@ void RealTimeVisualizer::visualize() {
     bool done = false;
     bool originalImage = false;
 
-//    const char* nom1 = "../src/grid-straight2half.png";
+    //    const char* nom1 = "../src/grid-straight2half.png";
     const char* nom1 = "../src/logo.png";
-//    const char* nom1 = "../src/alexis.png";
-//    const char* nom1 = "../src/jon.png";
-//    const char* nom1 = "../src/bruno.png";
+    //    const char* nom1 = "../src/alexis.png";
+    //    const char* nom1 = "../src/jon.png";
+    //    const char* nom1 = "../src/bruno.png";
     cv::Mat original = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
     if (!original.data) {
         std::cout << " --(!) Error reading image" << std::endl;
@@ -46,15 +46,15 @@ void RealTimeVisualizer::visualize() {
     }
 
     boost::thread threadedTracking(&Tracking::setupTracking, &tracker);
-//    boost::thread threadedTracking(&DummyTracker::track, &tracker);
-    while (!done) {   
+    //    boost::thread threadedTracking(&DummyTracker::track, &tracker);
+    while (!done) {
 
         //Init time
-//        boost::posix_time::ptime initTime = boost::date_time::microsec_clock::local_time();
+        //        boost::posix_time::ptime initTime = boost::date_time::microsec_clock::local_time();
         
         int keyPressed = 0;
         cv::Point3f pos = tracker.getUserPosition();
-        if(!originalImage){            
+        if(!originalImage){
             finalImage = t.test(pos.x, pos.y, pos.z);
         } else {
             finalImage = original;
@@ -69,9 +69,9 @@ void RealTimeVisualizer::visualize() {
             originalImage = !originalImage;
         }
 
-//        boost::posix_time::ptime endTime = boost::date_time::microsec_clock::local_time();    
-//        std::cout << "Time: " << endTime - initTime << std::endl;
-                
+        //        boost::posix_time::ptime endTime = boost::date_time::microsec_clock::local_time();
+        //        std::cout << "Time: " << endTime - initTime << std::endl;
+
     }
 
     cv::destroyAllWindows();

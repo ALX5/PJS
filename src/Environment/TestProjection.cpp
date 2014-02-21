@@ -1,9 +1,10 @@
-/* 
- * File:   TestProjection.cpp
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on January 28, 2014, 3:33 PM
+ * Released on Febuary 20, 2014
  */
+
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <X11/Xlib.h>
@@ -70,8 +71,8 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     //****************************************************************************************************
     Plane2d p1 = u.getProjectedPlanes().at(0).to2d();
     Plane2d p2(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
-//    Plane2d p2(cv::Point2f(0, 0), cv::Point2f(230, 0), cv::Point2f(230, 520), cv::Point2f(0, 520));
-//    Plane2d p2(cv::Point2f(0, 0), cv::Point2f(270, 0), cv::Point2f(270, 405), cv::Point2f(0, 405));
+    //    Plane2d p2(cv::Point2f(0, 0), cv::Point2f(230, 0), cv::Point2f(230, 520), cv::Point2f(0, 520));
+    //    Plane2d p2(cv::Point2f(0, 0), cv::Point2f(270, 0), cv::Point2f(270, 405), cv::Point2f(0, 405));
     //****************************************************************************************************
     //Invert the plane y coordinates
     Plane2d inv1 = p1.yInverted();
@@ -86,8 +87,8 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     //****************************************************************************************************
     Plane2d p3 = u.getProjectedPlanes().at(1).to2d();
     Plane2d p4(cv::Point2f(0, 0), cv::Point2f(480, 0), cv::Point2f(480, 540), cv::Point2f(0, 540));
-//    Plane2d p4(cv::Point2f(0, 0), cv::Point2f(230, 0), cv::Point2f(230, 520), cv::Point2f(0, 520));
-//    Plane2d p4(cv::Point2f(0, 0), cv::Point2f(270, 0), cv::Point2f(270, 405), cv::Point2f(0, 405));
+    //    Plane2d p4(cv::Point2f(0, 0), cv::Point2f(230, 0), cv::Point2f(230, 520), cv::Point2f(0, 520));
+    //    Plane2d p4(cv::Point2f(0, 0), cv::Point2f(270, 0), cv::Point2f(270, 405), cv::Point2f(0, 405));
     //****************************************************************************************************
     //Invert the plane y coordinates
     Plane2d inv2 = p3.yInverted();
@@ -103,12 +104,12 @@ cv::Mat TestProjection::test(double userX, double userY, double userZ) {
     //***********************
     //Load the target image
     //***********************
-//    const char* nom1 = "../src/grid-straight2half.png";
-     const char* nom1 = "../src/logo.png";
-//    const char* nom1 = "../src/logoinv.png";
-//    const char* nom1 = "../src/alexis.png";
-//    const char* nom1 = "../src/jon.png";
-//    const char* nom1 = "../src/bruno.png";
+    //    const char* nom1 = "../src/grid-straight2half.png";
+    const char* nom1 = "../src/logo.png";
+    //    const char* nom1 = "../src/logoinv.png";
+    //    const char* nom1 = "../src/alexis.png";
+    //    const char* nom1 = "../src/jon.png";
+    //    const char* nom1 = "../src/bruno.png";
     cv::Mat img = cv::imread(nom1, CV_LOAD_IMAGE_COLOR);
     if (!img.data) {
         std::cout << " --(!) Error reading image" << std::endl;

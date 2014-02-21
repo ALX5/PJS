@@ -1,8 +1,8 @@
-/* 
- * File:   TestProjection.h
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on January 28, 2014, 3:33 PM
+ * Released on Febuary 20, 2014
  */
 
 #ifndef TESTPROJECTION_H
@@ -15,7 +15,7 @@ public:
     TestProjection(const TestProjection& orig);
     virtual ~TestProjection();
     
-    cv::Mat test(double userX, double userY, double userZ); 
+    cv::Mat test(double userX, double userY, double userZ);
     
 private:
 

@@ -1,8 +1,8 @@
-/* 
- * File:   EventHandler.cpp
- * Author: bruno
- * 
- * Created on February 6, 2014, 6:57 PM
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
  */
 
 #include <opencv2/highgui/highgui.hpp>

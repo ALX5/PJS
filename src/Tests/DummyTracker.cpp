@@ -1,8 +1,8 @@
-/* 
- * File:   DummyTracker.cpp
- * Author: bruno
- * 
- * Created on February 6, 2014, 4:23 PM
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
  */
 
 #include <iostream>
@@ -13,7 +13,7 @@
 #include "DummyTracker.h"
 
 DummyTracker::DummyTracker() : 
-        userPosition(cv::Point3f(-500.0, 1700.0, -3000.0)), done(false){
+    userPosition(cv::Point3f(-500.0, 1700.0, -3000.0)), done(false){
     
 }
 
@@ -42,7 +42,7 @@ double DummyTracker::getX() {
 }
 
 double DummyTracker::getY() {
-    return userPosition.y;    
+    return userPosition.y;
 }
 
 double DummyTracker::getZ() {

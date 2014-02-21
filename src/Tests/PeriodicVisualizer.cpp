@@ -1,8 +1,8 @@
-/* 
- * File:   PeriodicVisualizer.cpp
- * Author: bruno
- * 
- * Created on February 10, 2014, 12:00 PM
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
  */
 
 #include <boost/thread.hpp>

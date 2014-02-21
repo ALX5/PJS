@@ -1,3 +1,10 @@
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
+ */
+
 #include "Plane2d.h"
 #include <iostream>
 using namespace std;
@@ -6,7 +13,7 @@ Plane2d::Plane2d() {
 }
 
 Plane2d::Plane2d(cv::Point2f p1, cv::Point2f p2, cv::Point2f p3, cv::Point2f p4)
-: Plane(p1, p2, p3, p4) {
+    : Plane(p1, p2, p3, p4) {
 
 }
 
@@ -103,7 +110,7 @@ Plane2d Plane2d::getBoundingBox() {
     float maxY = *std::max_element(yCoords.begin(), yCoords.end());
 
     Plane2d p(cv::Point2f(minX, minY), cv::Point2f(minX, maxY),
-            cv::Point2f(maxX, minY), cv::Point2f(maxX, maxY));
+              cv::Point2f(maxX, minY), cv::Point2f(maxX, maxY));
 
     return p;
 }
@@ -330,9 +337,9 @@ bool Plane2d::boxContains(cv::Point2f &p) {
 
     Plane2d box = this->getBoundingBox();
     return ( p.x >= box.getUpperLeftCorner().x
-            && p.x <= box.getUpperRightCorner().x
-            && p.y >= box.getUpperRightCorner().y
-            && p.y <= box.getLowerRightCorner().y);
+             && p.x <= box.getUpperRightCorner().x
+             && p.y >= box.getUpperRightCorner().y
+             && p.y <= box.getLowerRightCorner().y);
 }
 
 //TODO inner box
@@ -378,19 +385,19 @@ cv::Point2f Plane2d::getCenter() {
 
 namespace pjs {
 
-    cv::Vec2f distance(Plane2d &p1, Plane2d &p2) {
-        cv::Point2f c1 = p1.getCenter();
-        cv::Point2f c2 = p2.getCenter();
-        cv::Vec2f distance(c1.x - c2.x, c1.y - c2.y);
-        return distance;
-    }
+cv::Vec2f distance(Plane2d &p1, Plane2d &p2) {
+    cv::Point2f c1 = p1.getCenter();
+    cv::Point2f c2 = p2.getCenter();
+    cv::Vec2f distance(c1.x - c2.x, c1.y - c2.y);
+    return distance;
+}
 }
 
 Plane2d Plane2d::yInverted() {
     Plane2d p(cv::Point2f(this->getPoint(0).x, -this->getPoint(0).y),
-            cv::Point2f(this->getPoint(1).x, -this->getPoint(1).y),
-            cv::Point2f(this->getPoint(2).x, -this->getPoint(2).y),
-            cv::Point2f(this->getPoint(3).x, -this->getPoint(3).y));
+              cv::Point2f(this->getPoint(1).x, -this->getPoint(1).y),
+              cv::Point2f(this->getPoint(2).x, -this->getPoint(2).y),
+              cv::Point2f(this->getPoint(3).x, -this->getPoint(3).y));
 
     return p;
 }

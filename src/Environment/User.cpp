@@ -1,9 +1,10 @@
-/* 
- * File:   User.cpp
- * Author: bruno
- * 
- * Created on January 28, 2014, 2:37 PM
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
  */
+
 #include <cmath>
 #include <iostream>
 #include "User.h"
@@ -58,7 +59,7 @@ void User::updatePosition(double &x, double &y, double &z) {
         //of each corresponding ray
         for (jj = points.begin(); jj != points.end(); jj++) {
 
-            //Express the point and the projection center       
+            //Express the point and the projection center
             //in user space (only considering location)
             //to obtain the corresponding ray and plane
             cv::Vec3f p = *jj - _position;
@@ -128,7 +129,7 @@ void User::print() {
     std::cout << "Projection: " << std::endl;
     if (_projectedPlanes.size() == 0) {
         std::cout << "Projection not yet calculated. Please update position" <<
-                " before trying to retrieve the projection data." << std::endl;
+                     " before trying to retrieve the projection data." << std::endl;
     } else {
 
 

@@ -1,3 +1,10 @@
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
+ */
+
 #ifndef PLANE2D_H
 #define PLANE2D_H
 
@@ -8,7 +15,7 @@
 
 class Plane2d : public Plane<cv::Point2f>{
 private:    
-//    std::vector<cv::Point2f> points;
+    //    std::vector<cv::Point2f> points;
 
 public:
     Plane2d();
@@ -20,7 +27,7 @@ public:
     /**
      * Translates this plane so that its bounding box is in the specified point
      */
-    void moveBBTo(cv::Point2f &dst);    
+    void moveBBTo(cv::Point2f &dst);
     
     /**
      * Translates this plane so that its bounding box is in the origin
@@ -28,63 +35,63 @@ public:
     void moveBBToOrigin();
     
     /**
-     * Translates this plane so that the upper-left corner is in the 
+     * Translates this plane so that the upper-left corner is in the
      * origin
-     * @param 
+     * @param
      */
     void moveToOrigin();
     
     
     /**
-     * Translates this plane so that the upper-left corner is in the 
+     * Translates this plane so that the upper-left corner is in the
      * given location
-     * @param 
+     * @param
      */
     void moveTo(cv::Point2f &dst);
     
     /**
-     * Find the offset from the given point of the upper left corner 
+     * Find the offset from the given point of the upper left corner
      * of this Plane
-     * @param 
-     * @return 
+     * @param
+     * @return
      */
     cv::Point2f findOffset(cv::Point2f&);
     
     /**
      * Find the offset from the given point of the upper left corner of the
      * bounding box of this Plane
-     * @param 
-     * @return 
+     * @param
+     * @return
      */
     cv::Point2f findBBOffset(cv::Point2f&);
     
     /**
-     * Returns a horizontally and vertically aligned bounding rectangle 
+     * Returns a horizontally and vertically aligned bounding rectangle
      * for this plane
-     * @return 
+     * @return
      */
     Plane2d getBoundingBox();
     
     //TODO maybe this shouldn't be a member function
     /**
      * Returns the bounding rectangle for given planes
-     * @param 
-     * @param 
-     * @return 
+     * @param
+     * @param
+     * @return
      */
     Plane2d getBoundingBox(Plane2d&, Plane2d&);
     
     
     /**
      * Returns the rectangle inscribed in this plane
-     * 
-     * @return 
-      
+     *
+     * @return
+
      e.g for plane A, it returns B
-         ____________________  
-         \        |         |\ 
+         ____________________
+         \        |         |\
           \       |         | \
-           \   A  |         |  \ 
+           \   A  |         |  \
             \     |         |   \
              \    |    B    |    \
               \   |         |     \
@@ -100,47 +107,47 @@ public:
     //TODO We should favor sides in cw or ccw fashion to overcome ambiguity
     /**
      * Of the two leftmost points, this functions returns the uppermost
-     * @return 
+     * @return
      */
     cv::Point2f getUpperLeftCorner();
     
     /**
      * Of the two uppermost points, this functions returns the rightmost
-     * @return 
+     * @return
      */
     cv::Point2f getUpperRightCorner();
     
     /**
      * Of the two rightmost points, this functions returns the one in the bottom
-     * @return 
+     * @return
      */
     
-    cv::Point2f getLowerRightCorner();    
+    cv::Point2f getLowerRightCorner();
     /**
      * Of the two points in the bottom, this function returns the leftmost
-     * @return 
+     * @return
      */
     cv::Point2f getLowerLeftCorner();
 
     
     /**
      * Determines if a point is inside this plane
-     * @param 
-     * @return 
+     * @param
+     * @return
      */
     bool contains(cv::Point2f&);
     
     /**
      * Determines if a point is inside this plane's bounding box
-     * @param 
-     * @return 
+     * @param
+     * @return
      */
     bool boxContains(cv::Point2f&);
     
     /**
      * Determines if a point is inside this plane's inner box
-     * @param 
-     * @return 
+     * @param
+     * @return
      */
     bool innerBoxContains(cv::Point2f&);
     
@@ -162,13 +169,13 @@ public:
 
 namespace pjs{
 
-    /**
+/**
      * Calculates the distance between the gravity centers of the 2 given planes
      * @param p1
      * @param p2
      * @return A Vec2f representing this distance
      */
-    cv::Vec2f distance(Plane2d &p1, Plane2d &p2);
+cv::Vec2f distance(Plane2d &p1, Plane2d &p2);
 }
 
 #endif // PLANE_H

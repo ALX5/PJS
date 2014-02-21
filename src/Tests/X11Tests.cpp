@@ -1,10 +1,10 @@
-
-/* 
- * File:   X11Tests.cpp
- * Author: bruno
- * 
- * Created on February 6, 2014, 2:01 PM
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
  */
+
 #include <opencv2/opencv.hpp>
 #include <X11/Xlib.h>
 #include "X11Tests.h"
@@ -27,15 +27,15 @@ void X11Tests::test() {
         std::cout << "Success" << std::endl;
         // Create the window
         Window w = XCreateWindow(d, DefaultRootWindow(d), 0, 0, 200,
-                100, 0, CopyFromParent, CopyFromParent,
-                CopyFromParent, 0, 0);
+                                 100, 0, CopyFromParent, CopyFromParent,
+                                 CopyFromParent, 0, 0);
 
         // Show the window
         XMapWindow(d, w);
         XFlush(d);
 
         // Sleep long enough to see the window.
-//              sleep(10);
+        //              sleep(10);
 
         cv::waitKey(0);
     } else {

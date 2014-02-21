@@ -1,8 +1,8 @@
-/* 
- * File:   DummyTracker.h
- * Author: bruno
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- * Created on February 6, 2014, 4:23 PM
+ * Released on Febuary 20, 2014
  */
 
 #ifndef DUMMYTRACKER_H

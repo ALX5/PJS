@@ -1,8 +1,8 @@
-/* 
- * File:   Utils.cpp
- * Author: bruno
- * 
- * Created on January 16, 2014, 1:29 PM
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
  */
 
 #include <iostream>
@@ -64,7 +64,7 @@ void Utils::addAlphaChannel(cv::Mat& image, Plane2d& plane) {
     for (int row = bbY; row < bbH + bbY; row++) {
         for (int col = bbX; col < bbW + bbX; col++) {
             cv::Point2f p(col, row);
-            //                std::cout << row << ", " << col << std::endl;        
+            //                std::cout << row << ", " << col << std::endl;
             if (plane.contains(p)) {
                 //                std::cout << "Doing it" << std::endl;
                 *alphaPtr = 255;
@@ -229,11 +229,11 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < cols; col++) {
-//                        int alphaValue = src.at<cv::Vec4b>(row, col)[3];
+            //                        int alphaValue = src.at<cv::Vec4b>(row, col)[3];
             for (int i = 0; i < src.channels(); i++) {
-//                                if (alphaValue > 0) {
+                //                                if (alphaValue > 0) {
                 *dstPtr = *srcPtr;
-//                                }
+                //                                }
                 dstPtr++;
                 srcPtr++;
             }
@@ -246,17 +246,17 @@ void Utils::writeToTimage(cv::Mat& src, cv::Mat& dst) {
 cv::Mat Utils::getImageFromSurfaces(std::vector<Surface*> surfaces) {
 
     cv::Mat image(surfaces.at(1)->_transformedImage.rows,
-                    surfaces.at(1)->_transformedImage.cols, 
-                    surfaces.at(1)->_transformedImage.type());
+                  surfaces.at(1)->_transformedImage.cols,
+                  surfaces.at(1)->_transformedImage.type());
 
     
     this->writeToTimage(surfaces.at(1)->_transformedImage, image);
     this->writeToTimage(surfaces.at(0)->_transformedImage, image);
 
-//        std::vector<Surface*>::iterator ii;
-//        for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
-//            this->writeToTimage((*ii)->transformedImage, image);
-//        }
+    //        std::vector<Surface*>::iterator ii;
+    //        for (ii = surfaces.begin(); ii != surfaces.end(); ii++) {
+    //            this->writeToTimage((*ii)->transformedImage, image);
+    //        }
 
     return image;
 }
@@ -278,43 +278,43 @@ cv::Size Utils::getFinalSize(std::vector<Surface*> surfaces) {
 
 namespace pjs {
 
-    //TODO Incomplete
+//TODO Incomplete
 
-    cv::Size getScreenSize() {
+cv::Size getScreenSize() {
 
-        char *command = "xrandr | grep '*'";
-        FILE *fpipe = (FILE*) popen(command, "r");
-        char line[256];
-        while (fgets(line, sizeof (line), fpipe)) {
-            std::cout << line << std::endl;
-        }
-        pclose(fpipe);
-
-        cv::Size();
-
+    char *command = "xrandr | grep '*'";
+    FILE *fpipe = (FILE*) popen(command, "r");
+    char line[256];
+    while (fgets(line, sizeof (line), fpipe)) {
+        std::cout << line << std::endl;
     }
+    pclose(fpipe);
 
-    cv::Point2f average(std::vector<cv::Point2f> points) {
-        
-        double sumX = 0.0;
-        double sumY = 0.0;
-        //Iterate over projected surfaces
-        std::vector<cv::Point2f>::iterator ii;
-        for (ii = points.begin(); ii != points.end(); ii++) {
-            sumX += (*ii).x;
-            sumY += (*ii).y;
-            
-            std::cout << sumX << ", " << sumY << std::endl;
-        }
-        std::cout << "Points: " << points.size() << std::endl;
-        
-        sumX /= points.size();
-        sumY /= points.size();
-        
-        cv::Point2f avg(sumX, sumY);
-        
-        return avg;
+    cv::Size();
+
+}
+
+cv::Point2f average(std::vector<cv::Point2f> points) {
+
+    double sumX = 0.0;
+    double sumY = 0.0;
+    //Iterate over projected surfaces
+    std::vector<cv::Point2f>::iterator ii;
+    for (ii = points.begin(); ii != points.end(); ii++) {
+        sumX += (*ii).x;
+        sumY += (*ii).y;
+
+        std::cout << sumX << ", " << sumY << std::endl;
     }
-    
+    std::cout << "Points: " << points.size() << std::endl;
+
+    sumX /= points.size();
+    sumY /= points.size();
+
+    cv::Point2f avg(sumX, sumY);
+
+    return avg;
+}
+
 }
 

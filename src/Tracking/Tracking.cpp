@@ -1,6 +1,8 @@
 /**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
  *
- *
+ * Released on Febuary 20, 2014
  */
 
 #include "Tracking.h"
@@ -91,8 +93,7 @@ void Tracking::setupTracking()
     // Main loop for users detection, calibration and tracking.
     while (!xnOSWasKeyboardHit())
     {
-        // TODO : Send the user pixels to the display function.
-        c.calibrationDisplay();
+        //c.calibrationDisplay();
         c.context.WaitOneUpdateAll(user);
         nUsers=MAX_USERS;
         user.GetUsers(users, nUsers);
@@ -104,8 +105,6 @@ void Tracking::setupTracking()
         /*cout << "User head at (" << head.position.position.X << ","
              <<     head.position.position.Y << ","
              << head.position.position.Z << endl;*/
-
-
 
         X = -head.position.position.X;
         Y = head.position.position.Y+1320-770;

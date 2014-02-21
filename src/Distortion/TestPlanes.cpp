@@ -1,8 +1,8 @@
-/* 
- * File:   TestPlanes.cpp
- * Author: bruno
- * 
- * Created on January 27, 2014, 10:12 AM
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
  */
 
 #include "TestPlanes.h"

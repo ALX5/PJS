@@ -1,8 +1,8 @@
-/* 
- * File:   AffineTests.cpp
- * Author: bruno
- * 
- * Created on February 5, 2014, 12:21 AM
+/**
+ * File:   Main.cpp
+ * Author: Alexis Linke, Jonathan Mathieu and Bruno Ordozgoiti.
+ *
+ * Released on Febuary 20, 2014
  */
 
 #include <iostream>
@@ -34,8 +34,8 @@ void AffineTests::testAffineTransform() {
     std::cout << "=================================" << std::endl;
     std::cout << "Test plane: " << std::endl;
     std::cout << src << std::endl << std::endl;
-    cv::Mat tr10 = 
-            (cv::Mat_<double>(2,3) << 1.0, 0.0, 10.0, 0.0, 1.0, 0.0);        
+    cv::Mat tr10 =
+            (cv::Mat_<double>(2,3) << 1.0, 0.0, 10.0, 0.0, 1.0, 0.0);
     
     cv::transform(src, dst, tr10);
     std::cout << "Translate (10,0): " << std::endl;
@@ -47,8 +47,8 @@ void AffineTests::testAffineTransform() {
     std::cout << "=================================" << std::endl;
     std::cout << "Test plane: " << std::endl;
     std::cout << src << std::endl << std::endl;
-    cv::Mat tr10_5 = 
-            (cv::Mat_<double>(2,3) << 1.0, 0.0, 10.0, 0.0, 1.0, 5.0);     
+    cv::Mat tr10_5 =
+            (cv::Mat_<double>(2,3) << 1.0, 0.0, 10.0, 0.0, 1.0, 5.0);
     
     cv::transform(src, dst, tr10_5);
     std::cout << "Translate (10,5): " << std::endl;
@@ -61,7 +61,7 @@ void AffineTests::testAffineTransform() {
     std::cout << "=================================" << std::endl;
     std::cout << "Test plane: " << std::endl;
     std::cout << dst << std::endl << std::endl;
-        
+
     cv::transform(dst, dst, tr10);
     std::cout << "Translate (10,0) in place: " << std::endl;
     std::cout << dst << std::endl << std::endl;
@@ -73,13 +73,13 @@ void AffineTests::testAffineTransform() {
     std::cout << "=================================" << std::endl;
     std::cout << "Test plane: " << std::endl;
     std::cout << src << std::endl << std::endl;
-        
-    cv::Mat homography = 
-        (cv::Mat_<double>(3,3) <<  0.61, -0.015, -9.94,
-                                -0.31, -0.83, 7.15,
-                                -0.0004839, 5.24e-05, 1);
+
+    cv::Mat homography =
+            (cv::Mat_<double>(3,3) <<  0.61, -0.015, -9.94,
+             -0.31, -0.83, 7.15,
+             -0.0004839, 5.24e-05, 1);
     
-    cv::perspectiveTransform(src, dst, homography);    
+    cv::perspectiveTransform(src, dst, homography);
     std::cout << "Homography: " << std::endl;
     std::cout << homography  << std::endl;
     std::cout << "Result: " << std::endl;
@@ -90,12 +90,12 @@ void AffineTests::testAffineTransform() {
      */
     std::cout << "=================================" << std::endl;
     std::cout << "Test plane: " << std::endl;
-    std::cout << src << std::endl << std::endl;   
+    std::cout << src << std::endl << std::endl;
     
     std::cout << "Homography then translate (10, 0): " << std::endl;
     
-    cv::perspectiveTransform(src, dst, homography);    
-    cv::transform(dst, dst, tr10);    
+    cv::perspectiveTransform(src, dst, homography);
+    cv::transform(dst, dst, tr10);
     
     
     std::cout << "Result: " << std::endl;
@@ -107,11 +107,11 @@ void AffineTests::testAffineTransform() {
     std::cout << "=================================" << std::endl;
     std::cout << "Test plane: " << std::endl;
     std::cout << src << std::endl << std::endl;
-           
+
     std::cout << "Translate (10, 0) then homography: " << std::endl;
     
-    cv::transform(src, dst, tr10);    
-    cv::perspectiveTransform(dst, dst, homography);    
+    cv::transform(src, dst, tr10);
+    cv::perspectiveTransform(dst, dst, homography);
     
     std::cout << "Result: " << std::endl;
     std::cout << dst << std::endl << std::endl;
